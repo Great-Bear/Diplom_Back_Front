@@ -1,0 +1,23 @@
+body
+{
+   margin: 0;
+   overflow: visible;
+}
+#Bg
+{
+    margin: 0px;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    background-attachment: fixed;
+    min-width: 100vw;
+    min-height: 100vh;
+
+
+    background: linear-gradient(150deg, 
+    #E7EEF6 10%, #C3E2DD 10% 25%, #E7EEF6 25% 27%, #C3E2DD 27% 31%, #E7EEF6 31% 50%,
+    #C3E2DD 50% 53%, #E7EEF6 53% 65%, #C3E2DD  65% 77%,  #E7EEF6 77% 85%, #C3E2DD 85% 90%, 
+    #E7EEF6 90% 94%, #C3E2DD 94% 100% )
+     no-repeat ;
+}
+

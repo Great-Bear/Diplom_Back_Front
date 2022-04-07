@@ -1,0 +1,68 @@
+
+<div id="regForm">
+    <div id="regOrLog" >
+        <div>
+             <a routerLink="/registration" routerLinkActive="active" > Регистрация </a>
+        </div>
+        <div>
+            <a routerLink="/authorization" class="disLink" >  Войти </a>
+        </div>
+    </div>
+    <div id="socialLogIn" >
+        <span id="titleSocLogIn" >Вход с помощью</span>
+        <div id="socLinks">
+            <figure>
+                <img src="../assets/imgs/Facebook_icon_2013 1.png" >            
+                <figcaption>Facebook</figcaption>    
+            </figure>
+           <figure>
+                <img src="../assets/imgs/Google__G__Logo 1.png" >
+                <figcaption>Google</figcaption>    
+            </figure>
+            <figure>
+                <img src="../assets/imgs/Telegram_logo 1.png" >
+                <figcaption>Telegram</figcaption>    
+            </figure>
+        </div>
+        <div id="borderWord"> <span>или</span>  </div>
+    </div>
+    <div id="formUser">
+        <form  >
+            <div class="blockField" >
+                <label for="login" class="labelText" >Укажите ваш email или номер телефона</label>
+                <input type="text" name="login" id="login" [(ngModel)]="login" >  
+                <span class="errorMessage">{{loginErrMsg}}</span>       
+            </div>
+            <div class="blockField">
+                <label for="login" class="labelText" >Введите свой пароль</label>
+                <input type="text" name="password" [(ngModel)]="passwd" >
+                <span class="errorMessage" >{{passwdErrMsg}}</span>   
+            </div>
+            <div class="blockField">
+                <label for="login" class="labelText" >Повторите пароль</label>
+                <input type="text" name="password2" [(ngModel)]="passwd2" >
+                <span class="errorMessage" >{{passwd2ErrMsg}}</span>   
+            </div>
+
+            <div id="confirmPolicyBlock">
+                <div>
+                    <label>
+                        <input type='checkbox'>
+                        <span></span>
+                      </label>   
+                </div>
+                <div>
+                    <span id="policyText">Я соглашаюсь с правилами использования сервиса,
+                    и с передачей и обработкой моих данных в JBS.com,
+                    а также я подтверждаю своё совершеннолетие и отвецтвенность
+                    за размещение объявлений</span>
+                    </div>
+            </div>
+            <button type="button" id="regButt" (click)="sendData()" >Регистрация</button>
+
+        </form>
+       
+    </div>
+</div>
+
+

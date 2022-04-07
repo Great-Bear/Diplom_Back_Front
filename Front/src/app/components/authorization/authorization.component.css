@@ -1,0 +1,284 @@
+.active
+{
+    text-decoration: none;
+    height: 25px;
+    border-bottom: 2px solid #3A4569;
+}
+
+.disLink
+{
+    text-decoration: none;
+    color: rgba(58, 69, 105, 0.5);
+}
+
+#regForm
+{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: gray;
+
+    margin-top: 100px;
+
+    width: 350px;
+    height: 450px;
+
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-size: 21px;
+
+    color: #3A4569;
+
+
+}
+#regOrLog
+{
+    border-bottom: 3px solid rgba(62, 88, 112, 0.75);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+#regOrLog div:first-child
+{
+    display: inline-block;
+    width: 50%;
+    height: 70%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    border-right: 1px solid rgba(62, 88, 112, 0.75);
+}
+#regOrLog div:last-child
+{
+    display: inline-block;
+    width: 49%;
+
+    color: rgba(58, 69, 105, 0.5);;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#socialLogIn
+{
+    width: 255px;
+    height: 100px;
+
+    margin-left: 47px;
+    margin-top: 20px;
+
+    border: 2px solid rgba(62, 88, 112, 0.75);
+    border-radius: 30px;
+}
+#titleSocLogIn 
+{
+    position: relative;
+    left: 70px;
+    top: -5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 28px;
+
+    color: #3A4569;
+
+}
+#socLinks
+{
+    margin-left: 10px;
+    margin-top: 0px;
+    width: 90%;
+}
+#socLinks figure
+{
+    margin: 0;
+    display: inline-block;
+    margin-left: 18px;
+    width: 55px;
+}
+#socLinks img
+{    
+    margin-left: 10px;
+    width: 30px;
+}
+#socLinks figcaption
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 25px;
+ 
+    text-align: center;
+    
+    color: rgba(39, 63, 77, 0.85);
+   
+}
+
+#borderWord
+{
+    position: relative;
+    left: 40%;
+    top: 5px;
+
+    display: inline-block;
+    height: 20px;
+    width: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 15px;
+    
+    color: #3A4569;
+
+    background-color: white;    
+}
+#borderWord span
+{
+    padding-bottom: 10px;
+}
+
+#formUser
+{
+    margin: 5px 47px 10px 47px ;
+    height: 55%;
+}
+
+.labelText
+{
+    position: relative;
+    top: 3px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 0px;
+    color: rgba(37, 57, 71, 0.6);
+}
+.blockField
+{
+    height: 60px;   
+}
+.errorMessage
+{   
+    position: relative;
+    top: -7px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    
+    color: rgba(192, 43, 43, 0.6);
+
+}
+
+
+#formUser input[type="text"] , input[type="password"]
+{
+    width: 250px;
+    height: 20px;
+    background: rgba(193, 206, 208, 0.15);
+    box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    border: 1px solid #C1CED0;
+}
+
+#formUser input[type="checkbox"]
+{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#formUser input[type=checkbox]:checked
+{
+    background-color: black;
+    color: black;
+}
+
+
+#confirmPolicyBlock
+{
+    display: table;
+    margin-top: 10px;
+}
+
+#confirmPolicyBlock div
+{
+    height: 100%;
+    display: table-cell;
+    line-height: 0.4;
+}
+
+#rememberMe
+{
+    position: relative;
+    top: -5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+
+    color: #8C979F;
+}
+
+#regButt
+{
+    background: #314757;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 40px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 33px;
+    
+    color: #DFF9F4;
+    padding: 5px 10px 5px 10px;
+    margin-left: 25%;
+    margin-top: 20px;
+
+}
+
+
+
+
+label input {
+    display: none;/* <--скрываем дефолтный чекбокс */
+  }
+  label span {/* <-- стилизируем новый */
+    height: 12px;
+    width: 12px;
+    border: 1px solid rgb(105, 100, 100);
+    display: inline-block;
+    position: relative;
+    background-color:#FFF;
+    border-radius: 5px;
+    padding:3px;
+    margin-right: 10px;
+  }
+  [type=checkbox]:checked + span:before {/* <-- ставим иконку, когда чекбокс включен  */
+    content: '\2714';
+    position: absolute;
+    top: 5px;
+    left: 1px;
+    font-size:20px;
+    color:black;
+  }
+
+

@@ -1,0 +1,45 @@
+<p>{{title}}</p>
+    <nav>
+        <div id="navMainBlock">
+                <div id="container">
+                    <div id="logo" >
+                        <div><a routerLink="/home" >JBS</a></div>
+                    </div> 
+                
+                    <div id="searchBlock" > 
+                            <img  src="../assets/imgs/MagnifyingGlass.png" alt="Magnifying Glass">
+                            <input type="text">
+                    </div>
+                
+                     <div id="links"> 
+                                       
+                        <div>Язык</div>
+                        <div class="dropdown">
+                            <span class="dropbtn">Мой профиль</span>
+                            <div class="dropdown-content">
+                                <a routerLink="/Myads"> Мои обьявление</a>
+                                <a href="#">Сообщения</a>
+                                <a href="#">Настройки</a>
+                                <span>Избранные</span>
+                                <a href="#">Объявления</a>
+                                <a href="#">Выйти</a>
+                              </div>
+                        </div>
+
+                        <div routerLink="create-ad" >Подать обьявление</div>     
+                        
+                        
+                    </div> 
+                </div>
+                
+                  <!--      <a routerLink="/registration" routerLinkActive="active" >Зарегистрироваться</a> | 
+                        <a routerLink="/authorization" routerLinkActive="active"  >Ввойти</a> | 
+                    <a routerLink="/home" routerLinkActive="active" >Главная</a>  
+                -->          
+        </div>
+
+    </nav>
+
+<router-outlet></router-outlet>
+
+

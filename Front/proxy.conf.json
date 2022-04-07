@@ -1,0 +1,7 @@
+{
+    "/api/": {
+    "target": "https://jbsapi.azurewebsites.net",
+      "secure": true,
+      "changeOrigin": false
+  }
+}

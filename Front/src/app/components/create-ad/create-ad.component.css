@@ -1,0 +1,42 @@
+#container
+{
+    margin-top: 70px;
+    width: 75rem;
+    height: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 20px;
+    background-color: rgb(131, 250, 250);
+}
+#container p
+{
+    padding: 0;
+    margin: 0;
+}
+
+.adImgs
+{
+    width: 150px;
+    height: 150px;
+    margin-left: 5px;
+    background-color: rgb(214, 178, 178);
+    border: 2px solid rgba(255, 255, 255, 0);
+}
+.adImgs:hover{
+    border: 2px solid black;
+}
+.delBut
+{
+    position: relative;
+    bottom: 158px;
+    left: 138px;
+
+    width: 20px;
+    height: 20px;
+    background-color: red;
+}
+.imgContainer
+{
+    display: inline-block;
+}

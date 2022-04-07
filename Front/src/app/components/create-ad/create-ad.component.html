@@ -1,0 +1,34 @@
+<div id="container" >
+    <p>Создать Новое обьявление</p>
+
+    <form action="">
+    <div>
+        <Label for="TitleAds" >Заголовок</Label>
+        <br>
+        <input type="text" id="TitleAds" name="Title" [(ngModel)]="Title"  >
+    </div>    
+
+    <div>
+        <Label for="Photo">Фотография</Label>
+        <br>
+        <input multiple type="file" id="Photo" class="Photos" (change)="FileSelected($event)" >
+        <div id="imgsList"  >
+            <div *ngFor="let itemImg of urlImgs;let i = index" class="imgContainer" >
+                <img  src="{{itemImg}}" class="adImgs"  >
+                <div class="delBut" id="{{i}}"  (click)="delImg($event)" ></div>
+            </div>
+            
+        </div>      
+    </div>
+    
+    <div>
+        <Label for="Describe">Описание</Label>
+        <br>
+        <input type="text" id="Describe" name="Describe" [(ngModel)]="Describe">
+    </div> 
+    <button (click)="CreateAds()" >Send</button>
+
+
+    </form>
+
+</div>

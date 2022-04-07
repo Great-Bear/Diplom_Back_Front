@@ -1,0 +1,62 @@
+
+<div id="regForm">
+    <div id="regOrLog" >
+        <div>
+             <a routerLink="/registration"  class="disLink" > Регистрация </a>
+        </div>
+        <div>
+            <a routerLink="/authorization" routerLinkActive="active">  Войти </a>
+        </div>
+    </div>
+    <div id="socialLogIn" >
+        <span id="titleSocLogIn" >Вход с помощью</span>
+        <div id="socLinks">
+            <figure>
+                <img src="../assets/imgs/Facebook_icon_2013 1.png" >            
+                <figcaption>Facebook</figcaption>    
+            </figure>
+           <figure>
+                <img src="../assets/imgs/Google__G__Logo 1.png" >
+                <figcaption>Google</figcaption>    
+            </figure>
+            <figure>
+                <img src="../assets/imgs/Telegram_logo 1.png" >
+                <figcaption>Telegram</figcaption>    
+            </figure>
+        </div>
+        <div id="borderWord"> <span>или</span>  </div>
+    </div>
+    <div id="formUser">
+        <form action="" >
+            <div class="blockField" >
+                <label for="login" class="labelText" >Укажите ваш email или номер телефона</label>
+                <input type="text" name="login" id="login" [(ngModel)]="login"  >  
+                <span class="errorMessage" ></span>       
+            </div>          
+            <div class="blockField">
+                <label for="login" class="labelText" >Введите пароль</label>
+                <input type="text" name="login" [(ngModel)]="passwd" >
+                <span class="errorMessage" ></span>   
+            </div>
+
+            <div id="confirmPolicyBlock">
+                <div>
+                    <label>
+                        <input type='checkbox'>
+                        <span></span>
+                      </label>   
+                </div>
+                <div>
+                    <span id="rememberMe">Запомнить меня</span>
+                    </div>
+            </div>
+            <button type="button" id="regButt" (click)="sendDataAuth()" >Регистрация</button>
+
+
+        </form>
+       
+    </div>
+    
+</div>
+
+

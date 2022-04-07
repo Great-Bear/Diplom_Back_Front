@@ -1,0 +1,284 @@
+#main
+{
+    background-color: gray;
+    width: 80rem;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#filtersBlock 
+{
+    width: 15%;
+    height: 1000px;
+    display: inline-block;
+}
+
+#filtersList
+{ 
+    height: auto;
+    box-shadow: 0px 4px 20px 3px rgba(0, 0, 0, 0.15);
+    border-radius: 0px 0px 6px 6px;
+    background: #FFFFFF;
+}
+#filtersList ul 
+{
+   margin-top: 5px;
+   padding-left: 10px;
+   padding-top: 3px;
+}
+
+#filtersList li 
+{
+
+    margin-top: 5px;
+    width: 97%;
+
+    border-bottom: 2px solid rgba(62, 88, 112, 0.5);
+    padding-bottom: 5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 65%;
+    color: rgba(39, 63, 77, 0.85);
+    list-style-type: none;
+}
+#filtersList li:last-child
+{
+    border-bottom: none
+}
+#filtersList li span
+{
+    position: relative;
+    top: -2px;
+}
+
+.title-firters
+{
+    background: #FFFFFF;
+    border-radius: 6px 6px 0px 0px;
+    padding-bottom: 5px;
+}
+.bgMenu
+{
+    display: inline-block;
+    width: 1.8rem;
+    height: auto;
+    margin-left: 0.5rem;
+    font-family: Roboto;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: rgba(39, 63, 77, 0.85);
+}
+
+.txtTitle-filters
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 80%;
+
+    color: rgba(39, 63, 77, 0.85);
+}
+.linebgMenu
+{
+    height: 0.4rem;
+}
+.linebgMenu span:nth-child(1)
+{
+ display: inline-block;
+ width: 0.2rem;
+ height: 0.2rem;
+ border-radius: 10px;
+ background: #526671;
+}
+.linebgMenu span:nth-child(2)
+{
+ display: inline-block;
+ width: 1.1rem;
+ height: 0.2rem;
+ margin-left: 0.2rem;
+ border-radius: 20px;
+ background: #526671;
+}
+
+
+#PlaceAdvertising
+{
+    position: relative;
+    top: -62.5rem;
+    left: 15.5rem;
+    width: 75%;
+    height: 20rem;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
+}
+.arrow-left {
+      position: relative;
+      top: 35%;
+      left: 2%;
+      width: 60px;
+      height: 60px;
+      border-top: 7px solid rgba(58, 69, 105, 0.25);
+      border-right: 7px solid rgba(58, 69, 105, 0.25);
+      margin-right: 60px;
+      transform: rotate(-135deg);
+  }  
+  .arrow-right
+  {
+    position: relative;
+    top: 14%;
+    left: 91.5%;
+    width: 60px;
+    height: 60px;
+    border-top: 7px solid rgba(58, 69, 105, 0.25);
+    border-right: 7px solid rgba(58, 69, 105, 0.25);
+    margin-right: 60px;
+    transform: rotate(45deg); 
+  }
+
+#VipBlock
+{
+    position: relative;
+    top: -58rem;
+    left: 13.5rem;
+    height: 20rem;
+    width: 81%;
+    background-color: rgb(196, 187, 187);
+}
+#VipTitle
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+
+    margin-left: 40%;
+
+    color: #3A4569;
+}
+
+#containerVipAds
+{
+    height: 100%;
+    background-color: rgb(240, 223, 223);
+    padding: 10px 20px 10px 20px;
+}
+.AbsItem
+{
+    display: inline-block;
+    width: 22%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    height: 90%;
+    background-color: #F5F5F5;;
+    padding: 1%;
+}
+
+.AbsItem img
+{
+ position: relative;
+ width: 100%;
+ height: 10rem;
+ background-color: rgba(196, 196, 196, 0.25);
+}
+.AbsItem .descrAbs
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 100%;
+
+    color: #3A4569;
+    width: 100%;
+
+    margin-top: 15px;
+    padding-top: 15px;
+
+    border-top: 2px solid rgba(62, 88, 112, 0.5);;
+
+}
+.price
+{
+    position: relative;
+    top: 7%;
+    left: 0px;
+
+    font-family: Roboto;
+    font-size: 120%;
+
+    color: #3A4569;
+}
+.heart {
+    width:  15px; 
+    height: 15px; 
+    background-color: gray; 
+    transform: rotate(45deg);
+    position: relative; 
+    left: 90%;
+    top: 0%;
+}    
+
+.heart::before,
+.heart::after {
+    content : ''; 
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-color: gray;
+    border-radius: 50%; 
+    position: absolute;
+}
+.heart::before {
+    top: -8px;
+    left: 0;
+}
+.heart::after {
+    top: 0;
+    left: -8px;
+}    
+  
+#GeneralAdsBlock
+{
+    position: relative;
+    top: -53rem;
+    left: 13.5rem;
+    height: 20rem;
+    width: 81%;
+    background-color: rgb(196, 187, 187);
+}
+#titles span
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+
+    color: #3A4569;
+}
+#titles span:nth-child(2)
+{
+    position: relative;
+    left: 28%;
+}
+#titles span:nth-child(3)
+{
+    position: relative;
+    left: 45%;
+}
+
+#containerGeneralAds
+{
+    height: auto;
+    background-color: rgb(240, 223, 223);
+    padding: 10px 20px 10px 20px;
+}
+.ItemsLine {
+    height:  100%;
+
+}
