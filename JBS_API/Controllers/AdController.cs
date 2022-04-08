@@ -23,7 +23,12 @@ namespace JBS_API.Controllers
 
         [HttpPost]
         [Route("create")]
-        public JsonResult Create(int idUser,string title, string describe, IFormFile uploadedFile)  //IFormFile uploadedFile,
+        public JsonResult Create(int idUser,string Title, string Describe,
+            string Brend,
+            string Category,
+            string Price,
+
+            IFormFile uploadedFile)  //IFormFile uploadedFile,
         {        
               try
               {

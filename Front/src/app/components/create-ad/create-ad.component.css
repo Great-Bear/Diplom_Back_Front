@@ -2,7 +2,6 @@
 {
     margin-top: 70px;
     width: 75rem;
-    height: 10rem;
     margin-left: auto;
     margin-right: auto;
 
@@ -17,26 +16,65 @@
 
 .adImgs
 {
-    width: 150px;
+    width: 175px;
     height: 150px;
     margin-left: 5px;
     background-color: rgb(214, 178, 178);
     border: 2px solid rgba(255, 255, 255, 0);
+    margin-bottom: 5px;
 }
-.adImgs:hover{
-    border: 2px solid black;
-}
+
 .delBut
 {
     position: relative;
-    bottom: 158px;
-    left: 138px;
+    bottom: 149px;
+    left: 135px;
 
     width: 20px;
     height: 20px;
-    background-color: red;
 }
+
+.close
+{
+    position: relative;
+    left: 22px;
+    top: -160px;
+
+    width: 20px;
+    height: 20px;
+}
+
 .imgContainer
 {
     display: inline-block;
+    width: 160px;
+    height: 160px;
+    margin-left: 20px;
+}
+.imgContainer:nth-child(1), .imgContainer:nth-child(7)
+{
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    margin-left: 5px;
+}
+
+#Describe
+{
+    min-height: 20rem;
+    max-height: 40rem;
+}
+.card
+{
+    padding: 10px;
+}
+
+#imgsList
+{
+    margin-top: 10px;
+}
+
+#miniBlock
+{
+    width: 250px;
 }

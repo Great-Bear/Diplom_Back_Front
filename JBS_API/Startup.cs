@@ -46,7 +46,7 @@ namespace JBS_API
                 Password = "123456789@Q",
                 SslMode = MySqlSslMode.Required,
             };
-            con = builder.ConnectionString;
+          //  con = builder.ConnectionString;
 
 
             services.AddDbContext<DbContext>(options => options.UseMySQL(con));

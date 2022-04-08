@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\JBS_API.csproj": {}
+    "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\JBS_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\JBS_API.csproj": {
+    "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\JBS_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\JBS_API.csproj",
+        "projectUniqueName": "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\JBS_API.csproj",
         "projectName": "JBS_API",
-        "projectPath": "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\JBS_API.csproj",
+        "projectPath": "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\JBS_API.csproj",
         "packagesPath": "C:\\Users\\38063\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\obj\\",
+        "outputPath": "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\38063\\AppData\\Roaming\\NuGet\\NuGet.Config",

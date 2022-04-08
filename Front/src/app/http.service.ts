@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ObservableInput } from 'rxjs';
 import axios, { Axios } from 'axios';
 import { AuthUserResponse } from "src/app/Classes/auth-user-response";
+import { RequCreateAd } from './Classes/Request/requ-create-ad';
 
 import { catchError} from 'rxjs/operators';
 
@@ -27,7 +28,7 @@ export class HttpService {
 
   // https://jbsapicors2.azurewebsites.net
 //   https://localhost:44398
-  private URL : string = "https://jbsapicors2.azurewebsites.net";
+  private URL : string = "https://localhost:44398";
 
    getData() {
       const response = this.http.get("/api/auth/TestMeth");
@@ -57,11 +58,9 @@ export class HttpService {
                 .pipe( res => { return res; }, err => { return err } ) ;
   }
 
-  createAds(data : object,
-              idUser : string,
-                title : string,
-                  describe : string){
-    return this.http.post( this.URL + `/Ad/create?idUser=${idUser}&title=${title}&describe=${describe}`,
+  createAds(data : object, reqData : RequCreateAd  ){
+    return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}
+          &title=${reqData.Title}&describe=${reqData.Describe}`,
             data)
                 .pipe( res => { return res; }, err => {return err} );
   }

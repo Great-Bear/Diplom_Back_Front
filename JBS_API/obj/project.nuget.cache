@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wu2IVrhJNOg0S9eyKUmVrF0wBpIX5c2PecJiOiUuzFvkZ5PcyrStKKnJif5krMEwHsl7xkDvk2ociCierw1Y2g==",
+  "dgSpecHash": "gmKClEbjSEMBa6TcM4o1lCtTNMrmEgPTQkyq4aoc7abuK9z3SMyutbdIFY36EF+7Q3pHqgZ0gZGG00x/aknaKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\38063\\source\\repos\\JBSAPI\\JBS_API\\JBS_API.csproj",
+  "projectFilePath": "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_API\\JBS_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\38063\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\38063\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",

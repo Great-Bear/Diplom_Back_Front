@@ -13,6 +13,7 @@ import { AuthorizationComponent } from './components/authorization/authorization
 import { HttpClientModule } from '@angular/common/http';
 import { EmailconfirmComponent } from './components/emailconfirm/emailconfirm.component';
 import { CreateAdComponent } from './components/create-ad/create-ad.component';
+import { MyadsComponent } from './components/myads/myads.component';
 
 
 const appRoutes: Routes =[
@@ -22,6 +23,8 @@ const appRoutes: Routes =[
   { path: 'authorization', component: AuthorizationComponent},
   { path: 'emailconfirm', component: EmailconfirmComponent},
   { path: 'create-ad', component: CreateAdComponent},
+  { path: 'my-ads', component: MyadsComponent},
+
   { path: '**', component: Page404Component }
 ];
 
@@ -35,6 +38,7 @@ const appRoutes: Routes =[
     AuthorizationComponent,
     EmailconfirmComponent,
     CreateAdComponent,
+    MyadsComponent,
   ],
   imports: [
     BrowserModule,

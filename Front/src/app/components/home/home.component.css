@@ -172,10 +172,10 @@
 .AbsItem
 {
     display: inline-block;
-    width: 22%;
+    width: 24%;
     margin-left: 0.5%;
     margin-right: 0.5%;
-    height: 90%;
+    height: 100%;
     background-color: #F5F5F5;;
     padding: 1%;
 }

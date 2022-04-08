@@ -11,16 +11,15 @@
     box-shadow: 0px 3px 20px 3px rgba(0, 0, 0, 0.25);
 
     width: 100%;
+    margin: auto;
     height: 70px;
 
     white-space: nowrap;
 }
 #container
 {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80rem;
-    height: 100%;
+    width: 82rem;
+    margin: auto;
 }
 #logo
 {
@@ -44,13 +43,12 @@
 {
     position: relative;
     left : 17.8%;
-
     top: -23px;
 
     background: #F7F8FB;
     padding: 8px;
     width: 350px;
-    height: 25px;
+    height: 45px;
 
     box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
     border-radius: 3px;
@@ -59,7 +57,6 @@
 {
     position: relative;
     left: 10px;
-    top:  -8px;
 
     height: 90%;
     width: 90%;
@@ -77,7 +74,7 @@
 #links
 {
     position: relative;
-    left: 70%;
+    right: -70% ;
     top: -65px;
     height: 30px;
 }
@@ -151,4 +148,9 @@ a
     color: white;
     text-decoration: none;
     display: block;
+}
+
+footer{
+    height: 10rem;
+    background-color: gray;
 }
