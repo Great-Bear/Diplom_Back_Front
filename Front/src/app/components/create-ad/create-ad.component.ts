@@ -19,23 +19,39 @@ export class CreateAdComponent implements OnInit {
 
   private countImgs : number = 12;
 
-  public typeAd : TypeAd = new TypeAd();
-
   public requData : RequCreateAd = new RequCreateAd();
+
+  public typeAd : TypeAd = new TypeAd();
 
   urlImgs : string[] = new Array(this.countImgs);
   cancelBts : boolean[] = new Array(this.countImgs);
 
 
   constructor(private httpService : HttpService,
-              private cookieService : CookieService) 
-              {
+              private cookieService : CookieService) {
                 this.requData.idUser = this.cookieService.get("idUser");
 
                for(let i = 0; i < this.urlImgs.length; i++){
                  this.urlImgs[i] = this.emptyImgUrl;
                  this.cancelBts[i] = false;
                }
+
+               this.httpService.getCategories().subscribe( 
+                 res => {
+                   if(res instanceof Array){
+                    this.typeAd.Categories = res;
+                   }
+                 }
+                )
+
+                this.httpService.getBrands().subscribe( 
+                  res => {
+                    if(res instanceof Array){
+                     this.typeAd.Brends = res;
+                    }
+                  }
+                 )
+
               }
 
   ngOnInit(): void {
@@ -62,14 +78,13 @@ export class CreateAdComponent implements OnInit {
           this.urlImgs[i] = urlImg;     
           };
           reader.readAsDataURL(nowLoadedFile[idLoadedImg]);           
-          this.requData.Files.push(nowLoadedFile);
+          this.requData.Files.push(nowLoadedFile[idLoadedImg]);
           idLoadedImg++;
       }
       if(nowLoadedFile.length == idLoadedImg){
         return;
       }
     }
- 
   }
 
   delImg(event: any){
@@ -95,17 +110,29 @@ export class CreateAdComponent implements OnInit {
 
   CreateAds(){    
 
-    for(let i = 0; i < this.requData.Files.length; i++){
-      
-    let formData_final = new FormData();
-    formData_final.append("uploadedFile", this.requData.Files[i] )
-    let files = formData_final
+    this.requData.idUser = this.cookieService.get("idUser");
 
-    this.httpService.createAds(files, this.requData).subscribe(res => {
-      console.log(res);
-    });
-  }
+    let form = new FormData();
 
+      for(let i = 0; i < this.requData.Files.length; i++){
+        form.append("filecollect", this.requData.Files[i] )
+      }
+
+      this.requData.Title = "Кокос";
+      this.requData.Describe = "Кокос белый внутри";
+      this.requData.Category = "1";
+      this.requData.Brend = "1";
+      this.requData.Price = "12";
+
+      this.httpService.LoadMuchFiles(form).subscribe(
+        res => {
+          console.log(res);
+        }
+      )
+
+      this.httpService.createAds(form, this.requData).subscribe(res => {
+        console.log(res);
+      });
   }
 
 

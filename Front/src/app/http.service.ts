@@ -8,8 +8,6 @@ import { RequCreateAd } from './Classes/Request/requ-create-ad';
 import { catchError} from 'rxjs/operators';
 
 
-import { HttpErrorResponse } from '@angular/common/http';
-
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
@@ -22,9 +20,23 @@ const httpOptions = {
 })
 export class HttpService {
 
+  cashCategory : string[] = new Array();
 
+  constructor(private http: HttpClient) 
+  {
+   
+  }
 
-  constructor(private http: HttpClient) { }
+  ngOnInit(): void {
+    const sbr =  this.http.get(this.URL + "/Tools/categories").pipe(
+      res => { return res }, err => { return err })
+      sbr.subscribe( res => {
+        if(res instanceof Array){
+          this.cashCategory = res;
+          console.log( this.cashCategory );
+        }
+      } )
+  }
 
   // https://jbsapicors2.azurewebsites.net
 //   https://localhost:44398
@@ -58,18 +70,38 @@ export class HttpService {
                 .pipe( res => { return res; }, err => { return err } ) ;
   }
 
-  createAds(data : object, reqData : RequCreateAd  ){
-    return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}
-          &title=${reqData.Title}&describe=${reqData.Describe}`,
+  createAds(data : any, reqData : RequCreateAd  ){
+console.log(data);
+    return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}&Title=${reqData.Title}
+          &Describe=${reqData.Describe}
+          &Brend=${reqData.Brend}
+          &Category=${reqData.Category}
+          &Price=${reqData.Price}`,
             data)
                 .pipe( res => { return res; }, err => {return err} );
   }
 
-  checkFileList(data : object){
-    return this.http.post("https://localhost:44398/Ad/CheckListImg",
-              data)
-                .pipe( res => { return res; }, err => {return err} )
+  getCategories(){
+    return this.http.get( this.URL + "/Tools/categories").pipe(
+      res => { return res }, err => {return err}
+    )
+  }
+  getBrands(){
+    return this.http.get( this.URL + "/Tools/brends").pipe(
+      res => { return res }, err => {return err}
+    )
   }
 
+  getTakeMyAds(){
+
+  }
+
+  LoadMuchFiles(data : any){
+
+
+    return this.http.post( "https://localhost:44398/Ad/CheckListImg" , data).pipe(
+      res => { return res }, err => {return err}
+    )
+  }
 
 }

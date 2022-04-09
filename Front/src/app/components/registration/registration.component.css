@@ -161,7 +161,7 @@
 .labelText
 {
     position: relative;
-    top: 3px;
+    top: 12px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -176,7 +176,7 @@
 .errorMessage
 {   
     position: relative;
-    top: -7px;
+    top: -13px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -213,7 +213,8 @@
 #policyText
 {
     position: relative;
-    top: -12px;
+    top: 0px;
+    left: 8px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -249,34 +250,14 @@
     color: #DFF9F4;
     padding: 5px 10px 5px 10px;
     margin-left: 25%;
-    margin-top: 5px;
+    margin-top: 20px;
 
 }
-
-
-
-
-label input {
-    display: none;/* <--скрываем дефолтный чекбокс */
-  }
-  label span {/* <-- стилизируем новый */
-    height: 12px;
-    width: 12px;
-    border: 1px solid rgb(105, 100, 100);
-    display: inline-block;
-    position: relative;
-    background-color:#FFF;
-    border-radius: 5px;
-    padding:3px;
-    margin-right: 10px;
-  }
-  [type=checkbox]:checked + span:before {/* <-- ставим иконку, когда чекбокс включен  */
-    content: '\2714';
-    position: absolute;
-    top: 5px;
-    left: 1px;
-    font-size:20px;
-    color:black;
-  }
-
-
+input
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 33px;
+}

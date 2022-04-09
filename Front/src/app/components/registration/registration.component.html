@@ -44,12 +44,9 @@
                 <span class="errorMessage" >{{passwd2ErrMsg}}</span>   
             </div>
 
-            <div id="confirmPolicyBlock">
+            <div id="confirmPolicyBlock">  
                 <div>
-                    <label>
-                        <input type='checkbox'>
-                        <span></span>
-                      </label>   
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                 </div>
                 <div>
                     <span id="policyText">Я соглашаюсь с правилами использования сервиса,
@@ -58,6 +55,7 @@
                     за размещение объявлений</span>
                     </div>
             </div>
+        
             <button type="button" id="regButt" (click)="sendData()" >Регистрация</button>
 
         </form>

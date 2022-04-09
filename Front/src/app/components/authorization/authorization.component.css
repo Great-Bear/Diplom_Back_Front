@@ -161,7 +161,7 @@
 .labelText
 {
     position: relative;
-    top: 3px;
+    top: 10px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -214,7 +214,7 @@
 #confirmPolicyBlock
 {
     display: table;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 #confirmPolicyBlock div
@@ -242,6 +242,8 @@
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 40px 1px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
 
+    width: 150px;
+
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -250,35 +252,18 @@
     
     color: #DFF9F4;
     padding: 5px 10px 5px 10px;
-    margin-left: 25%;
+    margin-left: 20%;
     margin-top: 20px;
 
 }
 
-
-
-
-label input {
-    display: none;/* <--скрываем дефолтный чекбокс */
-  }
-  label span {/* <-- стилизируем новый */
-    height: 12px;
-    width: 12px;
-    border: 1px solid rgb(105, 100, 100);
-    display: inline-block;
-    position: relative;
-    background-color:#FFF;
-    border-radius: 5px;
-    padding:3px;
-    margin-right: 10px;
-  }
-  [type=checkbox]:checked + span:before {/* <-- ставим иконку, когда чекбокс включен  */
-    content: '\2714';
-    position: absolute;
-    top: 5px;
-    left: 1px;
-    font-size:20px;
-    color:black;
-  }
+input
+{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 33px;
+}
 
 

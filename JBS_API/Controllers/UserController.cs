@@ -22,6 +22,7 @@ namespace JBS_API.Controllers
         {
             _dbContext = db;
 
+
             if (_dbContext.Roles.Count() == 0)
             {
                 Role role1 = new Role { Name = "Admin" };
@@ -47,6 +48,49 @@ namespace JBS_API.Controllers
                 _dbContext.Users.Add(user1);
                 _dbContext.SaveChanges();
 
+            }
+
+           string[] Categories = {
+           "Другое",
+           "Ноутбуки и компьютеры",
+           "Смартфоны, ТВ и эликтроника",
+           "Бытовая техника",
+           "Товары для дома",
+           "Инструменты и автотовары",
+           "Сантехника и ремонт",
+           "Дача, сад и огород",
+           "Спорт и увлечения",
+           "Одежда, обувь и украшения",
+           "Косметические товары",
+           "Товары для детей",
+           "Зоотовары",
+           "Канцтовары и книги",
+           "Алкогольные напитки",
+           "Товары для бизнеса"
+           };
+
+            string[] Brends = {
+                "Другое",
+                "Samsung",
+                "Apple",
+                "Xiomi",
+                "Nike",
+            };
+
+            if(_dbContext.Categories.Count() == 0)
+            {
+                foreach (var category in Categories)
+                {
+                    _dbContext.Categories.Add(new Category { Name = category });
+                }
+            }
+
+            if(_dbContext.Brends.Count() == 0)
+            {
+                foreach (var brend in Brends)
+                {
+                    _dbContext.Brends.Add( new Brend { Name = brend } );
+                }
             }
 
 

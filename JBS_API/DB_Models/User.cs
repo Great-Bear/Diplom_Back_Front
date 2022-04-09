@@ -14,7 +14,7 @@ namespace JBS_API.DB_Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
-        public ICollection<Ad> Imgs { get; set; }
+        public ICollection<Ad> Ads { get; set; }
 
     }
 }

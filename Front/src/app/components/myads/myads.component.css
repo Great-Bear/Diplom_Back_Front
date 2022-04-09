@@ -1,11 +1,39 @@
-#container
+#containerAds
 {
-    margin-top: 100px;
-    margin-right: 5rem;
-    margin-left: 5rem;
+    margin-top: 7rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80rem;
 }
 
 .card
 {
     margin-bottom: 10px;
 }
+
+.ad
+{
+    width: 23%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+.card-deck
+{
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.navbar-brand
+{
+    color: black;
+}
+
+.navbar-brand:hover{
+    color: rgb(150, 120, 120);
+}
+
+

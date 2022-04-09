@@ -24,49 +24,88 @@ namespace JBS_API.Controllers
         [HttpPost]
         [Route("create")]
         public JsonResult Create(int idUser,string Title, string Describe,
-            string Brend,
-            string Category,
+            int Brend,
+            int Category,
             string Price,
+            IFormFile[] filecollect)  //IFormFile uploadedFile,
+        {
 
-            IFormFile uploadedFile)  //IFormFile uploadedFile,
-        {        
+            Brend += 1;
+            Category += 1;
+
               try
               {
-                  if (uploadedFile != null)
-                  {
-                    string extension = uploadedFile.FileName.Substring(uploadedFile.Name.LastIndexOf('.') + 1);
-
-                    string uniqueName = System.Guid.NewGuid().ToString() + extension;
-
-                    string path = @".\Ads_Img\" + uniqueName;
-
-                      using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
-                      {
-                        uploadedFile.CopyTo(fileStream);
-                      }
-
                     var userOwner = _dbContext.Users.FirstOrDefault(u => u.Id == idUser);
 
                     if(userOwner == null)
                     {
-                        return Json("error server"  + " Owner is null ");
+                        return Json("error server");
                     }
 
-                    Ad newAd = new Ad { 
-                                        ImgName = uniqueName,
-                                        Title = title,
-                                        Describe = describe,
-                                        User = userOwner };
+                   var category = _dbContext.Categories.FirstOrDefault(c => c.Id == Category);
 
-                    _dbContext.Ads.Add(newAd);
-                    _dbContext.SaveChanges();
+                    if(category == null)
+                    {
+                        return Json("error server");
+                    }
 
-                      return Json("File is saved");
-                  }
-                  else
-                  {
-                      return Json("file is empty" ) ;
-                  }
+                    var brend = _dbContext.Brends.FirstOrDefault(b => b.Id == Brend);
+
+                    if (brend == null)
+                    {
+                        return Json("error server");
+                    }
+
+                    decimal price;
+                    if( Decimal.TryParse(Price, out price) == false ){
+                        return Json("error server");
+                    }
+           
+                Ad newAd = new Ad { 
+                                        Title = Title,
+                                        Describe = Describe,
+                                        User = userOwner,
+                                        Category = category,
+                                        Brend = brend,
+                                        Price = price,
+                    };
+
+                _dbContext.Ads.Add(newAd);
+                _dbContext.SaveChanges();
+
+                string uniqueName = String.Empty;
+                if (filecollect.Length > 0)
+                {
+                    bool isMainImg = true;
+                    foreach (var file in filecollect)
+                    {
+                        string extension = file.FileName.Substring(file.Name.LastIndexOf('.') + 1);
+
+                        uniqueName = System.Guid.NewGuid().ToString() + extension;
+
+                        string path = @".\Ads_Img\" + uniqueName;
+
+                        using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
+                        var lastAd = _dbContext.Ads.ToList().Last();
+                        var newImg = new Img { Name = uniqueName, Ad = lastAd, IsMainImg = isMainImg };
+
+                        if(isMainImg == true)
+                        {
+                            isMainImg = !isMainImg;
+                        }
+
+                        _dbContext.Imgs.Add(newImg);
+
+                    }
+                }
+
+                _dbContext.SaveChanges();
+
+                return Json("Товар добавлен");           
               }
               catch (Exception ex)
               {
