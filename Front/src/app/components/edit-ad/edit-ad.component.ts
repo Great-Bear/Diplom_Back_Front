@@ -20,18 +20,9 @@ export class EditAdComponent implements OnInit {
 
     let form = new FormData();
     
-
-    
-
     form.append("filecollect", nowLoadedFile[0] )
     form.append("filecollect", nowLoadedFile[0] )
     
-
-    this.http.LoadMuchFiles(form).subscribe(
-      res => {
-        console.log(res);
-      }
-    )
   }
 
 }

@@ -92,16 +92,27 @@ console.log(data);
     )
   }
 
-  getTakeMyAds(){
+  getGetMyAds(idUser : any){
+      return this.http.get(this.URL + `/Ad/MyAds?idUser=${idUser}`)
+      .pipe(
+        res => {
+          return res
+        },
+        err => {
+            return err;
+        }
+      );
+    }
 
-  }
-
-  LoadMuchFiles(data : any){
-
-
-    return this.http.post( "https://localhost:44398/Ad/CheckListImg" , data).pipe(
-      res => { return res }, err => {return err}
-    )
-  }
-
+    getMainPicture(idAd : number, container : any) {
+      return this.http.get(this.URL + `/GetMainImgAd?idAd=${idAd}`,{ responseType: 'blob' })
+      .pipe(
+        res => {
+          return res
+        },
+        err =>{
+          return err;
+        }
+      )
+    }
 }

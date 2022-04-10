@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JBS_API.DB_Models
 {
@@ -9,6 +10,7 @@ namespace JBS_API.DB_Models
         public string Describe { get; set; }
         public decimal Price { get; set; }
 
+        public DateTime TimeEnd { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }

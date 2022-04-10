@@ -18,9 +18,7 @@ namespace JBS_API
           //  Database.EnsureDeleted();
             Database.EnsureCreated();
 
-           
-
-
+          
         }
 
     }

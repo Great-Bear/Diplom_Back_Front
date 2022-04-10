@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,11 @@ namespace JBS_API.Controllers
         public UserController(DbContext db, ILogger<Startup> logger)
         {
             _dbContext = db;
+            PopulateDb();
+    }
+
+        private void PopulateDb()
+        {
 
 
             if (_dbContext.Roles.Count() == 0)
@@ -42,6 +48,8 @@ namespace JBS_API.Controllers
                     FirstName = "Great",
                     LastName = "Bear",
                     Phone = "+43243423",
+                    Email = "Bogdan",
+                    Password = "1234",
                     Role = role1
                 };
 
@@ -50,7 +58,7 @@ namespace JBS_API.Controllers
 
             }
 
-           string[] Categories = {
+            string[] Categories = {
            "Другое",
            "Ноутбуки и компьютеры",
            "Смартфоны, ТВ и эликтроника",
@@ -77,7 +85,7 @@ namespace JBS_API.Controllers
                 "Nike",
             };
 
-            if(_dbContext.Categories.Count() == 0)
+            if (_dbContext.Categories.Count() == 0)
             {
                 foreach (var category in Categories)
                 {
@@ -85,14 +93,61 @@ namespace JBS_API.Controllers
                 }
             }
 
-            if(_dbContext.Brends.Count() == 0)
+            if (_dbContext.Brends.Count() == 0)
             {
                 foreach (var brend in Brends)
                 {
-                    _dbContext.Brends.Add( new Brend { Name = brend } );
+                    _dbContext.Brends.Add(new Brend { Name = brend });
                 }
             }
+            _dbContext.SaveChanges();
 
+            var userOwner = _dbContext.Users.FirstOrDefault(u => u.FirstName == "Great");
+            var category2 = _dbContext.Categories.FirstOrDefault(c => c.Id == 1);
+            var brend2 = _dbContext.Brends.FirstOrDefault(c => c.Id == 1);
+
+            
+
+            string[] files = Directory.GetFiles(@"C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\Imgs_Db_Fill\");
+            string uniqueName = String.Empty;
+
+            
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                Ad newAd = new Ad
+                {
+                    Title = $"Товар {i + 1}",
+                    Describe = "Описание товара это Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут",
+                    User = userOwner,
+                    Category = category2,
+                    Brend = brend2,
+                    Price = 1235,
+                    TimeEnd = DateTime.Now.AddMonths(1)
+                };
+        
+                for (int j = 0; j < files.Length; j++)
+                {
+                    bool isMainImg = false;
+
+                    string extension = files[j].Substring(files[j].LastIndexOf('.'));
+                    uniqueName = System.Guid.NewGuid().ToString() + extension;
+
+                    string path = @".\Ads_Img\" + uniqueName;
+
+                    FileInfo fileInf = new FileInfo(files[j]);
+                    fileInf.CopyTo(path, true);
+
+                    if(i == j)
+                    {
+                        isMainImg = true;
+                    }
+
+                    var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = isMainImg };
+                    _dbContext.Imgs.Add(newImg);
+                }
+            }
+            _dbContext.SaveChanges();
 
         }
 

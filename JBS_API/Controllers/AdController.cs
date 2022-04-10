@@ -112,6 +112,27 @@ namespace JBS_API.Controllers
                   return Json("error server" + ex.Message );
               }
         }
+
+        [HttpGet]
+        [Route("MyAds")]
+        public JsonResult TakeMyAds(int idUser)
+        {
+            try
+            {
+                var ads = _dbContext.Ads                                  
+                                    .Where(a => a.UserId == idUser)
+                                    .ToArray();
+
+                return Json(ads);
+            }
+            catch (Exception ex)
+            {
+                return Json( "Ошибка сервера" );
+            }
+            
+        }
+
+
         [HttpPost]
         [Route("CheckListImg")]
         public JsonResult CheckListImg(IFormFile[] filecollect)  

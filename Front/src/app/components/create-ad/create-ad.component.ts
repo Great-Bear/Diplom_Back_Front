@@ -124,12 +124,6 @@ export class CreateAdComponent implements OnInit {
       this.requData.Brend = "1";
       this.requData.Price = "12";
 
-      this.httpService.LoadMuchFiles(form).subscribe(
-        res => {
-          console.log(res);
-        }
-      )
-
       this.httpService.createAds(form, this.requData).subscribe(res => {
         console.log(res);
       });

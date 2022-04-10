@@ -14,8 +14,8 @@ export class AuthorizationComponent implements OnInit {
   constructor(private httpSevice: HttpService, private router : Router,
               private cookieService: CookieService ) { }
 
-  login : string = "string";
-  passwd : string = "string";
+  login : string = "Bogdan";
+  passwd : string = "1234";
 
   ngOnInit(): void {
   }
