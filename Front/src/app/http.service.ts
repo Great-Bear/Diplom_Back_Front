@@ -115,4 +115,19 @@ console.log(data);
         }
       )
     }
+
+    getOneAd(idAd : number){
+
+        return this.http.get(this.URL + `/Ad/GetOneAd?idAd=${idAd}`)
+        .pipe(
+          res => {
+            return res;
+          },
+          err => {
+            return err;
+          }
+        )
+       
+    }
+
 }

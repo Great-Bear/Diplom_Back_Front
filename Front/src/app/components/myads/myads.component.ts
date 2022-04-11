@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { SafeKeyedRead } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-myads',
@@ -26,7 +25,8 @@ export class MyadsComponent implements OnInit {
   constructor(
     private httpService : HttpService,
     private cookie : CookieService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private route : Router
   ) {
   }
 
@@ -67,6 +67,10 @@ export class MyadsComponent implements OnInit {
         console.log("Ошибка сервера");
       }
     })
+  }
+
+  watchAd(event : any){
+    this.route.navigate([`/card-ad/${event.target.getAttribute("id")}`]);
   }
 
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Linq;
+using JBS_API.Response_Model;
 
 namespace JBS_API.Controllers
 {
@@ -130,6 +131,30 @@ namespace JBS_API.Controllers
                 return Json( "Ошибка сервера" );
             }
             
+        }
+
+        [HttpGet]
+        [Route("GetOneAd")]
+        public JsonResult GetAd(int idAd)
+        {
+            var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+
+            var resp = new Resp_One_Ad();
+
+            if (ad == null)
+            {
+                resp.Error = "Несуществующий товар";
+                resp.IsError = true;
+                return Json(resp);
+            }
+
+            
+            resp.Title = ad.Title;
+            resp.Describe = ad.Describe;
+            resp.Price = ad.Price.ToString();
+            
+
+            return Json(resp);
         }
 
 

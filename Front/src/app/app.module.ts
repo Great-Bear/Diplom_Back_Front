@@ -15,6 +15,7 @@ import { EmailconfirmComponent } from './components/emailconfirm/emailconfirm.co
 import { CreateAdComponent } from './components/create-ad/create-ad.component';
 import { MyadsComponent } from './components/myads/myads.component';
 import { EditAdComponent } from './components/edit-ad/edit-ad.component';
+import { CardAdComponent } from './components/card-ad/card-ad.component';
 
 
 const appRoutes: Routes =[
@@ -26,7 +27,7 @@ const appRoutes: Routes =[
   { path: 'create-ad', component: CreateAdComponent},
   { path: 'edit-ad', component: EditAdComponent},
   { path: 'my-ads', component: MyadsComponent},
-
+  { path: 'card-ad/:id',component: CardAdComponent},
   { path: '**', component: Page404Component }
 ];
 
@@ -42,6 +43,7 @@ const appRoutes: Routes =[
     CreateAdComponent,
     MyadsComponent,
     EditAdComponent,
+    CardAdComponent,
   ],
   imports: [
     BrowserModule,
