@@ -7,5 +7,6 @@
         public string Price { get; set; }
         public bool IsError { get; set; }
         public string Error { get; set; }
+        public int CountImgs { get; set; }
     }
 }

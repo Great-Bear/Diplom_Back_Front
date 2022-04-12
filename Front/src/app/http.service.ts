@@ -105,7 +105,7 @@ console.log(data);
     }
 
     getMainPicture(idAd : number, container : any) {
-      return this.http.get(this.URL + `/GetMainImgAd?idAd=${idAd}`,{ responseType: 'blob' })
+      return this.http.get(this.URL + `/Img/GetMainImgAd?idAd=${idAd}`,{ responseType: 'blob' })
       .pipe(
         res => {
           return res
@@ -117,7 +117,6 @@ console.log(data);
     }
 
     getOneAd(idAd : number){
-
         return this.http.get(this.URL + `/Ad/GetOneAd?idAd=${idAd}`)
         .pipe(
           res => {
@@ -127,7 +126,19 @@ console.log(data);
             return err;
           }
         )
-       
+    }
+
+    GetImgOfAd(idAd : number, numberImg  : number){
+      return this.http.get(this.URL + `/Img/GetImgsOfAd?idAd=${idAd}&numeberImg=${numberImg}`
+      ,{ responseType: 'blob' })
+      .pipe(
+        res =>{
+          return res;
+        },
+        err => {
+          return err;
+        }
+      )
     }
 
 }

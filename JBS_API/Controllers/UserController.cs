@@ -145,6 +145,7 @@ namespace JBS_API.Controllers
 
                     var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = isMainImg };
                     _dbContext.Imgs.Add(newImg);
+                    _dbContext.SaveChanges();
                 }
             }
             _dbContext.SaveChanges();

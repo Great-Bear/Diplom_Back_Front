@@ -56,8 +56,10 @@ export class MyadsComponent implements OnInit {
    
             this.httpService.getMainPicture(indexItem, this.adsCol[colIndex][rowIndex] ).subscribe(
               res => {         
+                console.log(res)
                const urlToBlob = window.URL.createObjectURL(res)  
                this.adsCol[colIndex][rowIndex].url = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
+
               }
            );
           }

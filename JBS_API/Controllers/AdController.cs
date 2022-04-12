@@ -138,6 +138,7 @@ namespace JBS_API.Controllers
         public JsonResult GetAd(int idAd)
         {
             var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+            var countImgs = _dbContext.Imgs.Count(i => i.AdId == idAd);
 
             var resp = new Resp_One_Ad();
 
@@ -147,13 +148,12 @@ namespace JBS_API.Controllers
                 resp.IsError = true;
                 return Json(resp);
             }
-
             
             resp.Title = ad.Title;
             resp.Describe = ad.Describe;
             resp.Price = ad.Price.ToString();
+            resp.CountImgs = countImgs;
             
-
             return Json(resp);
         }
 
