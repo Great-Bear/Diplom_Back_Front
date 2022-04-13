@@ -4,6 +4,7 @@ import { Observable, ObservableInput } from 'rxjs';
 import axios, { Axios } from 'axios';
 import { AuthUserResponse } from "src/app/Classes/auth-user-response";
 import { RequCreateAd } from './Classes/Request/requ-create-ad';
+import { RequEditAd } from './Classes/Request/requ-edit-ad';
 
 import { catchError} from 'rxjs/operators';
 
@@ -71,7 +72,6 @@ export class HttpService {
   }
 
   createAds(data : any, reqData : RequCreateAd  ){
-console.log(data);
     return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}&Title=${reqData.Title}
           &Describe=${reqData.Describe}
           &Brend=${reqData.Brend}
@@ -79,6 +79,21 @@ console.log(data);
           &Price=${reqData.Price}`,
             data)
                 .pipe( res => { return res; }, err => {return err} );
+  }
+
+  editAds( imgs: any, reqData : RequEditAd){
+    return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}
+        &Title=${reqData.title}
+        &Describe=${reqData.describe}
+        &Price=${reqData.price}
+        &idBrend=${reqData.idBrend}`,
+          imgs)
+          .pipe(res => {return res},err => {return err});
+  }
+
+  checkList(data : any){
+    return this.http.post("https://localhost:44398/Ad/CheckListImg",data)
+    .pipe(res => {return res;}, err => {return err}  )
   }
 
   getCategories(){
@@ -140,5 +155,7 @@ console.log(data);
         }
       )
     }
+
+
 
 }

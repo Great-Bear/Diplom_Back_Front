@@ -75,4 +75,8 @@ export class MyadsComponent implements OnInit {
     this.route.navigate([`/card-ad/${event.target.getAttribute("id")}`]);
   }
 
+  editAd(event : any){
+    this.route.navigate([`/edit-ad/${event.target.getAttribute("id")}`]);
+  }
+
 }

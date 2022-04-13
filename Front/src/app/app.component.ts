@@ -15,9 +15,14 @@ export class AppComponent {
               private router : Router) {}
 
   ngOnInit() {
-   if( this.cookieService.get("idUser") == undefined ||
+   if( this.cookieService.get("idUser") == "" ||
        this.cookieService.get("idUser") == null){
         this.router.navigate(['/authorization'])
+   }
+
+   if(this.cookieService.get("rememberMe") == "no" || 
+      this.cookieService.get("rememberMe") == "" ){
+        this.router.navigate(["registration"])
    }
   }
 

@@ -40,16 +40,11 @@
             </div>
 
             <div id="confirmPolicyBlock">
-                <div>
-                    <label>
-                        <input type='checkbox'>
-                        <span></span>
-                      </label>   
+
+                <input name="isMemberMe" [(ngModel)]="isMemberMe" type="checkbox" />
+                <span id="rememberMe">Запомнить меня</span>
                 </div>
-                <div>
-                    <span id="rememberMe">Запомнить меня</span>
-                    </div>
-            </div>
+
             <button type="button" id="regButt" (click)="sendDataAuth()" >Вход</button>
         </form>
     </div> 

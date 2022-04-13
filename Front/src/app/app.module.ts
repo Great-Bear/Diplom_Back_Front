@@ -25,7 +25,7 @@ const appRoutes: Routes =[
   { path: 'authorization', component: AuthorizationComponent},
   { path: 'emailconfirm', component: EmailconfirmComponent},
   { path: 'create-ad', component: CreateAdComponent},
-  { path: 'edit-ad', component: EditAdComponent},
+  { path: 'edit-ad/:id', component: EditAdComponent},
   { path: 'my-ads', component: MyadsComponent},
   { path: 'card-ad/:id',component: CardAdComponent},
   { path: '**', component: Page404Component }

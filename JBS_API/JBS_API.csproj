@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Ads_Img\" />
+    <Folder Include="Ads_Img2\" />
   </ItemGroup>
 
 </Project>

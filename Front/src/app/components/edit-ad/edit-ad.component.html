@@ -1,4 +1,60 @@
 <div id="container" >
-work
-<input multiple type="file" id="Photo" class="Photos" (change)="FileSelected($event)" >
+    <div class="card-body" *ngIf="requData!=null" >
+        <div class="card">
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="Title">Заголовок</label>
+                </div>
+                <input type="text" class="form-control" id="Title" [(ngModel)]="requData.title" >
+              </div>
+    
+    <div>
+        <br>
+        <input multiple type="file" id="Photo" class="form-control" class="Photos" (change)="FileSelected($event)" >
+
+        <div id="imgsList"   >
+            <div *ngFor="let itemImg of urlImgs;let i = index" class="imgContainer" >
+                <img  [src]="itemImg" class="adImgs"  >
+                <div  class="close" *ngIf="cancelBts[i]"   id="{{i}}"(click)="delImg($event)">&times;</div>
+            </div>               
+        </div>      
+    </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Категория</label>
+            </div>
+            <div class="form-control" id="inputGroupSelect01">
+              {{Category}}
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Бренд</label>
+            </div>
+            <select class="custom-select" id="Brend" [(ngModel)]="requData.Brend"  >
+              <option *ngFor="let brand of typeAd.Brends; let i = index" value="{{i}}" >{{brand}}</option>
+            </select>
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="Describe" >Описание</label>
+            </div>
+            <textarea name="" id="Describe" [(ngModel)]="requData.describe" class="form-control" cols="30" rows="10"></textarea>
+          </div>
+
+         <div id="miniBlock">
+            <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="price">Цена</label>
+            </div>
+            <input type="number" class="form-control" id="price" [(ngModel)]="requData.price"  >
+            </div>       
+        </div>
+        <input class="btn btn-primary" type="button" value="Изменить объявление" (click)="EditAds()" >
+        </div>
+  </div>
+
 </div>

@@ -17,6 +17,8 @@ export class AuthorizationComponent implements OnInit {
   login : string = "Bogdan";
   passwd : string = "1234";
 
+  isMemberMe : boolean = false;
+
   ngOnInit(): void {
   }
 
@@ -33,6 +35,14 @@ export class AuthorizationComponent implements OnInit {
                 let authData = new AuthUserResponse(resObj);
 
                 if(authData.error == null){
+
+                  if(this.isMemberMe == true){
+                    this.cookieService.set("rememberMe","yes")
+                  }
+                  else{
+                    this.cookieService.set("rememberMe","no")
+                  }
+
                   this.cookieService.set( "idUser", authData.id)
                   this.router.navigate(['/home']);
                 }

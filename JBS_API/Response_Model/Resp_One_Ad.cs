@@ -8,5 +8,8 @@
         public bool IsError { get; set; }
         public string Error { get; set; }
         public int CountImgs { get; set; }
+        public int idOwner { get; set; }
+        public int idBrend { get; set; }
+        public int idCategory { get; set; }
     }
 }

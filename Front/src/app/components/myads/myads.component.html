@@ -39,7 +39,7 @@
        
         <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
           <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Просмотреть</button>
-          <button type="button" class="btn btn-info btn-sm" >Изменить</button>
+          <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="editAd($event)" >Изменить</button>
           <button type="button" class="btn btn-danger btn-sm"   >Удалить</button>
         </div>
       </div>

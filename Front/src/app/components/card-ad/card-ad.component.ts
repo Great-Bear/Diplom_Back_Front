@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-card-ad',
@@ -13,13 +14,13 @@ export class CardAdComponent implements OnInit {
   data : any;
   imgs : any;
   firstImg : any;
+  isOwner = false;
 
   constructor(
     private activateRoute: ActivatedRoute,
     private http : HttpService,
-    private sanitizer: DomSanitizer) { 
-
-      
+    private sanitizer: DomSanitizer,
+    private cookie : CookieService) {  
   }
 
   ngOnInit(): void {
@@ -28,11 +29,21 @@ export class CardAdComponent implements OnInit {
 
       this.http.getOneAd(idAd).subscribe(
         res => {
-          this.data = res;
-          this.imgs = new Array(this.data.countImgs - 1)
 
+          this.data = res;
+
+          if(this.data.countImgs == 0){
+              this.firstImg = "../assets/imgs/emptyImg.png";
+            return;
+          }
+          this.imgs = new Array(this.data.countImgs - 1)
+          
           if(this.data.isError){
             console.log(this.data.error)
+          }
+
+          if(this.cookie.get("idUser") == this.data.idOwner){
+            this.isOwner = true;
           }
 
           this.http.GetImgOfAd(idAd, 0).subscribe(

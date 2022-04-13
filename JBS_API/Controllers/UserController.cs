@@ -125,25 +125,41 @@ namespace JBS_API.Controllers
                     Price = 1235,
                     TimeEnd = DateTime.Now.AddMonths(1)
                 };
-        
+
+                string extension = files[i].Substring(files[i].LastIndexOf('.'));
+                uniqueName = System.Guid.NewGuid().ToString() + extension;
+
+                string path = @".\Ads_Img\" + uniqueName;
+
+                FileInfo fileInf = new FileInfo(files[i]);
+                fileInf.CopyTo(path, true);
+
+                var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = true };
+                _dbContext.Imgs.Add(newImg);
+                _dbContext.SaveChanges();
+
+
                 for (int j = 0; j < files.Length; j++)
                 {
-                    bool isMainImg = false;
-
-                    string extension = files[j].Substring(files[j].LastIndexOf('.'));
-                    uniqueName = System.Guid.NewGuid().ToString() + extension;
-
-                    string path = @".\Ads_Img\" + uniqueName;
-
-                    FileInfo fileInf = new FileInfo(files[j]);
-                    fileInf.CopyTo(path, true);
-
-                    if(i == j)
+                    if(j == i)
                     {
-                        isMainImg = true;
+                        j++;
+                    }
+                    if(j == files.Length)
+                    {
+                        break;
                     }
 
-                    var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = isMainImg };
+                    extension = files[j].Substring(files[j].LastIndexOf('.'));
+                    uniqueName = System.Guid.NewGuid().ToString() + extension;
+
+                    path = @".\Ads_Img\" + uniqueName;
+
+                    fileInf = new FileInfo(files[j]);
+                    fileInf.CopyTo(path, true);
+
+
+                     newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = false };
                     _dbContext.Imgs.Add(newImg);
                     _dbContext.SaveChanges();
                 }

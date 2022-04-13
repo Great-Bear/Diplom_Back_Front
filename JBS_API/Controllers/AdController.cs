@@ -142,6 +142,7 @@ namespace JBS_API.Controllers
 
             var resp = new Resp_One_Ad();
 
+
             if (ad == null)
             {
                 resp.Error = "Несуществующий товар";
@@ -153,8 +154,74 @@ namespace JBS_API.Controllers
             resp.Describe = ad.Describe;
             resp.Price = ad.Price.ToString();
             resp.CountImgs = countImgs;
+            resp.idOwner = ad.UserId;
+            resp.idCategory = ad.CategoryId;
+            resp.idBrend = ad.BrendId;
             
             return Json(resp);
+        }
+        [HttpPost]
+        [Route("EditAd")]
+        public JsonResult EditAd(int idAd, string Title, string Describe,
+            string Price, int idBrend,
+            IFormFile[] filecollect)
+        {
+
+            var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+            ad.Describe = Describe;
+            ad.Title = Title;
+            ad.Price = Decimal.Parse(Price);
+            ad.BrendId = idBrend;
+
+           var imgs = _dbContext.Imgs.Where(i => i.AdId == idAd).ToArray();
+
+            foreach (var img in imgs)
+            {
+                FileInfo fileInf = new FileInfo(@".\Ads_Img\" + img.Name);
+                fileInf.Delete();
+                _dbContext.Imgs.Remove(img);
+            }
+            _dbContext.SaveChanges();
+
+
+
+            if (filecollect.Length > 0)
+            {
+                string uniqueName;
+                bool isMainImg = true;
+                foreach (var file in filecollect)
+                {
+                    string extension = "";
+                    if (file.ContentType.Contains('/'))
+                    {
+                        extension = file.ContentType.Substring(file.ContentType.LastIndexOf('/') + 1);
+                       
+                    }
+                    else
+                    {
+                        extension = file.FileName.Substring(file.Name.LastIndexOf('.') + 1);
+                    }
+                    uniqueName = System.Guid.NewGuid().ToString() + '.' + extension;
+
+                    string path = @".\Ads_Img\" + uniqueName;
+                    using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    var newImg = new Img { Name = uniqueName, Ad = ad, IsMainImg = isMainImg };
+                    if (isMainImg == true)
+                    {
+                        isMainImg = !isMainImg;
+                    }
+                    _dbContext.Imgs.Add(newImg);
+
+                }
+            }
+            _dbContext.SaveChanges();
+
+
+            return Json(true);
         }
 
 
@@ -162,7 +229,24 @@ namespace JBS_API.Controllers
         [Route("CheckListImg")]
         public JsonResult CheckListImg(IFormFile[] filecollect)  
         {
-           return Json(filecollect.Length);
+            
+            string uniqueName;
+            foreach (var file in filecollect)
+            {
+                string extension = file.ContentType.Substring(file.ContentType.LastIndexOf('/') + 1 );
+                uniqueName = System.Guid.NewGuid().ToString() + '.' + extension;
+
+                string path = @".\Ads_Img2\" + uniqueName ;
+                using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+
+
+
+
+            return Json(filecollect.Length);
         }
     }
 }
