@@ -54,9 +54,8 @@ export class MyadsComponent implements OnInit {
             });
             indexItem++;
    
-            this.httpService.getMainPicture(indexItem, this.adsCol[colIndex][rowIndex] ).subscribe(
+            this.httpService.getMainPicture(res[indexItem - 1].id, this.adsCol[colIndex][rowIndex] ).subscribe(
               res => {         
-                console.log(res)
                const urlToBlob = window.URL.createObjectURL(res)  
                this.adsCol[colIndex][rowIndex].url = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
 
@@ -77,6 +76,63 @@ export class MyadsComponent implements OnInit {
 
   editAd(event : any){
     this.route.navigate([`/edit-ad/${event.target.getAttribute("id")}`]);
+  }
+
+  deleteAd(event : any){
+    let isDelete = confirm("Вы хотите удалить объявление?");
+    if(isDelete){
+    /*  this.httpService.deleteAd(event.target.getAttribute("id"))
+      .subscribe(res => {
+        let answer : any = res;
+        if(answer.isError == false){
+          this.adsCol[ Math.ceil( this.adsCol.length / this.itemInRow ) ]
+        }
+      })*/
+
+      let idAd_db = Number.parseInt(event.target.getAttribute("id") );
+      let index = 0; 
+      let isBreak = false;
+      for(let i = 0; i < this.adsCol.length; i++){
+        for(let j = 0; j < this.adsCol[i].length; j++){ 
+          if(this.adsCol[i][j].data.id == idAd_db){
+            isBreak = true;
+            break;
+          }
+          if(isBreak){
+            break;
+          }
+          index++;
+        }
+      }
+
+      let idCol = Math.floor( index / this.itemInRow );
+      let idRow = index - idCol * this.itemInRow;
+
+      let first = true;
+      for(let i = idCol; i < this.adsCol.length; i++){
+        for(let j = 0; j < this.adsCol[i].length; j++){ 
+          if( j < idRow && first == true){
+            continue;
+          }
+          first = false;
+          
+          if(j == this.itemInRow - 1 && i != this.adsCol.length - 1){
+            this.adsCol[i][j] = this.adsCol[i + 1][0];
+          }
+          else{
+            this.adsCol[i][j] = this.adsCol[i][j + 1];
+          }        
+        }
+      }
+
+      this.countPublishItem--;
+
+      let lastColIndes = Math.floor( this.countPublishItem / this.itemInRow );
+      let lastRowIndet = this.adsCol[lastColIndes].length
+
+      this.adsCol[lastColIndes].pop();
+         
+    }
   }
 
 }

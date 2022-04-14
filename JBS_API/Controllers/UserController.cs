@@ -38,6 +38,10 @@ namespace JBS_API.Controllers
                 _dbContext.Roles.Add(role2);
                 _dbContext.SaveChanges();
             }
+            else
+            {
+                return;
+            }
 
             if (_dbContext.Users.Count() == 0)
             {
@@ -123,7 +127,6 @@ namespace JBS_API.Controllers
                     Category = category2,
                     Brend = brend2,
                     Price = 1235,
-                    TimeEnd = DateTime.Now.AddMonths(1)
                 };
 
                 string extension = files[i].Substring(files[i].LastIndexOf('.'));

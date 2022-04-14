@@ -15,7 +15,7 @@ namespace JBS_API
         public DbContext(DbContextOptions<DbContext> options)
             : base(options)
         {
-          //  Database.EnsureDeleted();
+           // Database.EnsureDeleted();
             Database.EnsureCreated();
 
           

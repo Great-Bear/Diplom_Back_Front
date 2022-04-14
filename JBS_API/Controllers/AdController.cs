@@ -166,60 +166,66 @@ namespace JBS_API.Controllers
             string Price, int idBrend,
             IFormFile[] filecollect)
         {
-
-            var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
-            ad.Describe = Describe;
-            ad.Title = Title;
-            ad.Price = Decimal.Parse(Price);
-            ad.BrendId = idBrend;
-
-           var imgs = _dbContext.Imgs.Where(i => i.AdId == idAd).ToArray();
-
-            foreach (var img in imgs)
+            try
             {
-                FileInfo fileInf = new FileInfo(@".\Ads_Img\" + img.Name);
-                fileInf.Delete();
-                _dbContext.Imgs.Remove(img);
-            }
-            _dbContext.SaveChanges();
+                idBrend++;
+                var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+                ad.Describe = Describe;
+                ad.Title = Title;
+                ad.Price = Decimal.Parse(Price);
+                ad.BrendId = idBrend;
 
+                var imgs = _dbContext.Imgs.Where(i => i.AdId == idAd).ToArray();
 
-
-            if (filecollect.Length > 0)
-            {
-                string uniqueName;
-                bool isMainImg = true;
-                foreach (var file in filecollect)
+                foreach (var img in imgs)
                 {
-                    string extension = "";
-                    if (file.ContentType.Contains('/'))
-                    {
-                        extension = file.ContentType.Substring(file.ContentType.LastIndexOf('/') + 1);
-                       
-                    }
-                    else
-                    {
-                        extension = file.FileName.Substring(file.Name.LastIndexOf('.') + 1);
-                    }
-                    uniqueName = System.Guid.NewGuid().ToString() + '.' + extension;
-
-                    string path = @".\Ads_Img\" + uniqueName;
-                    using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-
-                    var newImg = new Img { Name = uniqueName, Ad = ad, IsMainImg = isMainImg };
-                    if (isMainImg == true)
-                    {
-                        isMainImg = !isMainImg;
-                    }
-                    _dbContext.Imgs.Add(newImg);
-
+                    FileInfo fileInf = new FileInfo(@".\Ads_Img\" + img.Name);
+                    fileInf.Delete();
+                    _dbContext.Imgs.Remove(img);
                 }
-            }
-            _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
 
+
+
+                if (filecollect.Length > 0)
+                {
+                    string uniqueName;
+                    bool isMainImg = true;
+                    foreach (var file in filecollect)
+                    {
+                        string extension = "";
+                        if (file.ContentType.Contains('/'))
+                        {
+                            extension = file.ContentType.Substring(file.ContentType.LastIndexOf('/') + 1);
+
+                        }
+                        else
+                        {
+                            extension = file.FileName.Substring(file.Name.LastIndexOf('.') + 1);
+                        }
+                        uniqueName = System.Guid.NewGuid().ToString() + '.' + extension;
+
+                        string path = @".\Ads_Img\" + uniqueName;
+                        using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
+                        var newImg = new Img { Name = uniqueName, Ad = ad, IsMainImg = isMainImg };
+                        if (isMainImg == true)
+                        {
+                            isMainImg = !isMainImg;
+                        }
+                        _dbContext.Imgs.Add(newImg);
+
+                    }
+                }
+                _dbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                return Json(false);
+            }
 
             return Json(true);
         }
@@ -243,10 +249,24 @@ namespace JBS_API.Controllers
                 }
             }
 
-
-
-
             return Json(filecollect.Length);
+        }
+        [HttpDelete]
+        [Route("DeleteAd")]
+        public JsonResult DeleteAd(int idAd)
+        {
+            var ad = _dbContext.Ads.FirstOrDefault( a => a.Id == idAd );
+
+            if(ad == null)
+            {
+                return Json(new { isError = true, Message = "Нет объекта на удаление" });
+            }
+
+            _dbContext.Ads.Remove(ad);
+            _dbContext.SaveChanges();
+
+
+            return Json(new { isError = false });
         }
     }
 }

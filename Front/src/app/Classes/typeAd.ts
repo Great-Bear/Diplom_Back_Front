@@ -3,6 +3,7 @@ export class TypeAd {
 
 
     public Categories = [
+        "",
         "Другое",
         "Samsung",
         "Apple",
@@ -10,6 +11,7 @@ export class TypeAd {
         "Nike",
     ]
     public Brends = [
+        "",
         "Другое",
         "Samsung",
         "Apple",

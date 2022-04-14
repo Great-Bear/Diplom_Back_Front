@@ -50,9 +50,7 @@ export class EditAdComponent implements OnInit {
 
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
-
                     this.requData = res;
-                    console.log(res);
 
                     if(this.requData.IsError == true){
                       console.log("error");
@@ -89,8 +87,7 @@ export class EditAdComponent implements OnInit {
                        res => {
                          if(res instanceof Array){
                           this.typeAd.Brends = res;
-                          this.requData.Brend = this.requData.idBrend;
-                          console.log()
+                          this.requData.Brend = this.requData.idBrend-1;
                          }
                        }
                       )
@@ -163,14 +160,6 @@ export class EditAdComponent implements OnInit {
       for(let i = 0; i < this.forLoadFiles.length; i++){
         form.append("filecollect", this.forLoadFiles[i] )
       }
-     /*
-
-      this.requData.Title = "Кокос";
-      this.requData.Describe = "Кокос белый внутри";
-      this.requData.Category = "1";
-      this.requData.Brend = "1";
-      this.requData.Price = "12";
-      */
 
       let reqData : RequEditAd =  new RequEditAd();
       reqData.title = this.requData.title;
@@ -178,12 +167,15 @@ export class EditAdComponent implements OnInit {
       reqData.price = this.requData.price;
       reqData.idBrend = this.requData.Brend;
       reqData.idAd = this.activateRoute.snapshot.params['id'];
-
+      console.log(this.requData.Brend);
 
       this.httpService.editAds(form, reqData).subscribe(res => {
        if(res == true){
         this.route.navigate([`/card-ad/${reqData.idAd}`]);
+        console.log(res);
        }
+      }, err => {
+        console.log(err);
       }); 
 
   }

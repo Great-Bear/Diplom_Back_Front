@@ -10,7 +10,7 @@ namespace JBS_API.DB_Models
         public string Describe { get; set; }
         public decimal Price { get; set; }
 
-        public DateTime TimeEnd { get; set; }
+        public DateTime TimeEnd { get; set; } = DateTime.Now.AddMonths(1);
 
         public int UserId { get; set; }
         public User User { get; set; }

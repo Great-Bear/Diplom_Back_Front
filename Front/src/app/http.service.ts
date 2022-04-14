@@ -91,6 +91,11 @@ export class HttpService {
           .pipe(res => {return res},err => {return err});
   }
 
+  deleteAd(idAd : number){
+    return this.http.delete(this.URL + `/Ad/DeleteAd?idAd=${idAd}`)
+    .pipe( res => { return res; }, err => { return err } )
+  }
+
   checkList(data : any){
     return this.http.post("https://localhost:44398/Ad/CheckListImg",data)
     .pipe(res => {return res;}, err => {return err}  )
