@@ -162,5 +162,14 @@ export class HttpService {
     }
 
 
+    CountPaginPage(){
+      return this.http.get(this.URL + "/Ad/CountPaginPage")
+      .pipe(res => {
+        return res;
+      }, err => {
+        return err;
+      }
+      )
+    }
 
 }

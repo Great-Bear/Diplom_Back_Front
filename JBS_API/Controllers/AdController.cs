@@ -230,6 +230,33 @@ namespace JBS_API.Controllers
             return Json(true);
         }
 
+        private int paginationStep = 16;
+        [HttpGet]
+        [Route("GetAdsPagination")]
+        public JsonResult GetAdsPagination(int pagePagination )
+        {
+            pagePagination--;
+
+            IQueryable<Ad> res;
+            try
+            {
+                res = _dbContext.Ads.Skip(paginationStep * (pagePagination)).Take(paginationStep);
+                return Json(new { data = res, count = res.Count() });
+            }
+            catch (Exception ex)
+            {
+                return Json( new { IsError = true, error = ex.Message } );
+            }
+
+            return Json(res);
+        }
+        [HttpGet]
+        [Route("CountPaginPage")]
+        public JsonResult CountPaginPage()
+        {
+            return Json( Math.Ceiling((float)_dbContext.Ads.Count() / paginationStep) );
+        }
+
 
         [HttpPost]
         [Route("CheckListImg")]

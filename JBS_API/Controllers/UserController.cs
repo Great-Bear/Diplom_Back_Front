@@ -23,12 +23,12 @@ namespace JBS_API.Controllers
         {
             _dbContext = db;
             PopulateDb();
-    }
+        }
 
-        private void PopulateDb()
+        [Route("PopulateDb")]
+        [HttpPost]
+        public async void PopulateDb()
         {
-
-
             if (_dbContext.Roles.Count() == 0)
             {
                 Role role1 = new Role { Name = "Admin" };
@@ -38,10 +38,7 @@ namespace JBS_API.Controllers
                 _dbContext.Roles.Add(role2);
                 _dbContext.SaveChanges();
             }
-            else
-            {
-                return;
-            }
+
 
             if (_dbContext.Users.Count() == 0)
             {
@@ -110,12 +107,12 @@ namespace JBS_API.Controllers
             var category2 = _dbContext.Categories.FirstOrDefault(c => c.Id == 1);
             var brend2 = _dbContext.Brends.FirstOrDefault(c => c.Id == 1);
 
-            
+
 
             string[] files = Directory.GetFiles(@"C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\Imgs_Db_Fill\");
             string uniqueName = String.Empty;
 
-            
+
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -144,11 +141,11 @@ namespace JBS_API.Controllers
 
                 for (int j = 0; j < files.Length; j++)
                 {
-                    if(j == i)
+                    if (j == i)
                     {
                         j++;
                     }
-                    if(j == files.Length)
+                    if (j == files.Length)
                     {
                         break;
                     }
@@ -162,13 +159,12 @@ namespace JBS_API.Controllers
                     fileInf.CopyTo(path, true);
 
 
-                     newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = false };
+                    newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = false };
                     _dbContext.Imgs.Add(newImg);
                     _dbContext.SaveChanges();
                 }
             }
             _dbContext.SaveChanges();
-
         }
 
         [Route("register")]
