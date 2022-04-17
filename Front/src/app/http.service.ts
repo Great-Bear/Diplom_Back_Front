@@ -162,8 +162,11 @@ export class HttpService {
     }
 
 
-    CountPaginPage(){
-      return this.http.get(this.URL + "/Ad/CountPaginPage")
+    GetAdsPagination(page : number, idCat : number, idBrend : number){
+      console.log("get")
+      return this.http.get(this.URL + `/Ad/GetAdsPagination?pagePagination=${page}
+      &idCategory=${idCat}
+      &idBrend=${idBrend}`)
       .pipe(res => {
         return res;
       }, err => {

@@ -58,7 +58,6 @@ export class MyadsComponent implements OnInit {
               res => {         
                const urlToBlob = window.URL.createObjectURL(res)  
                this.adsCol[colIndex][rowIndex].url = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
-
               }
            );
           }
@@ -81,13 +80,13 @@ export class MyadsComponent implements OnInit {
   deleteAd(event : any){
     let isDelete = confirm("Вы хотите удалить объявление?");
     if(isDelete){
-    /*  this.httpService.deleteAd(event.target.getAttribute("id"))
+      this.httpService.deleteAd(event.target.getAttribute("id"))
       .subscribe(res => {
         let answer : any = res;
         if(answer.isError == false){
           this.adsCol[ Math.ceil( this.adsCol.length / this.itemInRow ) ]
         }
-      })*/
+      })
 
       let idAd_db = Number.parseInt(event.target.getAttribute("id") );
       let index = 0; 

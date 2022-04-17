@@ -104,8 +104,8 @@ namespace JBS_API.Controllers
             _dbContext.SaveChanges();
 
             var userOwner = _dbContext.Users.FirstOrDefault(u => u.FirstName == "Great");
-            var category2 = _dbContext.Categories.FirstOrDefault(c => c.Id == 1);
-            var brend2 = _dbContext.Brends.FirstOrDefault(c => c.Id == 1);
+            // var category2 = _dbContext.Categories.FirstOrDefault(c => c.Id == 1);
+            // var brend2 = _dbContext.Brends.FirstOrDefault(c => c.Id == 1);
 
 
 
@@ -114,6 +114,8 @@ namespace JBS_API.Controllers
 
 
 
+            var random = new Random();
+
             for (int i = 0; i < files.Length; i++)
             {
                 Ad newAd = new Ad
@@ -121,8 +123,8 @@ namespace JBS_API.Controllers
                     Title = $"Товар {i + 1}",
                     Describe = "Описание товара это Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут",
                     User = userOwner,
-                    Category = category2,
-                    Brend = brend2,
+                    CategoryId = random.Next(1,Categories.Length - 1),
+                    BrendId = random.Next(1,Brends.Length - 1),
                     Price = 1235,
                 };
 

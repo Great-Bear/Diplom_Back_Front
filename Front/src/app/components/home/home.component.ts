@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TypeAd } from 'src/app/Classes/typeAd';
 import { HttpService } from 'src/app/http.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 
 @Component({
   selector: 'app-home',
@@ -13,35 +16,32 @@ export class HomeComponent implements OnInit {
 
   public countPage = Array();
 
-  public linePagin = Array(10);
-
+  public linePagin = Array();
+  public countLinePagin = 10;
   public activePage : number = 1 ;
 
+  public Ads = Array();
+  public imgs = Array();
+
+  public activeCat = {
+    object : null,
+    id : 0
+  }
+
+  public activeBrend = {
+    object : null,
+    id : 0
+  }
+
   public isLeftDis = true;
-  public isRightDis = false;
+  public isRightDis = true;
 
   constructor(
-    private httpService : HttpService
+    private httpService : HttpService,
+    private sanitizer: DomSanitizer,
   ) {
    
-    this.httpService.CountPaginPage().subscribe(
-      res => {
-        let count = Number(res.toString());
-
-        for(let i = 1 ; i <= count; i++){
-          this.countPage.push(i);
-        }
-    
-        let index = 0;
-        for(let i = this.activePage - 1 ; i < this.linePagin.length; i++ ){
-          this.linePagin[index++] = this.countPage[i] ;
-        }
-        
-      } 
-    )
-
-
-    
+    this.LoadNewItem();
 
     this.httpService.getCategories().subscribe( 
       res => {
@@ -66,7 +66,6 @@ export class HomeComponent implements OnInit {
     if(idPag == ""){
       return;
     }
-
     if(idPag == 0 ){
       this.activePage--;
     }
@@ -76,15 +75,11 @@ export class HomeComponent implements OnInit {
     else{
       this.activePage = idPag;
     }
-
-
      
       let indexActivePage = this.linePagin.findIndex( i => i == this.activePage);
       let rightBorderPag = this.linePagin.length - 1;
       let leftBorderPag = 0;
       let stepPag = this.linePagin.length - 1;
-
-
 
 
       if(indexActivePage == rightBorderPag){ 
@@ -108,18 +103,121 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    this.UpdatePagination();
+    this.LoadNewItem();
   }
    
   UpdatePagination(){
-    this.isLeftDis = this.activePage > 1 ? false : true;
-    this.isRightDis = this.activePage < this.linePagin.length + 1 ? false : true;
+      let count = this.countPage.length;
+  
+      if(count < 10){
+        this.countLinePagin = count
+        this.linePagin = new Array(count)
+      }
+      else{
+        this.countLinePagin = 10
+        this.linePagin = new Array(10)
+      }
+      
 
-   for(let i = 0; i < this.linePagin.length ; i++ ){
-    this.linePagin[i] = this.countPage[this.indexStartPag + i];
+        let index = 0;
+        let reserveCount = Number(this.indexStartPag) + Number(this.linePagin.length);
+
+        for(let i = this.indexStartPag ; i < reserveCount ; i++ ){
+          this.linePagin[index++] = this.countPage[i] ;
+        }
+
+        this.isLeftDis = this.activePage > 1 ? false : true;
+        this.isRightDis = this.activePage < this.countPage.length ? false : true;
+
   }
 
+  public LoadMainImgs(){
+
+    for(let i = 0; i < this.Ads.length; i++){
+      this.httpService.getMainPicture(this.Ads[i].id, this.imgs[i] ).subscribe(
+        res => {         
+        const urlToBlob = window.URL.createObjectURL(res)  
+        this.imgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
+        }
+    );
   }
+  }
+
+  public ChangeCheckBoxCat(event : any){
+    let idCat = event.target.getAttribute("id");
+    console.log(idCat)
+    if(idCat != null){
+      idCat++;
+      if(idCat == this.activeCat.id){
+        this.activeCat.object == null;
+        this.activeCat.id = 0;
+      }
+      else{
+          if(this.activeCat.object != null){
+            let chekBox = this.activeCat.object as HTMLInputElement;
+            chekBox.checked = false;
+          }
+          this.activeCat.id = idCat;
+        
+          this.activeCat.object = event.target;
+          this.activePage = 1;
+          this.indexStartPag = 0;     
+
+    }
+    this.LoadNewItem();
+  }
+}
+
+
+public ChangeCheckBoxBrend(event : any){
+  let idBrend =  event.target.getAttribute("id");
+
+  if(idBrend != null){
+    idBrend %= 100;
+    idBrend++;
+    if(idBrend == this.activeBrend.id){
+      this.activeBrend.object == null;
+      this.activeBrend.id = 0;
+    }
+    else{
+        if(this.activeBrend.object != null){
+          let chekBox = this.activeBrend.object as HTMLInputElement;
+          chekBox.checked = false;
+        }
+        this.activeBrend.id = idBrend;
+      
+        this.activeBrend.object = event.target;
+        this.activePage = 1;
+        this.indexStartPag = 0;     
+
+  }
+  this.LoadNewItem();
+}
+}
+
+  public LoadNewItem(){
+    this.httpService.GetAdsPagination(
+      this.activePage,
+      this.activeCat.id,
+      this.activeBrend.id ).subscribe(
+      res => {
+        let response : any = res;
+        let count = Number(response.countPages.toString());
+
+        this.countPage = new Array();
+        for(let i = 1 ; i <= count; i++){
+          this.countPage.push(i);
+        }
+
+        this.Ads = response.data;
+        this.imgs = new Array(count);
+        this.LoadMainImgs();
+        this.UpdatePagination();      
+      } 
+    )
+  }
+
+
   ngOnInit(): void {
   }
 

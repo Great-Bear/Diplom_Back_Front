@@ -20,7 +20,10 @@
             <div id="filtersList" >    
                 <ul>              
                     <li *ngFor="let cat of typeAd.Categories; let i = index;" >
-                        <input type="checkbox" id="{{i}}" > <span> {{cat}}</span>
+                    <label for="{{i}}" (click)="ChangeCheckBoxCat($event)" >
+                        <input type="checkbox" id="{{i}}">
+                         <span> {{cat}}</span>
+                    </label>
                     </li>         
                 </ul>      
         </div>
@@ -44,19 +47,21 @@
            <div id="filtersList" >    
             <ul>
                 <li *ngFor="let brend of typeAd.Brends; let i = index;" >
-                    <input type="checkbox" id="{{i}}" > <span> {{brend}} </span> 
-                </li>                  
+                    <label for="{{i+100}}" (click)="ChangeCheckBoxBrend($event)" >
+                        <input type="checkbox" id="{{i+100}}" >
+                         <span> {{brend}} </span> 
+                    </label>
+                </li>              
             </ul>      
     </div>
 
-
 </div>
-
     <div id="PlaceAdvertising">
         <div class="arrow arrow-left"></div> 
         <div class="arrow arrow-right"></div> 
+       
     </div>
-
+   
 <div id="VipBlock">
     <span id="VipTitle">VIP-обьявления</span>
     <div id="containerVipAds">
@@ -84,6 +89,7 @@
                 <span class="price">99.000 грн</span>
                 <div class="heart"></div>             
             </div>
+            <!--<a name="ads"> </a>-->
     </div>
 </div>
 <div id="GeneralAdsBlock">
@@ -93,129 +99,41 @@
         <span>Рекомендованные</span>
     </div>
         <div id="containerGeneralAds">
+
+            <div class="alert alert-success" role="alert" *ngIf="countPage.length == 0" >
+                <h4 class="alert-heading"> Объявлений по вашему запросу не найдено :(</h4>
+                <p>Проверьте правильность написания запроса или измените параметры фильтрации</p>
+              </div>
+
             <div class="ItemsLine">
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>             
-                </div>
+                <ng-container *ngFor="let ad of Ads; let i = index" >
+                    <div class="AbsItem" id="{{ad.id}}"  >
+                        <img [src]="imgs[i]" alt="">
+                        <div class="descrAbs">{{ad.title | slice:0:35 }} </div>
+                        <span class="price">{{ad.price}} грн</span>
+                        <div class="heart"></div>
+                    </div>  
+                </ng-container>     
             </div>
-            <div class="ItemsLine">
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>             
-                </div>
-            </div>
-            <div class="ItemsLine">
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>             
-                </div>
-            </div>
-            <div class="ItemsLine">
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>
-                </div>
-                <div class="AbsItem">
-                    <img src="" alt="">
-                    <div class="descrAbs">Очень длинное название товара</div>
-                    <span class="price">99.000 грн</span>
-                    <div class="heart"></div>             
-                </div>
-            </div>       
     </div>
-    <div id="paginationBlock" (click)="setActivaPagin($event)" >
+    <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="countPage.length > 0" >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="isLeftDis" >
-                <span class="page-link"  id="0">Previous</span>
+                <a class="page-link" href="/home#ads"  id="0">Previous</a>
               </li>
 
             <ng-container *ngFor="let numPage of linePagin;let i = index">
               <li class="page-item active" *ngIf="numPage == activePage" >
-                  <span class="page-link" id="{{numPage}}" >{{numPage}}</span>         
+                  <a class="page-link" href="/home#ads" id="{{numPage}}" >{{numPage}}</a>         
                 </li>
 
                 <li class="page-item" *ngIf="numPage != activePage" >
-                    <span class="page-link" id="{{numPage}}" >{{numPage}}</span>         
+                    <a class="page-link" href="/home#ads" id="{{numPage}}" >{{numPage}}</a>         
                   </li>
             </ng-container>
 
               <li class="page-item" [class.disabled]="isRightDis" >               
-                <span class="page-link" id="{{countPage.length+2}}" >Next</span>
+                <a class="page-link" href="/home#ads" id="{{countPage.length+2}}" >Next</a>
               </li>
             </ul>
     </div>   

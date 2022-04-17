@@ -233,28 +233,45 @@ namespace JBS_API.Controllers
         private int paginationStep = 16;
         [HttpGet]
         [Route("GetAdsPagination")]
-        public JsonResult GetAdsPagination(int pagePagination )
+        public JsonResult GetAdsPagination(int pagePagination, int idCategory,int idBrend )
         {
             pagePagination--;
+            int countItems = 0;
 
-            IQueryable<Ad> res;
+            IQueryable<Ad> res = null;
             try
             {
-                res = _dbContext.Ads.Skip(paginationStep * (pagePagination)).Take(paginationStep);
-                return Json(new { data = res, count = res.Count() });
+                if(idCategory != 0 && idBrend != 0)
+                {
+                    res = _dbContext.Ads.Where(a => a.CategoryId == idCategory 
+                    && a.BrendId == idBrend);
+                }
+                else if(idCategory != 0)
+                {
+                    res = _dbContext.Ads.Where(a => a.CategoryId == idCategory);
+                }
+                else if(idBrend != 0)
+                {
+                    res = _dbContext.Ads.Where(a => a.BrendId == idBrend);
+                }
+
+                if(idCategory == 0 && idBrend == 0)
+                {
+                    res = _dbContext.Ads;
+                }
+
+                countItems = res.Count();
+                res = res.Skip(paginationStep * (pagePagination)).Take(paginationStep);
+
             }
             catch (Exception ex)
             {
                 return Json( new { IsError = true, error = ex.Message } );
             }
 
-            return Json(res);
-        }
-        [HttpGet]
-        [Route("CountPaginPage")]
-        public JsonResult CountPaginPage()
-        {
-            return Json( Math.Ceiling((float)_dbContext.Ads.Count() / paginationStep) );
+            return Json( new { 
+                data = res, 
+                countPages = Math.Ceiling((float)countItems / paginationStep) });
         }
 
 
