@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TypeAd } from 'src/app/Classes/typeAd';
 import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 
 
@@ -23,6 +24,9 @@ export class HomeComponent implements OnInit {
   public Ads = Array();
   public imgs = Array();
 
+  public VipAds = Array();
+  public VipImgs = Array();
+
   public activeCat = {
     object : null,
     id : 0
@@ -39,6 +43,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private httpService : HttpService,
     private sanitizer: DomSanitizer,
+    private route : Router
   ) {
    
     this.LoadNewItem();
@@ -143,6 +148,19 @@ export class HomeComponent implements OnInit {
   }
   }
 
+  
+  public LoadVipMainImgs(){
+
+    for(let i = 0; i < this.VipAds.length; i++){
+      this.httpService.getMainPicture(this.VipAds[i].id, this.VipImgs[i] ).subscribe(
+        res => {         
+        const urlToBlob = window.URL.createObjectURL(res)  
+        this.VipImgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
+        }
+    );
+  }
+  }
+
   public ChangeCheckBoxCat(event : any){
     let idCat = event.target.getAttribute("id");
     console.log(idCat)
@@ -196,6 +214,7 @@ public ChangeCheckBoxBrend(event : any){
 }
 
   public LoadNewItem(){
+    this.LoadVipAds();
     this.httpService.GetAdsPagination(
       this.activePage,
       this.activeCat.id,
@@ -217,6 +236,25 @@ public ChangeCheckBoxBrend(event : any){
     )
   }
 
+  LoadVipAds(){
+    this.httpService.GetVipAds()
+    .subscribe( res => {
+     
+      let ads : any = res;
+      for(let i = 0; i < ads.length; i++ ){
+        this.VipAds[i] = ads[i];
+      }
+      this.LoadVipMainImgs();
+    }, 
+    err => {
+      console.log("error server");
+    }
+    )
+  }
+
+  watchAd(event : any){
+    this.route.navigate([`/card-ad/${event}`]);
+  }
 
   ngOnInit(): void {
   }

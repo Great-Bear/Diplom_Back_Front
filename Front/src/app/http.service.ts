@@ -163,7 +163,6 @@ export class HttpService {
 
 
     GetAdsPagination(page : number, idCat : number, idBrend : number){
-      console.log("get")
       return this.http.get(this.URL + `/Ad/GetAdsPagination?pagePagination=${page}
       &idCategory=${idCat}
       &idBrend=${idBrend}`)
@@ -173,6 +172,17 @@ export class HttpService {
         return err;
       }
       )
+    }
+
+    GetVipAds(){
+      return this.http.get(this.URL + "/VipAd/GetVipAds")
+      .pipe( res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+       )
     }
 
 }

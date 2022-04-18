@@ -10,6 +10,7 @@ namespace JBS_API
         public DbSet<Ad> Ads { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brend> Brends { get; set; }
+        public DbSet<VipAd> VipAds { get; set; }
         public DbSet<Img> Imgs { get; set; }
 
         public DbContext(DbContextOptions<DbContext> options)

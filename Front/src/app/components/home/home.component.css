@@ -290,3 +290,8 @@
     margin: auto;
     user-select: none;
 }
+
+.carousel-item img
+{
+    height: 20rem;
+}

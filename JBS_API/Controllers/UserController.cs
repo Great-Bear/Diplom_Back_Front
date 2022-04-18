@@ -164,9 +164,27 @@ namespace JBS_API.Controllers
                     newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = false };
                     _dbContext.Imgs.Add(newImg);
                     _dbContext.SaveChanges();
+
                 }
             }
-            _dbContext.SaveChanges();
+            
+            if(_dbContext.VipAds.Count() == 0)
+            {
+                var ArrayAds = _dbContext.Ads.ToArray();
+                    for (int i = 0; i < 10; i++)
+                    {
+                            var newVip = new VipAd();
+                            newVip.Id = ArrayAds[i].Id;
+                            newVip.countShows = 10;
+                            _dbContext.VipAds.Add(newVip);
+                            _dbContext.SaveChanges();
+                    }
+
+            }
+
+
+
+
         }
 
         [Route("register")]

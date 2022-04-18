@@ -21,6 +21,8 @@ namespace JBS_API.DB_Models
         public int BrendId { get; set; }
         public Brend Brend { get; set; }
 
+
+
         public ICollection<Img> Imgs { get; set; }
 
 
