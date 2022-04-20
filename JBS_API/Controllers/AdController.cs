@@ -106,7 +106,7 @@ namespace JBS_API.Controllers
 
                 _dbContext.SaveChanges();
 
-                return Json("Товар добавлен");           
+                return Json(newAd.Id);           
               }
               catch (Exception ex)
               {

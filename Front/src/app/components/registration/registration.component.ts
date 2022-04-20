@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { Router } from '@angular/router';
 import { RegResp } from 'src/app/Classes/reg-resp';
+import { CookieService } from 'ngx-cookie-service';
+import { Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-registration',
@@ -10,22 +12,23 @@ import { RegResp } from 'src/app/Classes/reg-resp';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private httpSevice: HttpService, private router: Router) { }
+  constructor(private httpSevice: HttpService, private router: Router,
+              private cookieService : CookieService) { }
 
   loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
   lowCaseRgExp : RegExp = new RegExp("[a-z]")
   upCaseRegExp : RegExp = new RegExp("[A-Z]")
-  //   specSymRegExp : RegExp = new RegExp("\W"); Such is doesn't work
   specSymRegExp : RegExp = new RegExp("[^A-Za-z0-9_]");
 
 
-  login : string = "behic@e4619bepureme.com";
+
+  login : string = "";
   loginErrMsg : string = "";
 
-  passwd : string = "12345Qq@";
+  passwd : string = "";
   passwdErrMsg : string = "";
 
-  passwd2 : string = "12345Qq@";
+  passwd2 : string = "";
   passwd2ErrMsg : string = "";
 
 
@@ -34,10 +37,10 @@ export class RegistrationComponent implements OnInit {
 
   sendData(){
 
-    if(this.ValidetData() == false){
+  /*  if(this.ValidetData() == false){
       console.log("err Validate");
       return;
-    }
+    } */
 
 
     const body = { login : this.login, password : this.passwd }
@@ -50,6 +53,7 @@ export class RegistrationComponent implements OnInit {
                 console.log(resData);
 
                 if(resData.error == null){
+                  this.cookieService.set( "idUser", resData.id)
                   this.router.navigate(['/home']);
                 }
 

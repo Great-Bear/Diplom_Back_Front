@@ -26,21 +26,31 @@ namespace JBS_API.Controllers
 
             var img = _dbContext.Imgs.FirstOrDefault(i => i.AdId == idAd 
                                                             && i.IsMainImg == true);
+            string mainImgName;
 
-            string mainImgName = @".\Ads_Img\" + img.Name;
-
-            foreach (var item in Directory.GetFiles(@".\Ads_Img\"))
+            if (img != null)
             {
-                if (item == mainImgName)
-                {
-                    int startCut = item.LastIndexOf('.') + 1;
-                    string expansion = item.Substring(startCut, item.Length - startCut);
-                    byte[] mas = System.IO.File.ReadAllBytes( item );
-                    string file_type = $"application/{expansion}";
-                    string file_name = $"img.{expansion}";
-                    return File(mas, file_type, file_name);
-                }
+                mainImgName = @".\Ads_Img\" + img.Name;
+               
             }
+            else
+            {
+                mainImgName = @".\Ads_Img\" + "emptyImg.png";
+            }
+
+                foreach (var item in Directory.GetFiles(@".\Ads_Img\"))
+                {
+                    if (item == mainImgName)
+                    {
+                        int startCut = item.LastIndexOf('.') + 1;
+                        string expansion = item.Substring(startCut, item.Length - startCut);
+                        byte[] mas = System.IO.File.ReadAllBytes( item );
+                        string file_type = $"application/{expansion}";
+                        string file_name = $"img.{expansion}";
+                        return File(mas, file_type, file_name);
+                    }
+                }
+ 
             return null;
        }
 
@@ -52,7 +62,6 @@ namespace JBS_API.Controllers
             {          
                 var imgsAd = _dbContext.Imgs.Where(i => i.AdId == idAd ).ToArray();
                 
-
                 for (int i = 0; i < imgsAd.Length; i++)
                 {
                     if(i == numeberImg)

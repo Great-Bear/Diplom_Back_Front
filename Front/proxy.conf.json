@@ -1,7 +1,9 @@
 {
     "/api/": {
-    "target": "https://jbsapi.azurewebsites.net",
+    "target": "https://jbsapity2021.azurewebsites.net",
       "secure": true,
       "changeOrigin": false
   }
 }
+
+

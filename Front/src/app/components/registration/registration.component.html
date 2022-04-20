@@ -29,18 +29,18 @@
     <div id="formUser">
         <form  >
             <div class="blockField" >
-                <label for="login" class="labelText" >Укажите ваш email или номер телефона</label>
+                <label for="login" class="labelText" >Укажите ваш email</label>
                 <input type="text" name="login" id="login" [(ngModel)]="login" >  
                 <span class="errorMessage">{{loginErrMsg}}</span>       
             </div>
             <div class="blockField">
-                <label for="login" class="labelText" >Введите свой пароль</label>
-                <input type="text" name="password" [(ngModel)]="passwd" >
+                <label for="password" class="labelText" >Введите свой пароль</label>
+                <input type="password" name="password"  [(ngModel)]="passwd" >
                 <span class="errorMessage" >{{passwdErrMsg}}</span>   
             </div>
             <div class="blockField">
-                <label for="login" class="labelText" >Повторите пароль</label>
-                <input type="text" name="password2" [(ngModel)]="passwd2" >
+                <label for="password2" class="labelText" >Повторите пароль</label>
+                <input type="password" name="password2" [(ngModel)]="passwd2" >
                 <span class="errorMessage" >{{passwd2ErrMsg}}</span>   
             </div>
 

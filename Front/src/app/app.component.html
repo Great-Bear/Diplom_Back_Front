@@ -15,14 +15,16 @@
                         <div>Язык</div>
                         <div class="dropdown">
                             <span class="dropbtn">Мой профиль</span>
-                            <div class="dropdown-content">
-                                <a routerLink="/my-ads"> Мои обьявление</a>
-                                <a href="#">Сообщения</a>
-                                <a href="#">Настройки</a>
-                                <span>Избранные</span>
-                                <a href="#">Объявления</a>
-                                <a href="#">Выйти</a>
-                              </div>
+                            <ng-container *ngIf="!isAnonimUser" > 
+                                <div class="dropdown-content">
+                                    <a routerLink="/my-ads"> Мои обьявление</a>
+                                <!-- <a >Сообщения</a>
+                                    <a >Настройки</a>
+                                    <span>Избранные</span>
+                                    <a href="#">Объявления</a>-->
+                                    <a (click)="LogOut()" >Выйти</a>
+                                </div>
+                            </ng-container>
                         </div>
 
                         <div routerLink="create-ad" >Подать обьявление</div>     
@@ -30,16 +32,9 @@
                         
                     </div> 
                 </div>
-                
-                  <!--      <a routerLink="/registration" routerLinkActive="active" >Зарегистрироваться</a> | 
-                        <a routerLink="/authorization" routerLinkActive="active"  >Ввойти</a> | 
-                    <a routerLink="/home" routerLinkActive="active" >Главная</a>  
-                -->          
+                         
         </div>
 
     </nav>
 
 <router-outlet></router-outlet>
-
-
-<footer></footer>

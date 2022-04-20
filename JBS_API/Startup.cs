@@ -41,12 +41,13 @@ namespace JBS_API
             var builder = new MySqlConnectionStringBuilder
             {
                 Server = "jbsserver.mysql.database.azure.com",
-                Database = "JBS",
+                Database = "jbs",
                 UserID = "jbsadmin",
                 Password = "123456789@Q",
                 SslMode = MySqlSslMode.Required,
             };
           //  con = builder.ConnectionString;
+          
 
 
             services.AddDbContext<DbContext>(options => options.UseMySQL(con));
@@ -74,17 +75,12 @@ namespace JBS_API
 
             app.UseRouting();
 
-            app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-);
-
             app.UseAuthorization();
 
-
-           /* app.UseCors(corsPolicyBuilder => corsPolicyBuilder.WithOrigins("http://localhost:4200/authorization")
+            app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader() );*/
+              .AllowAnyHeader());
+
 
             app.UseEndpoints(endpoints =>
             {

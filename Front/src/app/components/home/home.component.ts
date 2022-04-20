@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
   public VipAds = Array();
   public VipImgs = Array();
 
+  private emptyImgUrl  = "../assets/imgs/emptyImg.png";
+
   public activeCat = {
     object : null,
     id : 0
@@ -140,9 +142,12 @@ export class HomeComponent implements OnInit {
 
     for(let i = 0; i < this.Ads.length; i++){
       this.httpService.getMainPicture(this.Ads[i].id, this.imgs[i] ).subscribe(
-        res => {         
+        res => {          
         const urlToBlob = window.URL.createObjectURL(res)  
-        this.imgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
+        this.imgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);              
+        },
+        err => {
+          this.imgs[i] = this.emptyImgUrl;
         }
     );
   }
@@ -156,6 +161,9 @@ export class HomeComponent implements OnInit {
         res => {         
         const urlToBlob = window.URL.createObjectURL(res)  
         this.VipImgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
+        },
+        err =>{
+          this.imgs[i] = this.emptyImgUrl;
         }
     );
   }

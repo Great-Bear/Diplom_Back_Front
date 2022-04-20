@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/http.service';
 import { CookieService  } from 'ngx-cookie-service'; 
 import { TypeAd } from 'src/app/Classes/typeAd';
 import { RequCreateAd } from 'src/app/Classes/Request/requ-create-ad';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class CreateAdComponent implements OnInit {
 
 
   constructor(private httpService : HttpService,
-              private cookieService : CookieService) {
+              private cookieService : CookieService,
+              private route : Router) {
                 this.requData.idUser = this.cookieService.get("idUser");
 
                for(let i = 0; i < this.urlImgs.length; i++){
@@ -118,14 +120,14 @@ export class CreateAdComponent implements OnInit {
         form.append("filecollect", this.requData.Files[i] )
       }
 
-      this.requData.Title = "Кокос";
+    /*  this.requData.Title = "Кокос";
       this.requData.Describe = "Кокос белый внутри";
       this.requData.Category = "1";
       this.requData.Brend = "1";
-      this.requData.Price = "12";
+      this.requData.Price = "12";*/
 
       this.httpService.createAds(form, this.requData).subscribe(res => {
-        console.log(res);
+        this.route.navigate([`/card-ad/${res}`]);
       });
   }
 

@@ -39,7 +39,7 @@ export class HttpService {
       } )
   }
 
-  // https://jbsapicors2.azurewebsites.net
+  // https://apijbs.azurewebsites.net
 //   https://localhost:44398
   private URL : string = "https://localhost:44398";
 
@@ -56,7 +56,7 @@ export class HttpService {
 }
 
   authUser( data : object ){
-    return this.http.post( this.URL + "/User/Login", JSON.stringify( data ), httpOptions )
+    return this.http.post( this.URL + "/User/login", JSON.stringify( data ), httpOptions )
                 .pipe( res => { return res; },                
                   catchError(err => {   
                     return err.message;

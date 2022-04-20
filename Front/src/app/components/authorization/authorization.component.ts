@@ -14,8 +14,11 @@ export class AuthorizationComponent implements OnInit {
   constructor(private httpSevice: HttpService, private router : Router,
               private cookieService: CookieService ) { }
 
-  login : string = "Bogdan";
-  passwd : string = "1234";
+  login : string = "";
+  passwd : string = "";
+
+  //  login : string = "Bogdan";
+ //  passwd : string = "1235";
 
   isMemberMe : boolean = false;
 

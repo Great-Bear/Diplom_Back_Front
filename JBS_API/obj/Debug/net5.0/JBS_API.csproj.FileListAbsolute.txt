@@ -101,8 +101,6 @@ C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Google.Protobu
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\K4os.Compression.LZ4.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\K4os.Compression.LZ4.Streams.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\K4os.Hash.xxHash.dll
-C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
@@ -110,7 +108,6 @@ C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.Open
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\MySql.Data.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Ubiety.Dns.Core.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\ZstdNet.dll
-C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\MySql.Data.EntityFrameworkCore.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -133,3 +130,6 @@ C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\obj\Debug\net5.0\refint\JBS_API
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\obj\Debug\net5.0\JBS_API.pdb
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\obj\Debug\net5.0\JBS_API.genruntimeconfig.cache
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\obj\Debug\net5.0\ref\JBS_API.dll
+C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\MySql.EntityFrameworkCore.dll
+C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll

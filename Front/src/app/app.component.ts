@@ -10,20 +10,53 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'jubuse-app';
   abs: JSON | any;
+
+  isAnonimUser = true;
   
   constructor(private cookieService : CookieService,
               private router : Router) {}
 
-  ngOnInit() {
-   if( this.cookieService.get("idUser") == "" ||
-       this.cookieService.get("idUser") == null){
-        this.router.navigate(['/authorization'])
-   }
+ngOnInit(){
 
-   if(this.cookieService.get("rememberMe") == "no" || 
+  console.log("init")
+
+}
+
+  CheckCookie(){
+
+    console.log(this.cookieService.getAll());
+
+    if( this.cookieService.get("idUser") == "" &&
+     this.cookieService.get("idUser") == null){
+     this.router.navigate(['/registration'])
+    }
+    else{
+      if(this.cookieService.get("rememberMe") == "no" || 
       this.cookieService.get("rememberMe") == "" ){
         this.router.navigate(["registration"])
-   }
+      }
+      else{
+        this.isAnonimUser = false;
+      }
+    }
+    
+  }
+
+  LogOut(){
+    this.cookieService.set("rememberMe","no");
+    this.cookieService.set("idUser","")
+    this.router.navigate(["/registration"]);
+    this.isAnonimUser = true;
+  }
+
+  
+  ngDoCheck() {    
+    this.CheckCookie();
+  }
+
+
+  private log(msg: string) {
+      console.log(msg);
   }
 
 }
