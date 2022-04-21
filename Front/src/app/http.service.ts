@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, ObservableInput } from 'rxjs';
-import axios, { Axios } from 'axios';
-import { AuthUserResponse } from "src/app/Classes/auth-user-response";
 import { RequCreateAd } from './Classes/Request/requ-create-ad';
 import { RequEditAd } from './Classes/Request/requ-edit-ad';
-
 import { catchError} from 'rxjs/operators';
 
 
@@ -21,22 +17,12 @@ const httpOptions = {
 })
 export class HttpService {
 
-  cashCategory : string[] = new Array();
-
   constructor(private http: HttpClient) 
   {
    
   }
 
   ngOnInit(): void {
-    const sbr =  this.http.get(this.URL + "/Tools/categories").pipe(
-      res => { return res }, err => { return err })
-      sbr.subscribe( res => {
-        if(res instanceof Array){
-          this.cashCategory = res;
-          console.log( this.cashCategory );
-        }
-      } )
   }
 
   // https://apijbs.azurewebsites.net

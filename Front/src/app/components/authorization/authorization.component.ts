@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { AuthUserResponse } from 'src/app/Classes/auth-user-response';
 import { Router } from '@angular/router';
-import {  CookieService  } from 'ngx-cookie-service';  
+import { CookieService  } from 'ngx-cookie-service';  
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 @Component({
   selector: 'app-authorization',
@@ -12,7 +13,8 @@ import {  CookieService  } from 'ngx-cookie-service';
 export class AuthorizationComponent implements OnInit {
 
   constructor(private httpSevice: HttpService, private router : Router,
-              private cookieService: CookieService ) { }
+              private cookieService: CookieService,
+              private globalHub : GlobalHubService ) { }
 
   login : string = "";
   passwd : string = "";
@@ -45,9 +47,10 @@ export class AuthorizationComponent implements OnInit {
                   else{
                     this.cookieService.set("rememberMe","no")
                   }
-
+                  this.globalHub.AnonimUser(false);
                   this.cookieService.set( "idUser", authData.id)
                   this.router.navigate(['/home']);
+                  this.cookieService.set("activeSession","yes");
                 }
 
                 return;

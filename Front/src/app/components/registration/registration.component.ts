@@ -3,7 +3,7 @@ import { HttpService } from 'src/app/http.service';
 import { Router } from '@angular/router';
 import { RegResp } from 'src/app/Classes/reg-resp';
 import { CookieService } from 'ngx-cookie-service';
-import { Input, Output } from '@angular/core';
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 @Component({
   selector: 'app-registration',
@@ -13,7 +13,8 @@ import { Input, Output } from '@angular/core';
 export class RegistrationComponent implements OnInit {
 
   constructor(private httpSevice: HttpService, private router: Router,
-              private cookieService : CookieService) { }
+              private cookieService : CookieService,
+              private globalHub : GlobalHubService) { }
 
   loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
   lowCaseRgExp : RegExp = new RegExp("[a-z]")
@@ -35,13 +36,13 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   sendData(){
 
   /*  if(this.ValidetData() == false){
       console.log("err Validate");
       return;
     } */
-
 
     const body = { login : this.login, password : this.passwd }
     
@@ -54,7 +55,9 @@ export class RegistrationComponent implements OnInit {
 
                 if(resData.error == null){
                   this.cookieService.set( "idUser", resData.id)
+                  this.globalHub.AnonimUser(false);
                   this.router.navigate(['/home']);
+                  this.cookieService.set("activeSession","yes");
                 }
 
                 return;
