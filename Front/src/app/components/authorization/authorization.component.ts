@@ -33,7 +33,6 @@ export class AuthorizationComponent implements OnInit {
 
   let subRegUsr = this.httpSevice.authUser( body )
             .subscribe( resObj  => {
-              console.log(resObj)
 
               if(resObj instanceof Object)
               {
@@ -51,6 +50,11 @@ export class AuthorizationComponent implements OnInit {
                   this.cookieService.set( "idUser", authData.id)
                   this.router.navigate(['/home']);
                   this.cookieService.set("activeSession","yes");
+
+                  if(authData.role == "Moder"){
+                    this.globalHub.ModerUser(true);
+                  }
+
                 }
 
                 return;

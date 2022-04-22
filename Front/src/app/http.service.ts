@@ -97,9 +97,32 @@ export class HttpService {
       res => { return res }, err => {return err}
     )
   }
+  getWaitingAds(){
+    return this.http.get(this. URL + "/Ad/GetWaitingAds")
+    .pipe( res => {
+      return res;
+    },
+    err => {
+      return err;
+    } 
+  )
+  }
 
-  getGetMyAds(idUser : any){
-      return this.http.get(this.URL + `/Ad/MyAds?idUser=${idUser}`)
+  changeStateAd(idAd : number, state : number){
+    let body;
+    return this.http.put(this.URL + `/Ad/ChangeStatAd?idAd=${idAd}&newStat=${state}`,body)
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
+  getGetMyAds(idUser : any, statusId : number){
+      return this.http.get(this.URL + `/Ad/MyAds?idUser=${idUser}&statusId=${statusId}`)
       .pipe(
         res => {
           return res

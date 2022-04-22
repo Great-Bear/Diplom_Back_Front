@@ -6,15 +6,19 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Опубликованные ({{countPublishItem}})</a>
+          <a class="navbar-brand" (click)="loadAds($event,3)" id="0" >Опубликованные ({{arrCountsItem[0]}})</a>
         </div>
 
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Ожидающие</a>
+          <a class="navbar-brand" (click)="loadAds($event,2)" id="1"  >Ожидающие ({{arrCountsItem[1]}}) </a>
         </div>
 
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Отклонённые</a>
+          <a class="navbar-brand" (click)="loadAds($event,4)" id="2">Отклонённые ({{arrCountsItem[2]}}) </a>
+        </div>
+
+        <div class="container-fluid">
+          <a class="navbar-brand" (click)="loadAds($event,1)" id="3">Неактивны ({{arrCountsItem[3]}}) </a>
         </div>
 
       </nav>

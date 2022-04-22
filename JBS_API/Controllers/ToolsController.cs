@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace JBS_API.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
@@ -30,9 +31,23 @@ namespace JBS_API.Controllers
                 namesCat[i] = arrayCat[i].Name;
             }
 
-            return Json(
-                namesCat
-                );
+            return Json(namesCat);
+        }
+
+        [HttpGet]
+        [Route("StatusAd")]
+        public JsonResult StatusAd()
+        {
+            var arraystatAds = _dbContext.StatusAds.ToArray();
+
+            string[] namesState = new string[arraystatAds.Length];
+
+            for (int i = 0; i < arraystatAds.Length; i++)
+            {
+                namesState[i] = arraystatAds[i].Name;
+            }
+
+            return Json(namesState);
         }
 
         [HttpGet]
@@ -64,66 +79,103 @@ namespace JBS_API.Controllers
                 {
                     Role role1 = new Role { Name = "Admin" };
                     Role role2 = new Role { Name = "User" };
+                    Role roleModer = new Role { Name = "Moder" };
 
                     _dbContext.Roles.Add(role1);
                     _dbContext.Roles.Add(role2);
+                    _dbContext.Roles.Add(roleModer);
                     _dbContext.SaveChanges();
                 }
 
 
                 if (_dbContext.Users.Count() == 0)
                 {
-                    Role role1 = _dbContext.Roles.First(r => r.Name == "Admin");
+                    Role roleUser = _dbContext.Roles.First(r => r.Name == "User");
+                    Role roleModer = _dbContext.Roles.First(r => r.Name == "Moder");
 
                     User user1 = new User
                     {
                         FirstName = "Great",
                         LastName = "Bear",
                         Phone = "+43243423",
-                        Email = "Bogdan",
+                        Email = "User1",
                         Password = "1234",
-                        Role = role1
+                        Role = roleUser
+                    };
+
+                    User userModer = new User
+                    {
+                        FirstName = "Moder1 name",
+                        LastName = "Moder1 last name",
+                        Phone = "+43243423",
+                        Email = "Moder1",
+                        Password = "1234",
+                        Role = roleModer
                     };
 
                     _dbContext.Users.Add(user1);
+                    _dbContext.Users.Add(userModer);
                     _dbContext.SaveChanges();
+
+
+
 
                 }
 
-                string[] Categories = {
-               "Другое",
-               "Ноутбуки и компьютеры",
-               "Смартфоны, ТВ и эликтроника",
-               "Бытовая техника",
-               "Товары для дома",
-               "Инструменты и автотовары",
-               "Сантехника и ремонт",
-               "Дача, сад и огород",
-               "Спорт и увлечения",
-               "Одежда, обувь и украшения",
-               "Косметические товары",
-               "Товары для детей",
-               "Зоотовары",
-               "Канцтовары и книги",
-               "Алкогольные напитки",
-               "Товары для бизнеса"
-               };
-
-                string[] Brends = {
-                    "Другое",
-                    "Samsung",
-                    "Apple",
-                    "Xiomi",
-                    "Nike",
+                string[] StatusAd =
+                {
+                    "Опубликовано",
+                    "Проверяется",
+                    "Неактивно",
+                    "Отклонено",
+                    "Удалено",
                 };
 
+                if (_dbContext.StatusAds.Count() == 0)
+                {
+                    foreach (var status in StatusAd)
+                    {
+                        _dbContext.StatusAds.Add(new StatusAd { Name = status });
+                    }
+                    _dbContext.SaveChanges();
+                }
+
+
+                string[] Categories = {
+                   "Ноутбуки и компьютеры",
+                   "Смартфоны, ТВ и эликтроника",
+                   "Бытовая техника",
+                   "Товары для дома",
+                   "Инструменты и автотовары",
+                   "Сантехника и ремонт",
+                   "Дача, сад и огород",
+                   "Спорт и увлечения",
+                   "Одежда, обувь и украшения",
+                   "Косметические товары",
+                   "Товары для детей",
+                   "Зоотовары",
+                   "Канцтовары и книги",
+                   "Алкогольные напитки",
+                   "Товары для бизнеса",
+                   "Другое",
+               };
                 if (_dbContext.Categories.Count() == 0)
                 {
                     foreach (var category in Categories)
                     {
                         _dbContext.Categories.Add(new Category { Name = category });
                     }
+                    _dbContext.SaveChanges();
                 }
+
+
+                string[] Brends = {
+                    "Samsung",
+                    "Apple",
+                    "Xiomi",
+                    "Nike",
+                    "Другое",
+                };
 
                 if (_dbContext.Brends.Count() == 0)
                 {
@@ -131,8 +183,9 @@ namespace JBS_API.Controllers
                     {
                         _dbContext.Brends.Add(new Brend { Name = brend });
                     }
+                    _dbContext.SaveChanges();
                 }
-                _dbContext.SaveChanges();
+               
 
                 var userOwner = _dbContext.Users.FirstOrDefault(u => u.FirstName == "Great");
 
@@ -140,6 +193,8 @@ namespace JBS_API.Controllers
                 string uniqueName = String.Empty;
 
                 var random = new Random();
+
+                var statusPublish = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
                 for (int i = 0; i < files.Length; i++)
                 {
@@ -151,6 +206,7 @@ namespace JBS_API.Controllers
                         CategoryId = random.Next(1, Categories.Length - 1),
                         BrendId = random.Next(1, Brends.Length - 1),
                         Price = 1235,
+                        StatusAd = statusPublish,
                     };
 
 

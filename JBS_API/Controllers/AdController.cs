@@ -9,6 +9,15 @@ using JBS_API.Response_Model;
 
 namespace JBS_API.Controllers
 {
+
+    enum stateAd
+    {
+        noPublish = 1,
+        cheking,
+        publish,
+        reject,
+        deleted
+    }
     
     [ApiController]
     [Route("[controller]")]
@@ -61,7 +70,13 @@ namespace JBS_API.Controllers
                     if( Decimal.TryParse(Price, out price) == false ){
                         return Json("error server");
                     }
-           
+                var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
+
+                if(statusCheking == null)
+                {
+                    return Json("error server" + "StatusCheking is null");
+                }
+
                 Ad newAd = new Ad { 
                                         Title = Title,
                                         Describe = Describe,
@@ -69,6 +84,7 @@ namespace JBS_API.Controllers
                                         Category = category,
                                         Brend = brend,
                                         Price = price,
+                                        StatusAd = statusCheking
                     };
 
                 _dbContext.Ads.Add(newAd);
@@ -116,21 +132,89 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("MyAds")]
-        public JsonResult TakeMyAds(int idUser)
+        public JsonResult TakeMyAds(int idUser, int statusId)
         {
+
             try
             {
                 var ads = _dbContext.Ads                                  
-                                    .Where(a => a.UserId == idUser)
-                                    .ToArray();
+                                    .Where(a => a.UserId == idUser);
 
-                return Json(ads);
+                var countPublish = ads.Where(a => a.StatusAdId == (int)stateAd.publish).Count();
+                var countNoPublish = ads.Where(a => a.StatusAdId == (int)stateAd.noPublish).Count();
+                var countReject = ads.Where(a => a.StatusAdId == (int)stateAd.reject).Count();
+                var countCheking = ads.Where(a => a.StatusAdId == (int)stateAd.cheking).Count();
+
+                var filterAds = ads.Where(a => a.StatusAdId == statusId).ToArray();
+
+                int[] countsItem =
+                    { 
+                        countPublish,
+                        countCheking,
+                        countReject,
+                        countNoPublish
+                    };
+
+
+                return Json( new
+                {
+                    ads = filterAds,
+                    countsItem = countsItem
+                });
             }
             catch (Exception ex)
             {
                 return Json( "Ошибка сервера" );
             }
             
+        }
+
+        [HttpGet]
+        [Route("GetWaitingAds")]
+        public JsonResult GetWaitingAds()
+        {
+            return Json( new { 
+                ads = _dbContext.Ads.Where(a => a.StatusAdId == (int)stateAd.cheking)
+            });
+        }
+
+        [HttpPut]
+        [Route("ChangeStatAd")]
+        public JsonResult ChangeStatAd(int idAd, int newStat)
+        {
+            try
+            {
+                var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+
+                if(ad != null)
+                {
+                    ad.StatusAdId = newStat;
+                    _dbContext.Ads.Update(ad);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        isError = true,
+                        errorMessage = "Товар не найден"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+
+                return Json(new
+                {
+                        isError = true,
+                        errorMessage = "Ошибка сервера"
+                });
+            }
+            return Json(new
+            {
+                isError = false,
+                errorMessage = ""
+            });
         }
 
         [HttpGet]
@@ -170,10 +254,14 @@ namespace JBS_API.Controllers
             {
                 idBrend++;
                 var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+
+                var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
+
                 ad.Describe = Describe;
                 ad.Title = Title;
                 ad.Price = Decimal.Parse(Price);
                 ad.BrendId = idBrend;
+                ad.StatusAdId = statusCheking.Id;
 
                 var imgs = _dbContext.Imgs.Where(i => i.AdId == idAd).ToArray();
 
@@ -237,6 +325,7 @@ namespace JBS_API.Controllers
         {
             pagePagination--;
             int countItems = 0;
+            var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
             IQueryable<Ad> res = null;
             try
@@ -259,7 +348,7 @@ namespace JBS_API.Controllers
                 {
                     res = _dbContext.Ads;
                 }
-
+                res = res.Where(a => a.StatusAdId == statusCheking.Id);
                 countItems = res.Count();
                 res = res.Skip(paginationStep * (pagePagination)).Take(paginationStep);
 
@@ -306,11 +395,22 @@ namespace JBS_API.Controllers
                 return Json(new { isError = true, Message = "Нет объекта на удаление" });
             }
 
-            _dbContext.Ads.Remove(ad);
+            if(ad.StatusAdId == (int)stateAd.noPublish)
+            {
+                ad.StatusAdId = (int)stateAd.deleted;
+            }
+            else
+            {
+                ad.StatusAdId = (int)stateAd.noPublish;
+            }
+            _dbContext.Ads.Update(ad);
             _dbContext.SaveChanges();
 
 
             return Json(new { isError = false });
         }
+
+
+
     }
 }

@@ -18,8 +18,8 @@
                             <ng-container *ngIf="!isAnonimUser" > 
                                 <div class="dropdown-content">
                                     <a routerLink="/my-ads"> Мои обьявление</a>
-                                <!-- <a >Сообщения</a>
-                                    <a >Настройки</a>
+                                    <a *ngIf="isModer" routerLink="/moderPage" >Модерировать</a>
+                                    <!--<a >Настройки</a>
                                     <span>Избранные</span>
                                     <a href="#">Объявления</a>-->
                                     <a (click)="LogOut()" >Выйти</a>

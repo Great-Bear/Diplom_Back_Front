@@ -16,6 +16,7 @@ import { CreateAdComponent } from './components/create-ad/create-ad.component';
 import { MyadsComponent } from './components/myads/myads.component';
 import { EditAdComponent } from './components/edit-ad/edit-ad.component';
 import { CardAdComponent } from './components/card-ad/card-ad.component';
+import { ModerPageComponent } from './components/moder-page/moder-page.component';
 
 
 const appRoutes: Routes =[
@@ -28,6 +29,8 @@ const appRoutes: Routes =[
   { path: 'edit-ad/:id', component: EditAdComponent},
   { path: 'my-ads', component: MyadsComponent},
   { path: 'card-ad/:id',component: CardAdComponent},
+  { path: 'moderPage', component: ModerPageComponent},
+  { path: '', component: HomeComponent},
   { path: '**', component: Page404Component }
 ];
 
@@ -44,6 +47,7 @@ const appRoutes: Routes =[
     MyadsComponent,
     EditAdComponent,
     CardAdComponent,
+    ModerPageComponent,
   ],
   imports: [
     BrowserModule,

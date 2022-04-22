@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-myads',
   templateUrl: './myads.component.html',
@@ -18,7 +19,14 @@ export class MyadsComponent implements OnInit {
   public adsCol = Array();
   public noAds : boolean = false
 
-  public countPublishItem : any;
+  countPublishItem : any;
+  countNoPublish : any;
+  countReject : any;
+  countCheking : any;
+
+  nowActivePage : number = 0;
+  arrCountsItem = new Array(4);
+
 
   private itemInRow = 4;
 
@@ -31,15 +39,37 @@ export class MyadsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpService.getGetMyAds(this.cookie.get("idUser"))
-    .subscribe(res => {
+   this.loadAds(null,3);
+  }
+
+  loadAds(event : any,statusAd : number){
+    if(event == null){
+      this.nowActivePage = 0;
+    }
+    else{
+      this.nowActivePage  = event.target.id;
+    }
+
+    this.adsCol = new Array();
+
+    this.httpService.getGetMyAds(this.cookie.get("idUser"), statusAd)
+    .subscribe(ans => {
+      let res : any  = ans;
+
+      for(let i = 0; i < this.arrCountsItem.length; i++){
+        this.arrCountsItem[i] = res.countsItem[i];
+      }
+
+      res = res.ads;
       if(res instanceof Array){
         
         if(res.length == 0){
           this.noAds = true;
           return;
         }
-        this.countPublishItem = res.length;
+        else{
+          this.noAds = false;
+        }
         let indexItem = 0;
 
         for(let colIndex = 0; colIndex < Math.ceil( res.length / this.itemInRow ); colIndex++ ){
@@ -80,6 +110,7 @@ export class MyadsComponent implements OnInit {
   deleteAd(event : any){
     let isDelete = confirm("Вы хотите удалить объявление?");
     if(isDelete){
+      console.log(this.adsCol);
       this.httpService.deleteAd(event.target.getAttribute("id"))
       .subscribe(res => {
         let answer : any = res;
@@ -124,15 +155,12 @@ export class MyadsComponent implements OnInit {
         }
       }
 
-      this.countPublishItem--;
-
-      let lastColIndes = Math.floor( this.countPublishItem / this.itemInRow );
-      let lastRowIndet = this.adsCol[lastColIndes].length
-
-      this.adsCol[lastColIndes].pop();
-         
+      this.arrCountsItem[this.nowActivePage]--;
+      if(this.arrCountsItem[this.nowActivePage] == 0){
+        this.noAds = true;
+      }
+      let lastColIndes = Math.floor( this.arrCountsItem[this.nowActivePage] / this.itemInRow );
+      this.adsCol[lastColIndes].pop();         
     }
   }
-
-  
 }

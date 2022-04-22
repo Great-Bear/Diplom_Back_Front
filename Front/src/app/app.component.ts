@@ -14,6 +14,7 @@ export class AppComponent {
   abs: JSON | any;
 
   isAnonimUser = true;
+  isModer = false;
   
   constructor(private cookieService : CookieService,
               private router : Router,
@@ -23,10 +24,18 @@ export class AppComponent {
       this.isAnonimUser = state;
     }
    )
+
+   this.globalHub.isModer.subscribe(
+     state => {
+       this.isModer = state;
+     }
+   )
+
+     this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
+
 }
 
 ngOnInit(){
-
 
   if(this.cookieService.get("idUser").length > 0 &&
     Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
@@ -63,9 +72,10 @@ ngOnInit(){
     this.cookieService.set("rememberMe","no");
     this.cookieService.set("activeSession","no");
     this.cookieService.set("idUser","")
+    this.cookieService.set("isModer", String(false));
     this.router.navigate(["/registration"]);
     this.globalHub.AnonimUser(true);
-
+    this.globalHub.ModerUser(false);
   }
 
 
