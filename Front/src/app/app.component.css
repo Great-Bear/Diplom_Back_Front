@@ -5,9 +5,10 @@
 #navMainBlock
 {
     position: fixed;
+
     top: 0;
     z-index: 10;
-    background: #2D384A;
+    background: #182744;
     box-shadow: 0px 3px 20px 3px rgba(0, 0, 0, 0.25);
 
     width: 100%;
@@ -17,20 +18,22 @@
 }
 #container
 {
-    width: 100%;
+    width: 90%;
     margin: auto;
     height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 
 #logo
 {
-    position: relative;
-    left: 10px;
-    top: 13px;    
-
+    display: inline-block;
+ 
     width: 200px;
-    height: 37px;
+    height: 40px;
 
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -41,44 +44,9 @@
     color: #F4FFF9;
 }
 
-#searchBlock
-{
-    position: relative;
-    left : 17.8%;
-    top: -23px;
-
-    background: #F7F8FB;
-    padding: 8px;
-    width: 350px;
-    height: 45px;
-
-    box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-#searchBlock input
-{
-    position: relative;
-    left: 10px;
-
-    height: 90%;
-    width: 90%;
-    padding: 0px;
-    border: 0;
-
-    background: #F7F8FB;
-
-}
-#searchBlock input:focus
-{
-    border: 0;
-    outline: 0;
-}
 #links
 {
-    position: relative;
-    right: -70% ;
-    top: -65px;
-    height: 30px;
+    height: 50px;
 }
 
 @media only screen and (max-width: 1260px) {
@@ -87,25 +55,38 @@
     }
   }
 
-#links > div 
+#links > span
 {
-    display: inline-block;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 28px;
-
-    color: #F7F8FB;
-
-    border-right: 2px solid rgba(110, 130, 148, 0.75);
-    padding: 7px 10px 7px 10px;
+    position: relative;
+    margin-left: 25px;
+    font-size: 20px;
     cursor: pointer;
+    color: white;
 }
-#links div:last-child 
+#langSwitch::after
 {
-    border: 0;
+    content: ''; 
+    position: absolute;
+    left: 30px; bottom: 2.5px;
+    border: 5px solid transparent;
+    border-top: 8px solid white;
 }
+.countMsg
+{
+    position: absolute;
+    background: #F13B60;
+
+    top: -3px;
+    left: 25px;
+    border-radius: 15px;
+    font-size: 12px;
+
+    text-align: center;
+
+    width: 18px;
+    height: 18px;
+}
+
 
 /* Dropdown Button */
 .dropbtn {
@@ -161,4 +142,127 @@ a
 footer{
     height: 10rem;
     background-color: gray;
+}
+
+#createAd
+{
+    display: inline-block;
+
+    background: linear-gradient(180deg, #F23160 0%, #EF6B63 100%);
+    border-radius: 50px;
+
+    margin-left: 40px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 22px;
+    color: white;
+
+    cursor: pointer;
+
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+#createAd span
+{
+    position: relative;
+    top: 1px;
+    margin-left: 10px;  
+}
+
+#serachBlock
+{
+    margin-top: 70px;
+    height: 150px;
+    width: 100%;
+}
+#containerSearchBlosk
+{
+    position: relative;
+    width: 60rem;
+    height: 70px;
+    margin: auto;
+    margin-top: 135px;
+}
+
+#leftPart
+{
+    position: relative;
+    width: 50rem;
+    height: 100%;
+    background-color: white;
+    border-radius: 50px 0px 0px 50px;
+    float: left;
+}
+#rightPart
+{
+    display: inline-block;
+    position: relative;
+    width: 78px;
+    height: 100%;
+    background: #182744;
+    border-radius: 0px 50px 50px 0px;
+}
+
+#rightPart img
+{
+    position: relative;
+    left: 25%;
+    top: 30%;
+}
+
+#leftPartContainer
+{
+    position: relative;
+    width: 95%;
+    height: 100%;
+    left: 5%;
+    padding-top: 5px;
+}
+#searchInpit
+{
+    width: 55%;
+    height: 90%;
+    border-right: solid 2px #9DA4B1;
+    float: left;
+}
+
+#searchInpit input
+{
+    width: 92%;
+    height: 100%;
+    border: none;
+    outline:none;
+    color: #9DA4B1;
+}
+#location
+{
+    width: 30%;
+    height: 95%;
+    display: flex;
+    align-items: center;
+    border-right: solid 2px #9DA4B1;
+    float: left;
+}
+#location img {
+    margin: auto;
+}
+
+#distance
+{
+    width: 100%;
+    height: 100%;
+}
+
+#distance select 
+{
+    width: 12%;
+    font-size: 18px;
+    color: #253947;
+    border: none;
+    margin-left: 1.1%;
+    margin-top: 2.2%;
 }

@@ -37,6 +37,7 @@ export class AppComponent {
 
 ngOnInit(){
 
+
   if(this.cookieService.get("idUser").length > 0 &&
     Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
       this.globalHub.AnonimUser(false);
@@ -47,6 +48,7 @@ ngOnInit(){
     }
 
  this.router.events.subscribe( event => {
+/*
   if (event instanceof NavigationEnd){
     console.log(this.cookieService.getAll())
      if(event.url != "/registration" && event.url != "/authorization"){
@@ -59,6 +61,7 @@ ngOnInit(){
         }   
     }
   }
+  */
  })
 
  window.onunload = (event) => {

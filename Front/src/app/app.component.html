@@ -3,38 +3,77 @@
                 <div id="container">
                     <div id="logo" >
                         <div><a routerLink="/home" >JBS</a></div>
-                    </div> 
-                
-                    <div id="searchBlock" > 
-                            <img  src="../assets/imgs/MagnifyingGlass.png" alt="Magnifying Glass">
-                            <input type="text">
-                    </div>
-                
-                     <div id="links"> 
-                                       
-                        <div>Язык</div>
-                        <div class="dropdown">
-                            <span class="dropbtn">Мой профиль</span>
-                            <ng-container *ngIf="!isAnonimUser" > 
-                                <div class="dropdown-content">
-                                    <a routerLink="/my-ads"> Мои обьявление</a>
-                                    <a *ngIf="isModer" routerLink="/moderPage" >Модерировать</a>
-                                    <!--<a >Настройки</a>
-                                    <span>Избранные</span>
-                                    <a href="#">Объявления</a>-->
-                                    <a (click)="LogOut()" >Выйти</a>
-                                </div>
-                            </ng-container>
-                        </div>
-
-                        <div routerLink="create-ad" >Подать обьявление</div>     
+                    </div>         
+                     <div id="links">    
+                         <span id="langSwitch" >
+                             RU
+                         </span>
+                        <span>
+                            <img src="../assets/imgs/Message_Icon.png" >
+                            <span class="countMsg" >10</span>
+                        </span>                                  
+                        <span>
+                            <img src="../assets/imgs/Hearth_Icon.png" >
+                            <span class="countMsg" >10</span>
+                        </span>
+                        <span>
+                            <img src="../assets/imgs/Profile_Icon.png"/>
+                            <div class="dropdown">
+                                <span class="dropbtn"></span>                           
+                                <ng-container *ngIf="!isAnonimUser" > 
+                                    <div class="dropdown-content">
+                                        <a routerLink="/my-ads"> Мои обьявление</a>
+                                        <a *ngIf="isModer" routerLink="/moderPage" >Модерировать</a>
+                                        <!--<a >Настройки</a>
+                                        <span>Избранные</span>
+                                        <a href="#">Объявления</a>-->
+                                        <a (click)="LogOut()" >Выйти</a>
+                                    </div>
+                                </ng-container> 
+                            </div>
+                        </span>
                         
-                        
+                        <div routerLink="create-ad" id="createAd">
+                            <img src="../assets/imgs/Plus_Icon.png" >
+                             <span>Подать обьявление</span> 
+                        </div>     
+                                           
                     </div> 
                 </div>
                          
         </div>
 
     </nav>
+
+    <div id="serachBlock">
+        <div id="containerSearchBlosk" >
+            <div id="leftPart">
+                <div id="leftPartContainer">
+                    <div id="searchInpit">
+                        <input type="text" placeholder="14 2343 Обьявлений рядом" >
+                        <img src="../assets/imgs/Cancle_Icon.png" alt="">
+                    </div>
+                    <div id="location">
+                        <img src="../assets/imgs/Marker.png" alt="">
+                        <span>Одесса, Иванофра</span>
+                        <img src="../assets/imgs/Cancle_Icon.png" alt="">
+                    </div>
+                    <div id="distance">
+                        <select name="" id="">
+                            <option value="+100 км">+100 км</option>
+                            <option value="+75">+75 км</option>
+                            <option value="+50">+50 км</option>
+                            <option value="+25">+25 км</option>
+                            <option value="+0">+0 км</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="rightPart" >
+               <img src="../assets/imgs/MagnifyingGlass.png" alt="">
+            </div>
+
+        </div>    
+    </div>
 
 <router-outlet></router-outlet>
