@@ -31,6 +31,8 @@ export class AppComponent {
      }
    )
 
+   this.globalHub.AnonimUser(false);
+
      this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
 
 }

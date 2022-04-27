@@ -1,0 +1,61 @@
+<div id="listAdsBlock">
+    <div id="filterBlock" >
+        <div class="blockContent">
+            <span class="leftPart" id="titleBlockFilter">
+                Фильтры
+            </span>
+            <span class="rightPart" id="rightPartTilte">
+                сбросить
+                <img src="../assets/imgs/LittleCancel.png" alt="resetFilter">
+            </span>
+        </div>
+        <div >
+            <div class="blockContent" (click)="openCloseTaggle($event)" >
+                <span class="leftPart">
+                    Категории
+                </span>
+                <span class="rightPart" >
+                    <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
+                </span>
+            </div>
+            <div class="panel">
+                <span id="choiceCat" >Сматрфоны</span>
+              </div>
+        </div>
+        <div >
+            <div class="blockContent" (click)="openCloseTaggle($event)"  >
+                <span class="leftPart">
+                    Состояние
+                </span>
+                <span class="rightPart" >
+                    <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
+                </span>
+            </div>
+            <div class="panel" style="display:block"> 
+            <label for="stateAll">             
+                <div>      
+                    <input class="custom-radio" type="radio" name="state" id="stateAll" checked>                 
+                    <label for="stateAll">Все</label>
+                </div>
+            </label>
+            <label for="stateNew"> 
+               <div>
+                    <input class="custom-radio" type="radio" name="state" id="stateNew">
+                    <label for="stateNew">Новые</label>
+               </div>
+            </label>
+               <label for="S/H"> 
+               <div>
+                    <input class="custom-radio" type="radio" name="state" id="S/H">
+                    <label for="S/H">Б/у</label>
+               </div>
+            </label>
+
+
+              </div>
+        </div>
+    </div>
+    <div id="adsBlock" >
+    </div>
+
+</div> 

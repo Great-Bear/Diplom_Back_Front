@@ -1,1 +1,3 @@
 https://html5css.ru/howto/howto_css_dropdown.php
+https://html5css.ru/howto/howto_js_accordion.php
+https://itchief.ru/html-and-css/styling-checkbox-and-radio
