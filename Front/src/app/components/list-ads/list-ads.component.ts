@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-list-ads',
@@ -11,25 +12,8 @@ export class ListAdsComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    if(output != null && slider != null){
+    $('draggable').draggable(); // WORKS!
     
-    output.innerHTML =  slider.getAttribute("value") + "";
-    
-    slider.oninput = function() {
-      let a : any = this;
-      console.log(a.value)
-      /*
-      console.log(event.target);
-      console.log(event.target.getAttribute("value"));
-      if(output != null)
-      output.innerHTML = event.target.getAttribute("value");
-      */
-    }
-  }
-
   }
 
   test(event : any){

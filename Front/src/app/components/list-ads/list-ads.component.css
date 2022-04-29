@@ -1,3 +1,5 @@
+
+
 #listAdsBlock
 {
     width: 80rem;
@@ -161,7 +163,10 @@
   font-size: 16px;
   color: #253947;
 }
-
+.checkbox
+{
+  height: 20px;
+}
 /* для элемента input c type="checkbox" */
 .custom-checkbox {
   position: absolute;
@@ -180,12 +185,12 @@
 .custom-checkbox+label::before {
   content: '';
   display: inline-block;
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   flex-grow: 0;
   border-radius: 0.25em;
-  margin-right: 0.5em;
+  margin-right: 0.2em;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
@@ -204,36 +209,131 @@
   background-color: white;
 }
 
-
-
-
-
-
-
-.slidecontainer {
-  width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #d3d3d3;
+.inptPrice
+{
+  width: 40%;
+  height: 30px;
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(192, 186, 186);
   outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+  border-radius: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  padding-left: 10px;
+  padding-right: 25px;
+
+  
+  color: #253947;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+
+
 }
 
-.slider:hover {
-  opacity: 1;
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
-  cursor: pointer;
+#rangeBlock img
+{
+  width: 90%;
+  margin-left: 10px;
 }
+.confirmBtn
+{
+  float: right;
+  background: #182744;
+  border-radius: 50px;
+  padding: 8px 20px 8px 20px;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  font-size: 15px;
+  color: white;
+}
+
+#inptPrice
+{
+  position: relative;
+}
+#cencelBtnPrice
+{
+  position: absolute;
+  left: 70px;
+  top: 18px;
+}
+
+.brend
+{
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  vertical-align: middle;
+}
+
+.brendText {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  color: #253947;
+}
+
+.countItemBrend
+{
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 15px;
+  text-align: right;
+  color: #9DA4B1;
+}
+#BrendBtns
+{
+  padding: 0;
+  margin-top: 30px;
+}
+.showAllBtn
+{
+  background: white;
+  border-radius: 50px;
+  padding: 8px 16px 8px 16px;
+  border: 1px solid #182744;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  font-size: 15px;
+  color: #182744;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

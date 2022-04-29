@@ -1,4 +1,6 @@
+
 <div id="listAdsBlock">
+
     <div id="filterBlock" >
         <div class="blockContent">
             <span class="leftPart" id="titleBlockFilter">
@@ -81,35 +83,127 @@
                         <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
                     </span>
                 </div>
-                <div class="panel" style="display: block;" >
-                    
+                <div class="panel" >
+                    <div id="inptPrice" >
+                        <input type="number" id="priceFrom" class="inptPrice">
+                        <img id="cencelBtnPrice" src="../assets/imgs/LittleCancel.png" alt="resetFilter">
 
-                   
-
-
-
+                        <input type="number" id="priceBefore" class="inptPrice">
+                    </div>
+                    <div id="rangeBlock" >
+                        <img src="../assets/imgs/Range.png" alt="openCat">
+                    </div>
+                    <button class="confirmBtn">
+                        OK
+                    </button>
                 </div>
             </div>
 
-          <!--  <div class="slidecontainer">
-                <input type="range" min="1" max="100" value="50" class="slider"  (input)="test($event)" id="myRange">
-              </div>-->
+            <div>
+                <div class="blockContent" (click)="openCloseTaggle($event)"  >
+                    <span class="leftPart">
+                        Бренд
+                    </span>
+                    <span class="rightPart" >
+                        <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
+                    </span>
+                </div>
+                <div class="panel">
+                    <div>
+                        <label for="brend1" class="brend"> 
+                            <div class="checkbox">
+                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
+                                <label for="brend1" class="brendText" >Samsung</label>
+                            </div>
+                            <div class="countItemBrend">
+                                (123)
+                            </div>
+                        </label>
+                    </div>
 
-              <div class="slidecontainer">
-               <!--
+                    <div>
+                        <label for="brend1" class="brend"> 
+                            <div class="checkbox">
+                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
+                                <label for="brend1" class="brendText" >Apple</label>
+                            </div>
+                            <div class="countItemBrend">
+                                (8)
+                            </div>
+                        </label>
+                    </div>
 
-                 <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-               -->
-                <input type="range" min="1" max="100" value="50" (input)="test($event)"  id="myRange">
-                <p>Value: <span id="demo"></span></p>
-              </div>
+                    <div class="blockContent" id="BrendBtns">
+                        <button class="showAllBtn">Показать все</button>
+                        <button class="confirmBtn">OK</button>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div>
+                <div class="blockContent" (click)="openCloseTaggle($event)"  >
+                    <span class="leftPart">
+                        Диагональ
+                    </span>
+                    <span class="rightPart" >
+                        <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
+                    </span>
+                </div>
+                <div class="panel" style="display: block;" >
+                    <div id="inptPrice" >
+                        <input type="number" id="priceFrom" class="inptPrice">
+                        <input type="number" id="priceBefore" class="inptPrice">
+                    </div>
+                    <div id="rangeBlock" >
+                        <img src="../assets/imgs/Range.png" alt="openCat">
+                    </div>
+
+                    <div>
+                        <label for="brend1" class="brend"> 
+                            <div class="checkbox">
+                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
+                                <label for="brend1" class="brendText" >3.1</label>
+                            </div>
+                            <div class="countItemBrend">
+                                (123)
+                            </div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label for="brend1" class="brend"> 
+                            <div class="checkbox">
+                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
+                                <label for="brend1" class="brendText" >4.1</label>
+                            </div>
+                            <div class="countItemBrend">
+                                (123)
+                            </div>
+                        </label>
+                    </div>
 
 
-              <div id="slider"></div>
-               
+
+
+                    <div class="blockContent" id="BrendBtns">
+                        <button class="showAllBtn">Показать все</button>
+                        <button class="confirmBtn">OK</button>
+                    </div>
+                </div>
+            </div>
+
+
 
     </div>
     <div id="adsBlock" >
     </div>
 
 </div> 
+
+
+
+
+
+
+
