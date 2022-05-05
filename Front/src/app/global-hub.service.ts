@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
+import { CategoriesLayers } from './Classes/categories-layers';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,18 @@ export class GlobalHubService {
     this.isModer.next(state);
   }
 
-  constructor( private cookie : CookieService ) {}
+  public categoriesLayers = new Subject<any>();
+  public ChangeCatLayers(catsLay: any){
+    this.categoriesLayers.next(catsLay);
+  }
+
+  constructor( private cookie : CookieService,
+               private http: HttpService ) 
+               {
+                 this.http.getCategoriesLayer()
+                 .subscribe(res => {
+                   this.categoriesLayers.next(res);
+                 })
+               }
 
 }

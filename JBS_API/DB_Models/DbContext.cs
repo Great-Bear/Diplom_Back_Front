@@ -10,6 +10,8 @@ namespace JBS_API
         public DbSet<Ad> Ads { get; set; }
         public DbSet<StatusAd> StatusAds { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Layer1_Category> Layer1_Category { get; set; }
+        public DbSet<Layer2_Category> Layer2_Category { get; set; }
         public DbSet<Brend> Brends { get; set; }
         public DbSet<VipAd> VipAds { get; set; }
         public DbSet<Img> Imgs { get; set; }

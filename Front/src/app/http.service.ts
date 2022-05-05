@@ -121,6 +121,19 @@ export class HttpService {
     )
   }
 
+  getCategoriesLayer()
+  {
+   return this.http.get(this.URL + "/Tools/LayersCategories")
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
   getGetMyAds(idUser : any, statusId : number){
       return this.http.get(this.URL + `/Ad/MyAds?idUser=${idUser}&statusId=${statusId}`)
       .pipe(

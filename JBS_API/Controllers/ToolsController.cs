@@ -35,6 +35,42 @@ namespace JBS_API.Controllers
         }
 
         [HttpGet]
+        [Route("LayersCategories")]
+        public JsonResult LayersCategories()
+        {
+            
+            var arrayCat = _dbContext.Layer1_Category.ToList()
+                .GroupJoin(
+                    _dbContext.Categories.ToList(),
+                    layer1 => layer1.Id,
+                    cat => cat.Layer1_CategoryId,
+                        (layer1, cat) =>
+                            new
+                            {
+                                layer1 = layer1.Name,
+                                layer1T_idNextLayer = layer1.Layer2_CategoryId,
+                                cat = cat.Select( item => item.Name )
+
+                            }
+                    );
+
+            var arrayCat2 = _dbContext.Layer2_Category.ToList()
+                .GroupJoin(
+                arrayCat,
+                layer2 => layer2.Id,
+                layer1 => layer1.layer1T_idNextLayer,
+                (layer2, layer1) =>
+                    new
+                    {
+                        layer2 = layer2.Name,
+                        data = layer1
+                    }
+                );
+
+            return Json(arrayCat2);
+        }
+
+        [HttpGet]
         [Route("StatusAd")]
         public JsonResult StatusAd()
         {
@@ -140,6 +176,50 @@ namespace JBS_API.Controllers
                     _dbContext.SaveChanges();
                 }
 
+                string[] Layer2_Category = {
+                   "Все",
+                   "Група1",
+                   "Група2",
+                   "Група3",
+                   "Група4",
+                   "Група5",
+                   "Група6",
+                   "Група7",
+                   "Група8",
+               };
+
+                if (_dbContext.Layer2_Category.Count() == 0)
+                {
+                    foreach (var category in Layer2_Category)
+                    {
+                        _dbContext.Layer2_Category.Add(new Layer2_Category { Name = category });
+                        _dbContext.SaveChanges();
+                    }
+                }
+
+                string[] Layer1_Category = {
+                   "Все",
+                   "Подгрупа1",
+                   "Подгрупа2",
+                   "Подгрупа3",
+                   "Подгрупа4",
+                   "Подгрупа5",
+                   "Подгрупа6",
+                   "Подгрупа7",
+                   "Подгрупа8",
+               };
+
+                var catLayer2 = _dbContext.Layer2_Category.FirstOrDefault(l => l.Name == "Група1");
+
+                if (_dbContext.Layer1_Category.Count() == 0)
+                {
+                    foreach (var category in Layer1_Category)
+                    {
+                        _dbContext.Layer1_Category.Add(new Layer1_Category { Name = category, Layer2_Category = catLayer2 });
+                        _dbContext.SaveChanges();
+                    }
+                }
+
 
                 string[] Categories = {
                    "Ноутбуки и компьютеры",
@@ -159,15 +239,18 @@ namespace JBS_API.Controllers
                    "Товары для бизнеса",
                    "Другое",
                };
+
+                var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Подгрупа1");
+
                 if (_dbContext.Categories.Count() == 0)
                 {
                     foreach (var category in Categories)
                     {
-                        _dbContext.Categories.Add(new Category { Name = category });
+                        _dbContext.Categories.Add(new Category { Name = category,Layer1_Category = carLayer1 });
+                        _dbContext.SaveChanges();
                     }
-                    _dbContext.SaveChanges();
                 }
-
+           
 
                 string[] Brends = {
                     "Samsung",
@@ -182,8 +265,8 @@ namespace JBS_API.Controllers
                     foreach (var brend in Brends)
                     {
                         _dbContext.Brends.Add(new Brend { Name = brend });
+                        _dbContext.SaveChanges();
                     }
-                    _dbContext.SaveChanges();
                 }
                
 

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-declare var $: any;
+import { Component, IterableDiffers, OnInit } from '@angular/core';
+import { HttpService } from 'src/app/http.service';
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 @Component({
   selector: 'app-list-ads',
@@ -8,21 +9,48 @@ declare var $: any;
 })
 export class ListAdsComponent implements OnInit {
 
-  constructor() { }
+  carLayer : any;
+  catsList = new Array();
+
+  choiceCatValue = "Смартфоны";
+
+  isDropListCat = false;
+
+
+  constructor(private http : HttpService,
+              private globalHub : GlobalHubService
+               ) 
+  { 
+    this.carLayer = this.globalHub.categoriesLayers;
+
+    this.globalHub.categoriesLayers.subscribe( cats => {
+      this.carLayer = cats;
+     
+      for(let itemL3 of this.carLayer){
+        for(let itemL2 of itemL3.data){
+          for(let cat of itemL2.cat){
+             this.catsList.push(cat);
+          }
+        }
+      }
+    })   
+
+  }
 
   ngOnInit(): void {
 
-    $('draggable').draggable(); // WORKS!
-    
   }
 
-  test(event : any){
+  choiceCat(event : any){
+    this.choiceCatValue = event.target.innerText;
+  }
 
-
-    let a = this;
-    console.log(event.target)
-    let slider = document.getElementById("myRange");   
-  console.log(event.target.getAttribute("value"));
+  testChange(){
+    console.log("I am change")
+    this.isDropListCat = false;
+  }
+  OutTest(){
+    this.isDropListCat = true;
   }
 
   openCloseTaggle(event : any){
