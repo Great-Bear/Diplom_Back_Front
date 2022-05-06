@@ -11,10 +11,11 @@ export class ListAdsComponent implements OnInit {
 
   carLayer : any;
   catsList = new Array();
+  catsListMarker = new Array();
 
   choiceCatValue = "Смартфоны";
 
-  isDropListCat = false;
+  isDropListCat = !false;
 
 
   constructor(private http : HttpService,
@@ -43,13 +44,44 @@ export class ListAdsComponent implements OnInit {
 
   choiceCat(event : any){
     this.choiceCatValue = event.target.innerText;
+    this.isDropListCat = true;
   }
 
-  testChange(){
-    console.log("I am change")
+  ChangeInptCat($event : any){
     this.isDropListCat = false;
+
+    let arrCatItem = document.getElementsByClassName("CatItem");
+
+    let searchWord = $event.target.value;
+
+    let index = 0;
+    for(let cat of this.catsList){
+
+      let startIndex = cat.toLowerCase().indexOf(searchWord.toLowerCase());
+      
+      if(startIndex >= 0){      
+        arrCatItem[index].removeAttribute("hidden");
+        arrCatItem[index].innerHTML = 
+          this.MarkWord(cat, searchWord, startIndex, startIndex + searchWord.length);       
+      }
+      else
+      {
+        arrCatItem[index].setAttribute("hidden", "true");
+      }
+      index++;
+    }
   }
-  OutTest(){
+
+  MarkWord(str : any, markedPart : any, start : number, end : number) {
+    
+    let leftPart = str.substring(0, start);
+    let rightPart = str.substring(end, str.length);
+    console.log(leftPart + `<b>${markedPart}</b>` + rightPart)
+    return leftPart + `<b>${markedPart}</b>` + rightPart;
+    
+  }
+
+  CloseScrollDropCatBlock(){
     this.isDropListCat = true;
   }
 

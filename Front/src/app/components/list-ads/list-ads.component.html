@@ -21,10 +21,12 @@
                     <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
                 </span>
             </div>
+            <div>
             <div class="panel" id="CatPanel" style="display: block;" >   
                 <div >  
-                <input id="choiceCat" contenteditable="true"  (mouseout)="OutTest()" (input)="testChange()" value="{{choiceCatValue}}"/>                
-                
+                <input id="choiceCat" contenteditable="true"   (input)="ChangeInptCat($event)" value="{{choiceCatValue}}"/>                
+                <img id="cencelBtnCat" src="../assets/imgs/Cancle_Icon.png" [hidden]="isDropListCat" alt="cencelBtnCat" (click)="CloseScrollDropCatBlock()">
+
                 <div id="MenuLayer3" *ngIf="isDropListCat">
                     <ul>
                         <li class="filterItems" *ngFor="let item of carLayer">
@@ -44,10 +46,10 @@
                                         <img src="../assets/imgs/RightTriangle.png" alt="openCat">
                                     </span>
                                     <div class="MenuLayer1">
-                                        <li class="filterItems itemCategoty" *ngFor="let cat of itemL2.cat" >
-                                            <span>
+                                        <li class="filterItems itemCategoty" *ngFor="let cat of itemL2.cat" (click)="choiceCat($event)" >
+                                           
                                                {{cat}}
-                                            </span>
+                                            
                                         </li>
                                     </div>
                                 </li>                              
@@ -55,8 +57,8 @@
                         </li>                      
                     </ul>
                 </div>
-                <div id="ScrollCat">
-                    <ul>
+                <div id="ScrollCat" [hidden]="isDropListCat">
+                    <ul>        
                         <li class="CatItem" *ngFor="let cat of catsList" (click)="choiceCat($event)" >
                             {{cat}}                                                                     
                         </li>                                                         
@@ -64,6 +66,7 @@
                 </div>
               </div>
             </div> 
+            </div>
         </div>
         <div>
             <div class="blockContent" (click)="openCloseTaggle($event)"  >
