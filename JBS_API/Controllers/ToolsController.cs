@@ -38,8 +38,8 @@ namespace JBS_API.Controllers
         [Route("LayersCategories")]
         public JsonResult LayersCategories()
         {
-            
-            var arrayCat = _dbContext.Layer1_Category.ToList()
+
+           var arrayCat = _dbContext.Layer1_Category.ToList()                  
                 .GroupJoin(
                     _dbContext.Categories.ToList(),
                     layer1 => layer1.Id,
@@ -49,13 +49,14 @@ namespace JBS_API.Controllers
                             {
                                 layer1 = layer1.Name,
                                 layer1T_idNextLayer = layer1.Layer2_CategoryId,
-                                cat = cat.Select( item => item.Name )
+                                cat = cat.Select( item => item.Name ),
+                                idCat = cat.Select(item => item.Id)
 
                             }
                     );
 
             var arrayCat2 = _dbContext.Layer2_Category.ToList()
-                .GroupJoin(
+          .GroupJoin(
                 arrayCat,
                 layer2 => layer2.Id,
                 layer1 => layer1.layer1T_idNextLayer,
@@ -223,7 +224,7 @@ namespace JBS_API.Controllers
 
                 string[] Categories = {
                    "Ноутбуки и компьютеры",
-                   "Смартфоны, ТВ и эликтроника",
+                   "Смартфоны",
                    "Бытовая техника",
                    "Товары для дома",
                    "Инструменты и автотовары",
@@ -237,7 +238,6 @@ namespace JBS_API.Controllers
                    "Канцтовары и книги",
                    "Алкогольные напитки",
                    "Товары для бизнеса",
-                   "Другое",
                };
 
                 var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Подгрупа1");
@@ -250,7 +250,9 @@ namespace JBS_API.Controllers
                         _dbContext.SaveChanges();
                     }
                 }
-           
+
+                CreateFilters();
+
 
                 string[] Brends = {
                     "Samsung",
@@ -353,6 +355,148 @@ namespace JBS_API.Controllers
             }
 
             return "true";
+
+        }
+
+        private void CreateFilters()
+        {
+
+            var CatPhone = _dbContext.Categories.FirstOrDefault( c => c.Name == "Смартфоны");
+            var CatPC = _dbContext.Categories.FirstOrDefault( c => c.Name == "Ноутбуки и компьютеры");
+            var CatZoo = _dbContext.Categories.FirstOrDefault( c => c.Name == "Зоотовары");
+
+            string[] typeFilters =
+            {
+                "slider",
+                "items",
+                "combo",
+            };
+
+            foreach (var typeFilter in typeFilters)
+            {
+               var a = _dbContext.TypeFilters.Add(new TypeFilter { Name = typeFilter });
+                _dbContext.SaveChanges();
+            }
+            var FTypeSlider = _dbContext.TypeFilters.FirstOrDefault(f => f.Name == "slider");
+            var FTypeItems = _dbContext.TypeFilters.FirstOrDefault(f => f.Name == "items");
+            var FTypeCombo = _dbContext.TypeFilters.FirstOrDefault(f => f.Name == "combo");
+
+
+            string[] FValueDiag =
+            {
+                "4.1",
+                "7.5",
+                "5.6",
+                "3"
+            };
+
+            _dbContext.Filters.Add(new Filter
+            {
+                FilterName = "Диагональ",
+                Category = CatPhone,
+                TypeFilter = FTypeCombo,
+            });
+            _dbContext.SaveChanges();
+
+            var FilterDiagonal = _dbContext.Filters.ToList().Last();
+
+            foreach (var item in FValueDiag)
+            {
+                _dbContext.FilterValues.Add(new FilterValue
+                {
+                    Name = item,
+                    Filter = FilterDiagonal
+                });
+                _dbContext.SaveChanges();
+            }
+            
+            string[] FValueBrend =
+            {
+                "Apple",
+                "Samsung",
+                "Nokia",
+                "Motorola"
+            };
+
+            _dbContext.Filters.Add(new Filter
+            {
+                FilterName = "Бренд",
+                Category = CatPhone,
+                TypeFilter = FTypeItems,
+            });
+            _dbContext.SaveChanges();
+
+            var FilterBrendPhone = _dbContext.Filters.ToList().Last();
+
+            foreach (var item in FValueBrend)
+            {
+                _dbContext.FilterValues.Add(new FilterValue
+                {
+                    Name = item,
+                    Filter = FilterBrendPhone
+                });
+                _dbContext.SaveChanges();
+            }
+
+
+
+
+            string[] FValueBrendPC =
+            {
+                "Lenovo",
+                "Apple",
+                "HP",
+                "ASUS"
+            };
+            _dbContext.Filters.Add(new Filter
+            {
+                FilterName = "Бренд",
+                Category = CatPC,
+                TypeFilter = FTypeItems,
+            });
+            _dbContext.SaveChanges();
+
+            var FilterBrendPC = _dbContext.Filters.ToList().Last();
+
+            foreach (var item in FValueBrendPC)
+            {
+                _dbContext.FilterValues.Add(new FilterValue
+                {
+                    Name = item,
+                    Filter = FilterBrendPC
+                });
+            }
+            _dbContext.SaveChanges();
+
+
+            string[] FValueCountCorePC =
+            {
+                "2",
+                "4",
+                "6",
+                "12"
+            };
+            _dbContext.Filters.Add(new Filter
+            {
+                FilterName = "Количество ядер",
+                Category = CatPC,
+                TypeFilter = FTypeItems,
+            });
+            _dbContext.SaveChanges();
+
+            var FilterCountCorePC = _dbContext.Filters.ToList().Last();
+
+            foreach (var item in FValueCountCorePC)
+            {
+                _dbContext.FilterValues.Add(new FilterValue
+                {
+                    Name = item,
+                    Filter = FilterCountCorePC
+                });
+            }
+
+            _dbContext.SaveChanges();
+
 
         }
 

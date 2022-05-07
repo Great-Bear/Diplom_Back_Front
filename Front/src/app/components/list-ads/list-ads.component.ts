@@ -1,4 +1,4 @@
-import { Component, IterableDiffers, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { GlobalHubService } from 'src/app/global-hub.service';
 
@@ -13,29 +13,50 @@ export class ListAdsComponent implements OnInit {
   catsList = new Array();
   catsListMarker = new Array();
 
-  choiceCatValue = "Смартфоны";
+  filters = new Array();
 
-  isDropListCat = !false;
+  choiceCatValue : string = "Все категории";
+
+  isDropListCat = true;
+  isScrollListCat = true;
 
 
   constructor(private http : HttpService,
               private globalHub : GlobalHubService
                ) 
   { 
-    this.carLayer = this.globalHub.categoriesLayers;
-
+   this.carLayer = new Array();
+   
     this.globalHub.categoriesLayers.subscribe( cats => {
       this.carLayer = cats;
      
       for(let itemL3 of this.carLayer){
         for(let itemL2 of itemL3.data){
+          let index = 0;
           for(let cat of itemL2.cat){
-             this.catsList.push(cat);
+            let catItem = {
+              name : cat,
+              id : itemL2.idCat[index]
+            }
+             this.catsList.push(catItem);
+             index++;
           }
         }
       }
     })   
 
+    
+  }
+
+  loadFiltes(idCat: number){
+    this.http.getFilters(idCat)
+    .subscribe(
+      res =>{
+          if(res instanceof Array){
+          this.filters = res;           
+        }
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -43,12 +64,27 @@ export class ListAdsComponent implements OnInit {
   }
 
   choiceCat(event : any){
-    this.choiceCatValue = event.target.innerText;
+
+    let rep = event.target.innerText.replace("<b>",'');
+    rep = rep.replace("</b>","");
+    console.log(rep);
+
+    this.choiceCatValue = rep;
+
+    this.isDropListCat = false;
+
+    this.isScrollListCat = true;
+
+    this.loadFiltes(event.currentTarget.id);
+  }
+
+  hoverInptCat(){
     this.isDropListCat = true;
   }
 
   ChangeInptCat($event : any){
     this.isDropListCat = false;
+    this.isScrollListCat = false;
 
     let arrCatItem = document.getElementsByClassName("CatItem");
 
@@ -56,13 +92,12 @@ export class ListAdsComponent implements OnInit {
 
     let index = 0;
     for(let cat of this.catsList){
-
-      let startIndex = cat.toLowerCase().indexOf(searchWord.toLowerCase());
+      let startIndex = cat.name.toLowerCase().indexOf(searchWord.toLowerCase());
       
       if(startIndex >= 0){      
         arrCatItem[index].removeAttribute("hidden");
         arrCatItem[index].innerHTML = 
-          this.MarkWord(cat, searchWord, startIndex, startIndex + searchWord.length);       
+          this.MarkWord(cat.name, searchWord, startIndex, startIndex + searchWord.length);       
       }
       else
       {
@@ -76,20 +111,16 @@ export class ListAdsComponent implements OnInit {
     
     let leftPart = str.substring(0, start);
     let rightPart = str.substring(end, str.length);
-    console.log(leftPart + `<b>${markedPart}</b>` + rightPart)
     return leftPart + `<b>${markedPart}</b>` + rightPart;
-    
   }
 
   CloseScrollDropCatBlock(){
-    this.isDropListCat = true;
+    this.isScrollListCat = true;
   }
 
   openCloseTaggle(event : any){
-
     let triangle = event.currentTarget.parentNode .getElementsByClassName("rightPart")[0];
     
-
     let panel = event.currentTarget.parentNode .getElementsByClassName("panel")[0];
 
     if(panel.style.display == "block"){
@@ -100,7 +131,5 @@ export class ListAdsComponent implements OnInit {
       triangle.classList.add("isOpenFilterMenu");
       panel.style.display = "block";
     }
-    
   }
-
 }

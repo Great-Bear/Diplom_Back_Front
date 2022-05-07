@@ -121,6 +121,18 @@ export class HttpService {
     )
   }
 
+  getFilters(catId : number){
+    return this.http.get(this.URL + `/Filter/GetFilters?idCat=${catId}`)
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
   getCategoriesLayer()
   {
    return this.http.get(this.URL + "/Tools/LayersCategories")

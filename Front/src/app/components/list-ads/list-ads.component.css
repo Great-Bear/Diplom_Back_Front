@@ -197,6 +197,7 @@ ul {
   font-size: 16px;
   padding: 5px;
   padding-left: 10px;
+  cursor: pointer;
 }
 
 .CatItem:hover
@@ -228,6 +229,8 @@ ul {
   align-items: center;
   vertical-align: middle;
   border-radius: 0;
+
+  cursor: pointer;
 
   margin-top: 2px;
   padding: 0px 15px 0px 15px;
@@ -491,7 +494,10 @@ input::-webkit-inner-spin-button {
   left: 207px;
   top: 55px;
 }
-
+#containerCheboxDeliv
+{
+  height: 34px;
+}
 
 
 

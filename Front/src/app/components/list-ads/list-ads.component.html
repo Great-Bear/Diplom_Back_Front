@@ -21,13 +21,14 @@
                     <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
                 </span>
             </div>
-            <div>
+
+            <div (mouseover)="hoverInptCat()" >
             <div class="panel" id="CatPanel" style="display: block;" >   
                 <div >  
                 <input id="choiceCat" contenteditable="true"   (input)="ChangeInptCat($event)" value="{{choiceCatValue}}"/>                
-                <img id="cencelBtnCat" src="../assets/imgs/Cancle_Icon.png" [hidden]="isDropListCat" alt="cencelBtnCat" (click)="CloseScrollDropCatBlock()">
+                <img id="cencelBtnCat" src="../assets/imgs/Cancle_Icon.png" [hidden]="isScrollListCat" alt="cencelBtnCat" (click)="CloseScrollDropCatBlock()">
 
-                <div id="MenuLayer3" *ngIf="isDropListCat">
+                <div id="MenuLayer3" *ngIf="isDropListCat && isScrollListCat" >
                     <ul>
                         <li class="filterItems" *ngFor="let item of carLayer">
                             <span >
@@ -46,22 +47,24 @@
                                         <img src="../assets/imgs/RightTriangle.png" alt="openCat">
                                     </span>
                                     <div class="MenuLayer1">
-                                        <li class="filterItems itemCategoty" *ngFor="let cat of itemL2.cat" (click)="choiceCat($event)" >
-                                           
-                                               {{cat}}
-                                            
+                                        <ng-container *ngFor="let cat of itemL2.cat; let i = index">
+                                        <li class="filterItems itemCategoty" id="{{itemL2.idCat[i]}}"  (click)="choiceCat($event)" >                                         
+                                            {{cat}}                   
                                         </li>
+                                    </ng-container>
                                     </div>
                                 </li>                              
                             </div>                      
                         </li>                      
                     </ul>
                 </div>
-                <div id="ScrollCat" [hidden]="isDropListCat">
+                <div id="ScrollCat" [hidden]="isScrollListCat">
                     <ul>        
-                        <li class="CatItem" *ngFor="let cat of catsList" (click)="choiceCat($event)" >
-                            {{cat}}                                                                     
-                        </li>                                                         
+                        <ng-container *ngFor="let cat of catsList; let i = index">
+                            <li class="CatItem" id="{{cat.id}}" (click)="choiceCat($event)" >
+                                {{cat.name}}                                                                
+                            </li>   
+                        </ng-container>                                                      
                     </ul>
                 </div>
               </div>
@@ -110,7 +113,7 @@
                 </div>
                 <div class="panel">
                     <label for="isDelivery"> 
-                        <div class="checkbox">
+                        <div class="checkbox" id="containerCheboxDeliv">
                             <input class="custom-checkbox" type="checkbox" id="isDelivery" name="color-1" checked value="Только с доставкой">
                             <label for="isDelivery" id="isDeliveryText" >Только с доставкой</label>
                         </div>
@@ -143,36 +146,30 @@
                 </div>
             </div>
 
-            <div>
+
+
+            
+            <div *ngFor="let filter of filters">
                 <div class="blockContent" (click)="openCloseTaggle($event)"  >
                     <span class="leftPart">
-                        Бренд
+                        {{filter.filterName}}
                     </span>
                     <span class="rightPart" >
                         <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
                     </span>
                 </div>
                 <div class="panel">
-                    <div>
-                        <label for="brend1" class="brend"> 
+
+
+                <ng-container *ngIf="filter.typeName == 'items'">
+                    <div *ngFor="let value of filter.value; let i = index" >
+                        <label for="brend1" class="brend" > 
                             <div class="checkbox">
-                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
-                                <label for="brend1" class="brendText" >Samsung</label>
+                                <input class="custom-checkbox" type="checkbox" id="{{i+'c'}}" checked>
+                                <label for="{{i+'c'}}" class="brendText" >{{value}}</label>
                             </div>
                             <div class="countItemBrend">
                                 (123)
-                            </div>
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="brend1" class="brend"> 
-                            <div class="checkbox">
-                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
-                                <label for="brend1" class="brendText" >Apple</label>
-                            </div>
-                            <div class="countItemBrend">
-                                (8)
                             </div>
                         </label>
                     </div>
@@ -181,62 +178,42 @@
                         <button class="showAllBtn">Показать все</button>
                         <button class="confirmBtn">OK</button>
                     </div>
+                </ng-container>
+
+                <ng-container *ngIf="filter.typeName == 'combo'">
+                    
+                    <div>                    
+                        <div id="inptPrice"  >
+                            <input type="number" id="priceFrom" class="inptPrice">
+                            <input type="number" id="priceBefore" class="inptPrice">
+                        </div>
+                        <div id="rangeBlock" >
+                            <img src="../assets/imgs/Range.png" alt="openCat">
+                        </div>
+    
+                        <div>
+                            <label for="brend1" class="brend" *ngFor="let value of filter.value; let i = index"> 
+                                <div class="checkbox">
+                                    <input class="custom-checkbox" type="checkbox" id="{{i+'q'}}" checked>
+                                    <label for="{{i+'q'}}" class="brendText" >{{value}}</label>
+                                </div>
+                                <div class="countItemBrend">
+                                    (123)
+                                </div>
+                            </label>
+                        </div>
+        
+    
+                        <div class="blockContent" id="BrendBtns">
+                            <button class="showAllBtn">Показать все</button>
+                            <button class="confirmBtn">OK</button>
+                        </div>
+                    </div>
+
+                </ng-container>
+             
                 </div>
             </div>
-
-            
-            <div>
-                <div class="blockContent" (click)="openCloseTaggle($event)" style="z-index: auto;" >
-                    <span class="leftPart">
-                        Диагональ
-                    </span>
-                    <span class="rightPart" >
-                        <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
-                    </span>
-                </div>
-                <div class="panel" style="display: block;" >
-                    <div id="inptPrice"  >
-                        <input type="number" id="priceFrom" class="inptPrice">
-                        <input type="number" id="priceBefore" class="inptPrice">
-                    </div>
-                    <div id="rangeBlock" >
-                        <img src="../assets/imgs/Range.png" alt="openCat">
-                    </div>
-
-                    <div>
-                        <label for="brend1" class="brend"> 
-                            <div class="checkbox">
-                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
-                                <label for="brend1" class="brendText" >3.1</label>
-                            </div>
-                            <div class="countItemBrend">
-                                (123)
-                            </div>
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="brend1" class="brend"> 
-                            <div class="checkbox">
-                                <input class="custom-checkbox" type="checkbox" id="brend1" checked>
-                                <label for="brend1" class="brendText" >4.1</label>
-                            </div>
-                            <div class="countItemBrend">
-                                (123)
-                            </div>
-                        </label>
-                    </div>
-
-
-
-
-                    <div class="blockContent" id="BrendBtns">
-                        <button class="showAllBtn">Показать все</button>
-                        <button class="confirmBtn">OK</button>
-                    </div>
-                </div>
-            </div>
-
 
 
     </div>
