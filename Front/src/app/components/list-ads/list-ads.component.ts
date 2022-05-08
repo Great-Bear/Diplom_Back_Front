@@ -132,4 +132,38 @@ export class ListAdsComponent implements OnInit {
       panel.style.display = "block";
     }
   }
+
+  changeTypeShow(event : any){
+    console.log(event.target);
+
+    let arr = document.getElementsByClassName("containerImgs");
+
+    for(let i = 0; i < arr.length; i++){
+      arr[i].id = arr[i].id == "choiceTypeAdsShow"
+      ?""
+      :"choiceTypeAdsShow"
+    }
+  }
+
+  pickedSort(event:any){
+    
+    if(event.target.tagName != "SPAN"){
+      return;
+    }
+
+    let arr = event.currentTarget.getElementsByTagName("span")
+    console.log(arr[0] , event.target)
+    if(arr[0] == event.target){
+      return;
+    }
+
+    for(let i = 0; i < arr.length; i++){
+      if(arr[i].classList.contains("isPickedItem")){
+        arr[i].classList.remove("isPickedItem");
+      }
+    }
+    event.target.classList.add("isPickedItem");
+  }
+
+
 }

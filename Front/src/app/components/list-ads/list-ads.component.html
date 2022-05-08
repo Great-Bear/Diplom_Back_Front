@@ -23,7 +23,7 @@
             </div>
 
             <div (mouseover)="hoverInptCat()" >
-            <div class="panel" id="CatPanel" style="display: block;" >   
+            <div class="panel" id="CatPanel" >   
                 <div >  
                 <input id="choiceCat" contenteditable="true"   (input)="ChangeInptCat($event)" value="{{choiceCatValue}}"/>                
                 <img id="cencelBtnCat" src="../assets/imgs/Cancle_Icon.png" [hidden]="isScrollListCat" alt="cencelBtnCat" (click)="CloseScrollDropCatBlock()">
@@ -214,10 +214,64 @@
              
                 </div>
             </div>
-
-
     </div>
-    <div id="adsBlock" >
+    <div id="rightPartPage">
+        <div id="containerRightFilters" >
+
+            <div (click)="changeTypeShow($event)">
+                <div class="containerImgs"  >
+                    <svg width="30" height="20" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="0.75" width="6.5" height="6.5" rx="1.25" stroke="#6A7881" stroke-width="1.5"/>
+                        <rect x="13" y="0.75" width="6.5" height="6.5" rx="1.25" stroke="#6A7881" stroke-width="1.5"/>
+                        <rect x="3" y="11" width="6.5" height="6.5" rx="1.25" stroke="#6A7881" stroke-width="1.5"/>
+                        <rect x="13" y="11" width="6.5" height="6.5" rx="1.25" stroke="#6A7881" stroke-width="1.5"/>
+                        </svg>                        
+                </div>
+                <div class="containerImgs" id="choiceTypeAdsShow" >
+                    <svg width="30" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="9" y="8" width="20" height="8" rx="2" stroke="white" stroke-width="2" />
+                        <rect x="9" y="21" width="20" height="8" rx="2" stroke="white" stroke-width="2"/>
+                    </svg>
+                   
+                </div>
+            </div>
+
+            <div id="choiceFilterBlock">
+                <div (click)="pickedSort($event)" >
+                    <span>Сортировка по:</span>
+                    <span class="isPickedItem">
+                        <svg class="arrow" width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
+                        </svg>
+                        дате
+                    </span>
+
+                    <span>
+                        <svg class="arrow" width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
+                        </svg>
+                        цене
+                    </span>
+                    <span>
+                        <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8541 0L24.9907 2.59808L20.8541 5.19615V3.34814H14.2301L11.7452 7.70806L14.1048 11.8481H20.8541V10.0977L24.9907 12.6957L20.8541 15.2938V13.3481H13.669H13.2332L13.0174 12.9695L10.8819 9.22272L8.74652 12.9695L8.53073 13.3481H8.09492H1C0.585786 13.3481 0.25 13.0124 0.25 12.5981C0.25 12.1839 0.585786 11.8481 1 11.8481H7.65911L10.0187 7.70806L7.53382 3.34814H1.00006C0.585848 3.34814 0.250061 3.01236 0.250061 2.59814C0.250061 2.18393 0.585848 1.84814 1.00006 1.84814H7.96963H8.40544L8.62123 2.22677L10.8819 6.1934L13.1427 2.22677L13.3584 1.84814H13.7943H20.8541V0Z" fill="#6A7881"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <div (click)="pickedSort($event)">
+                    <span>Валюта:</span>
+                    <span class="isPickedItem">все</span>
+                    <span>грн.</span>
+                    <span>$</span>
+                    <span>€</span>
+                </div>
+            </div>
+
+
+
+            
+        </div>
     </div>
 
 </div> 
