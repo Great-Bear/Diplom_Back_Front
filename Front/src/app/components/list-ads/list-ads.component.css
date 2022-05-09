@@ -616,12 +616,183 @@ input::-webkit-inner-spin-button {
   fill: white !important;
 }
 
+#blockAds2
+{
+  height: 600px;
+  width: 100%;
+}
 
+.ads
+{
+  margin-top: 20px;
+  background-color: white;
+  height: 231px;
+  display: flex;
+  justify-content: space-between;
+}
 
+.ads:hover
+{
+  box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.15);
+}
 
+.ads div:nth-child(1)
+{
+  position: relative;
+}
 
+.infoAds
+{
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  justify-content: space-between;
+}
 
+.infoAds > div
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.infoAds div:nth-child(2)
+{
+  align-items: flex-end;
+}
+.pricePart
+{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.pricaAd
+{
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
 
+  color: #253947;
+}
+.casePrice
+{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+
+  color: #A7ACAD;
+}
+.locationAd
+{
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+
+  color: #9DA4B1;
+}
+.phoneNumberAd
+{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+
+  color: #253947;
+}
+
+.typeBlock div
+{
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #6A7881;
+
+  padding: 3px 15px 1px 15px;
+  border: 1px solid #6A7881;
+  border-radius: 50px;
+}
+.typeBlock div:nth-child(1)
+{
+  margin-right: 10px;
+}
+
+.deliveryIcon
+{
+  position: absolute !important;
+  top: 20px;
+  left: 20px;
+}
+#containerPlitcaAds2{
+  width: 1040;
+}
+#containerPlitcaAds
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-between;
+  margin: 0 0;
+  width: 1040px;
+}
+.adAsPlitca
+{
+  width: 243px;
+
+  height: 340px;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+
+  margin-top: 15px;
+}
+
+.infoAdPlitca
+{
+  display: flex;
+  flex-direction: column;
+}
+.titlePlitca
+{
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 10px 10px 20px 10px;
+  color: #394C59;
+}
+
+.extraInfoAd
+{
+  position: relative;
+  top: 5px;
+  display: none;
+  width: 100%;
+  height: 150px;
+  background-color: white;
+  padding: 0 10px 0 10px;
+
+  border-radius: 0px 0px 5px 5px;
+
+}
+.infoAdPlitca:hover .extraInfoAd
+{
+  display: block;
+}
+
+.priceFavPlitca
+{
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #394C59;
+  padding: 0 10px 0 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
 
 
 

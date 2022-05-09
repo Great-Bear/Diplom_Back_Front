@@ -15,6 +15,10 @@ export class ListAdsComponent implements OnInit {
 
   filters = new Array();
 
+  adsCollect = new Array(10);
+
+  isPlitcaShow = true;
+
   choiceCatValue : string = "Все категории";
 
   isDropListCat = true;
@@ -165,5 +169,8 @@ export class ListAdsComponent implements OnInit {
     event.target.classList.add("isPickedItem");
   }
 
+  changeTypeShowAds(event : any){
+    this.isPlitcaShow = !this.isPlitcaShow;
+  }
 
 }
