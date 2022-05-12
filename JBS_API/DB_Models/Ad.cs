@@ -10,6 +10,10 @@ namespace JBS_API.DB_Models
         public string Describe { get; set; }
         public decimal Price { get; set; }
 
+        public string PhoneNumber { get; set; }
+        public bool isNegotiatedPrice { get; set; }
+        public bool isDelivery { get; set; }
+
         public DateTime TimeEnd { get; set; } = DateTime.Now.AddMonths(1);
 
         public int UserId { get; set; }
@@ -19,14 +23,20 @@ namespace JBS_API.DB_Models
         public Category Category { get; set; }
 
         public int BrendId { get; set; }
-        public Brend Brend { get; set; }
+        public Brend Brend { get; set; } = null;
 
         public int StatusAdId { get; set; }
         public StatusAd StatusAd { get; set; }
 
 
+        public int QualityAdId { get; set; }
+        public QualityAd QualityAd { get; set; }
+
+        public int TypeOwnerId { get; set; }
+        public TypeOwner TypeOwner { get; set; }
 
         public ICollection<Img> Imgs { get; set; }
+        public ICollection<Filter_Ad> Filter_Ads { get; set; }
 
 
     }

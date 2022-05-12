@@ -5,7 +5,6 @@ import { TypeAd } from 'src/app/Classes/typeAd';
 import { RequCreateAd } from 'src/app/Classes/Request/requ-create-ad';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-create-ad',
   templateUrl: './create-ad.component.html',
@@ -27,10 +26,14 @@ export class CreateAdComponent implements OnInit {
   urlImgs : string[] = new Array(this.countImgs);
   cancelBts : boolean[] = new Array(this.countImgs);
 
+  categoryList = new Array();
+
+  filterList = new Array();
 
   constructor(private httpService : HttpService,
               private cookieService : CookieService,
               private route : Router) {
+
                 this.requData.idUser = this.cookieService.get("idUser");
 
                for(let i = 0; i < this.urlImgs.length; i++){
@@ -89,6 +92,19 @@ export class CreateAdComponent implements OnInit {
     }
   }
 
+  changeCat(event : any){
+    this.httpService.getFilters(Number.parseInt(this.requData.Category))
+    .subscribe(res => {
+      this.filterList = new Array();
+      if(res instanceof Array){
+        for(let filter of res){
+          this.filterList.push(filter);
+        }
+      }   
+      this.requData.FiltersValue = new Array(this.filterList.length);
+    })
+  }
+
   delImg(event: any){
     let indexUrl = event.target.getAttribute("id") as number;
 
@@ -120,15 +136,32 @@ export class CreateAdComponent implements OnInit {
         form.append("filecollect", this.requData.Files[i] )
       }
 
-    /*  this.requData.Title = "Кокос";
-      this.requData.Describe = "Кокос белый внутри";
-      this.requData.Category = "1";
-      this.requData.Brend = "1";
-      this.requData.Price = "12";*/
+      let filtersid = "";
 
-      this.httpService.createAds(form, this.requData).subscribe(res => {
-        this.route.navigate([`/card-ad/${res}`]);
+      for(let i = 0; i < this.requData.FiltersValue.length; i++){
+        filtersid += this.requData.FiltersValue[i]
+        if(i != this.requData.FiltersValue.length - 1){
+          filtersid+="|"
+        }
+      }
+
+      this.requData.idUser = "2"
+      this.requData.Title = "Title test"
+      this.requData.Describe = "describe test"
+      this.requData.Category = "1"
+      this.requData.Price = "123"
+      this.requData.Phone = "84239847239"
+      this.requData.IsDelivery = true
+      this.requData.isNegotiatedPrice = false
+      this.requData.Quality = "Новое"
+      this.requData.TypeAd = "Бизнес"
+
+
+      this.httpService.createAds(form,filtersid, this.requData).subscribe(res => {
+      //  this.route.navigate([`/card-ad/${res}`]);
+      console.log(res);
       });
+    
   }
 
 

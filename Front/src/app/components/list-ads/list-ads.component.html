@@ -215,7 +215,7 @@
                 </div>
             </div>
     </div>
-    <div id="rightPartPage" style="display: none;">
+    <div id="rightPartPage" >
         <div id="containerRightFilters" >
 
             <div (click)="changeTypeShow($event)" (click)="changeTypeShowAds($event)">
@@ -268,8 +268,8 @@
                 </div>
             </div>     
         </div>
-        <div id="blockAds2">
-            <div id="containerPlitcaAds" *ngIf="isPlitcaShow"> 
+
+        <div id="blockAds2" >
             <div *ngIf="!isPlitcaShow">
                 <div class="ads" *ngFor="let i of adsCollect" >
                     <div>
@@ -316,11 +316,9 @@
                 </div>
             </div>
             
-            <div id="containerPlitcaAds2">
             <div id="containerPlitcaAds" *ngIf="isPlitcaShow">
-                <div class="adAsPlitca" *ngFor="let i of adsCollect">
+                <div class="adAsPlitca"  *ngFor="let i of adsCollect">
                     
-
                         <img src="../assets/imgs/TemplatePlitca.png" alt="">
                     <div class="infoAdPlitca">
                         <div class="titlePlitca">
@@ -357,7 +355,6 @@
                     
                 </div>
                 
-            </div>
         </div>
         </div>
     </div>

@@ -33,62 +33,105 @@ namespace JBS_API.Controllers
 
         [HttpPost]
         [Route("create")]
-        public JsonResult Create(int idUser,string Title, string Describe,
-            int Brend,
+        
+        public JsonResult Create(
+            string Title,
+            string Describe,
+            int idUser,
             int Category,
             string Price,
-            IFormFile[] filecollect)  //IFormFile uploadedFile,
+            string Phone,
+            bool IsDelivery,
+            bool isNegotiatedPrice,
+            string Quality,
+            string TypeAd,
+            string FiltersValue,
+            IFormFile[] filecollect)  
         {
-
-            Brend += 1;
-            Category += 1;
-
               try
-              {
-                    var userOwner = _dbContext.Users.FirstOrDefault(u => u.Id == idUser);
+              {        
 
-                    if(userOwner == null)
-                    {
-                        return Json("error server");
-                    }
+                var userOwner = _dbContext.Users.FirstOrDefault(u => u.Id == idUser);
 
-                   var category = _dbContext.Categories.FirstOrDefault(c => c.Id == Category);
+                if(userOwner == null)
+                {
+                    return Json("error server User is null");
+                }
 
-                    if(category == null)
-                    {
-                        return Json("error server");
-                    }
+                var category = _dbContext.Categories.FirstOrDefault(c => c.Id == Category);
 
-                    var brend = _dbContext.Brends.FirstOrDefault(b => b.Id == Brend);
+                if(category == null)
+                {
+                    return Json("error server Category is null");
+                }
 
-                    if (brend == null)
-                    {
-                        return Json("error server");
-                    }
 
-                    decimal price;
-                    if( Decimal.TryParse(Price, out price) == false ){
-                        return Json("error server");
-                    }
+                decimal price;
+                if( Decimal.TryParse(Price, out price) == false ){
+                    return Json("error server price is incorrent");
+                }
+
                 var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
-
                 if(statusCheking == null)
                 {
                     return Json("error server" + "StatusCheking is null");
                 }
 
+                
+                var QualityItem = _dbContext.QualityAds.FirstOrDefault(q => q.Name == Quality);
+
+                if (QualityItem == null)
+                {
+                    return Json("error server Quality is null");
+                }
+
+                var TypeAdItem = _dbContext.TypeOwners.FirstOrDefault(q => q.Name == TypeAd);
+                if (TypeAdItem == null)
+                {
+                    return Json("error server TypeAdItem is null");
+                }
+
                 Ad newAd = new Ad { 
-                                        Title = Title,
-                                        Describe = Describe,
-                                        User = userOwner,
-                                        Category = category,
-                                        Brend = brend,
-                                        Price = price,
-                                        StatusAd = statusCheking
-                    };
+                        Title = Title,
+                        Describe = Describe,
+                        User = userOwner,
+                        Category = category,
+                        BrendId = 1,
+                        Price = price,
+                        PhoneNumber = Phone,
+                        isDelivery = IsDelivery,
+                        QualityAdId = QualityItem.Id,
+                        TypeOwnerId = TypeAdItem.Id,
+                        isNegotiatedPrice = isNegotiatedPrice,
+                        StatusAd = statusCheking
+                };
 
                 _dbContext.Ads.Add(newAd);
                 _dbContext.SaveChanges();
+
+
+                string[] valueFilters;
+                if (FiltersValue.Length > 0)
+                {
+                    valueFilters = FiltersValue.Split('|');
+                  
+
+                    foreach (var filterId in valueFilters)
+                    {                                       
+
+                        var lastAd = _dbContext.Ads.ToList().Last();
+
+                        _dbContext.Filter_Ad.Add(new Filter_Ad
+                        {
+                            FilterValueId = int.Parse(filterId),
+                            AdId = lastAd.Id
+                        });
+                            _dbContext.SaveChanges();
+                        }
+                }
+
+
+
 
                 string uniqueName = String.Empty;
                 if (filecollect.Length > 0)
@@ -128,6 +171,7 @@ namespace JBS_API.Controllers
               {
                   return Json("error server" + ex.Message );
               }
+            
         }
 
         [HttpGet]

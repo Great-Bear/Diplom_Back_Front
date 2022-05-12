@@ -14,6 +14,5 @@ namespace JBS_API.DB_Models
         public Category Category { get; set; }
 
         public ICollection<FilterValue> FilterValues { get; set; }
-
     }
 }

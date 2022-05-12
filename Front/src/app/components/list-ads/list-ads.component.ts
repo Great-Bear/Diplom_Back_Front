@@ -17,13 +17,12 @@ export class ListAdsComponent implements OnInit {
 
   adsCollect = new Array(10);
 
-  isPlitcaShow = true;
+  isPlitcaShow = false;
 
   choiceCatValue : string = "Все категории";
 
   isDropListCat = true;
   isScrollListCat = true;
-
 
   constructor(private http : HttpService,
               private globalHub : GlobalHubService

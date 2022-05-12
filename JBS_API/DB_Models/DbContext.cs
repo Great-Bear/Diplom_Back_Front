@@ -5,9 +5,12 @@ namespace JBS_API
 {
     public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
+        public DbSet<TypeOwner> TypeOwners { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
+
+        public DbSet<QualityAd> QualityAds { get; set; }
         public DbSet<Ad> Ads { get; set; }
         public DbSet<StatusAd> StatusAds { get; set; }
 

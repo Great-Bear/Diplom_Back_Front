@@ -154,9 +154,6 @@ namespace JBS_API.Controllers
                     _dbContext.Users.Add(userModer);
                     _dbContext.SaveChanges();
 
-
-
-
                 }
 
                 string[] StatusAd =
@@ -281,6 +278,35 @@ namespace JBS_API.Controllers
 
                 var statusPublish = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
+
+                string[] qualityAd =
+                {
+                    "Новое",
+                    "Б/У",
+                };
+
+                foreach (var item in qualityAd)
+                {
+                    _dbContext.QualityAds.Add(new QualityAd
+                    {
+                        Name = item
+                    });
+                    _dbContext.SaveChanges(); 
+                }
+
+                string[] typeOwners =
+                {
+                    "Бизнес",
+                    "Частное",
+                };
+
+                foreach (var item in typeOwners)
+                {
+                    _dbContext.TypeOwners.Add(new TypeOwner { Name = item });
+                    _dbContext.SaveChanges();
+                }
+
+
                 for (int i = 0; i < files.Length; i++)
                 {
                     Ad newAd = new Ad
@@ -290,6 +316,11 @@ namespace JBS_API.Controllers
                         User = userOwner,
                         CategoryId = random.Next(1, Categories.Length - 1),
                         BrendId = random.Next(1, Brends.Length - 1),
+                        QualityAdId = random.Next(1, 3),
+                        TypeOwnerId = random.Next(1, 3),
+                        isNegotiatedPrice = random.Next(0, 2) == 1 ? true : false,
+                        isDelivery = random.Next(0, 2) == 1 ? true : false,
+                        PhoneNumber = "+38(096)-350-38-33",
                         Price = 1235,
                         StatusAd = statusPublish,
                     };
@@ -384,6 +415,7 @@ namespace JBS_API.Controllers
 
             string[] FValueDiag =
             {
+                "Другое",
                 "4.1",
                 "7.5",
                 "5.6",
@@ -412,6 +444,7 @@ namespace JBS_API.Controllers
             
             string[] FValueBrend =
             {
+                "Другое",
                 "Apple",
                 "Samsung",
                 "Nokia",
@@ -439,14 +472,13 @@ namespace JBS_API.Controllers
             }
 
 
-
-
             string[] FValueBrendPC =
             {
+                "Другое",
                 "Lenovo",
                 "Apple",
                 "HP",
-                "ASUS"
+                "ASUS"              
             };
             _dbContext.Filters.Add(new Filter
             {

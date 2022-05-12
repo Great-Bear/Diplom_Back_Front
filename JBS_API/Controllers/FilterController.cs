@@ -37,7 +37,8 @@ namespace JBS_API.Controllers
                             {
                                 filterName = filter.FilterName,
                                 typeName = filter.TypeFilter.Name,
-                                value = valueFilter.Select(item => item.Name)
+                                value = valueFilter.Select(item => item.Name),
+                                id = valueFilter.Select(item => item.Id)
                             }
                     );
 

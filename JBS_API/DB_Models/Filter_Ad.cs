@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
 
-        public int FilterId { get; set; }
-        public Filter Filter { get; set; }
+        public int FilterValueId { get; set; }
+        public FilterValue FilterValue { get; set; }
 
         public int AdId { get; set; }
         public Ad Ad { get; set; }

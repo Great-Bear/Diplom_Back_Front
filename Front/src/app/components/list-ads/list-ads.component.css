@@ -513,6 +513,7 @@ input::-webkit-inner-spin-button {
 #rightPartPage
 {
   margin-left: 15px;
+ 
 }
 
 .containerImgs
@@ -529,7 +530,7 @@ input::-webkit-inner-spin-button {
 {
   display: flex;
   background: #FFFFFF;
-  width: 65rem;
+  width: 64rem;
   height: 5rem;
   padding: 22px;
   border-radius: 5px;
@@ -724,20 +725,18 @@ input::-webkit-inner-spin-button {
   top: 20px;
   left: 20px;
 }
-#containerPlitcaAds2{
-  width: 1040;
-}
 #containerPlitcaAds
 {
   display: flex;
   flex-wrap: wrap;
-  justify-content:space-between;
-  margin: 0 0;
-  width: 1040px;
+  justify-content: space-between;
+  width: 64rem;
+
 }
 .adAsPlitca
 {
   width: 243px;
+  margin: 0 0 10px;
 
   height: 340px;
   background-color: white;

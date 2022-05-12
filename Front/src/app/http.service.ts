@@ -57,12 +57,10 @@ export class HttpService {
                 .pipe( res => { return res; }, err => { return err } ) ;
   }
 
-  createAds(data : any, reqData : RequCreateAd  ){
-    return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}&Title=${reqData.Title}
-          &Describe=${reqData.Describe}
-          &Brend=${reqData.Brend}
-          &Category=${reqData.Category}
-          &Price=${reqData.Price}`,
+  createAds(data : any, filtersid : any, reqData : RequCreateAd  ){
+    console.log(reqData);
+    return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&FiltersValue=${filtersid}
+          `,         
             data)
                 .pipe( res => { return res; }, err => {return err} );
   }
