@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { GlobalHubService } from 'src/app/global-hub.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list-ads',
@@ -15,17 +16,22 @@ export class ListAdsComponent implements OnInit {
 
   filters = new Array();
 
-  adsCollect = new Array(10);
+  adsCollect = new Array();
+  imgCollect = new Array();
 
   isPlitcaShow = false;
 
   choiceCatValue : string = "Все категории";
+  private emptyImgUrl  = "../assets/imgs/emptyImg.png";
 
   isDropListCat = true;
   isScrollListCat = true;
+  stepPagin : number = 10;
+  countItemFilter = Array();
 
   constructor(private http : HttpService,
-              private globalHub : GlobalHubService
+              private globalHub : GlobalHubService,
+              private sanitizer: DomSanitizer,
                ) 
   { 
    this.carLayer = new Array();
@@ -48,7 +54,76 @@ export class ListAdsComponent implements OnInit {
       }
     })   
 
+    this.loadNewAd();
     
+  }
+
+  loadNewAd(){
+    this.http.list_adsGetByPagin( 1, this.stepPagin, 0 )
+    .subscribe(
+      res => {
+        let response : any = res;
+        if(response.isError == true){
+          alert("error");
+          return;
+        }
+        if(response.data instanceof Array){
+          this.adsCollect = new Array();
+         
+          for(let ad of response.data){
+            this.adsCollect.push(ad);
+          }
+          this.imgCollect = new Array(response.data.length);
+          for(let i = 0; i < this.imgCollect.length; i++){
+            this.imgCollect[i] = this.emptyImgUrl;
+          }
+          console.log(this.adsCollect);
+        }
+        this.LoadMainImgs();
+      },
+      err => {
+        alert("error load ads");
+      }
+    )
+  }
+
+  public LoadMainImgs(){
+
+    for(let i = 0; i < this.adsCollect.length; i++){    
+      this.http.getMainPicture(this.adsCollect[i].id, this.imgCollect[i] ).subscribe(
+        res => {      
+          
+        const urlToBlob = window.URL.createObjectURL(res)  
+        this.imgCollect[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);               
+      },
+        err => {
+          this.imgCollect[i] = this.emptyImgUrl;
+        }
+    );
+  }
+  }
+
+  countItemFilterStandart = 5;
+
+  changeCountItemFilter(indexFilter : number, event : any){
+
+    if(this.countItemFilter[indexFilter] == this.countItemFilterStandart){
+      this.countItemFilter[indexFilter] = 
+      this.filters[indexFilter].counts.length;
+
+      event.target.innerText = 
+      "Скрыть часть";
+    }
+    else{
+      this.countItemFilter[indexFilter] = 
+      this.countItemFilterStandart;
+
+      event.target.innerText = 
+      "Показать все";
+
+    }
+  
+
   }
 
   loadFiltes(idCat: number){
@@ -56,7 +131,11 @@ export class ListAdsComponent implements OnInit {
     .subscribe(
       res =>{
           if(res instanceof Array){
-          this.filters = res;           
+          this.filters = res;  
+          this.countItemFilter = new Array(res.length);  
+          for(let i = 0; i < res.length; i++){
+            this.countItemFilter[i] = 5;
+          }       
         }
       }
     )
@@ -136,18 +215,6 @@ export class ListAdsComponent implements OnInit {
     }
   }
 
-  changeTypeShow(event : any){
-    console.log(event.target);
-
-    let arr = document.getElementsByClassName("containerImgs");
-
-    for(let i = 0; i < arr.length; i++){
-      arr[i].id = arr[i].id == "choiceTypeAdsShow"
-      ?""
-      :"choiceTypeAdsShow"
-    }
-  }
-
   pickedSort(event:any){
     
     if(event.target.tagName != "SPAN"){
@@ -169,7 +236,23 @@ export class ListAdsComponent implements OnInit {
   }
 
   changeTypeShowAds(event : any){
+
+    let arr = document.getElementsByClassName("containerImgs");
+
+    for(let i = 0; i < arr.length; i++){
+      arr[i].id = arr[i].id == "choiceTypeAdsShow"
+      ?""
+      :"choiceTypeAdsShow"
+    }
+
     this.isPlitcaShow = !this.isPlitcaShow;
+    if(this.isPlitcaShow == true){
+      this.stepPagin = 28;
+    }
+    else{
+      this.stepPagin = 10;
+    }
+    this.loadNewAd();
   }
 
 }

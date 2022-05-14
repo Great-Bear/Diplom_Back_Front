@@ -28,7 +28,23 @@ namespace JBS_API.Controllers
                 _dbContext.Entry(item).Reference("TypeFilter").Load();
             }
 
-               var respFilter =  arrFilters.GroupJoin(
+            var arrFiltersValue = _dbContext.FilterValues.ToList();
+
+            var filterValueCounts = arrFiltersValue.GroupJoin(
+                   _dbContext.Filter_Ad.ToList(),
+                   filterValue => filterValue.Id,
+                   filtet_Ad => filtet_Ad.FilterValueId,
+                       (filter, filtet_Ad) =>
+                           new
+                           {
+                               idValueFilter = filter.Id,
+                               Name = filter.Name,
+                               count = filtet_Ad.Count()
+                           }
+                   );
+
+
+            var respFilter =  arrFilters.GroupJoin(
                     _dbContext.FilterValues.ToList(),
                     filter => filter.Id,
                     valueFilter => valueFilter.FilterId,
@@ -38,9 +54,19 @@ namespace JBS_API.Controllers
                                 filterName = filter.FilterName,
                                 typeName = filter.TypeFilter.Name,
                                 value = valueFilter.Select(item => item.Name),
-                                id = valueFilter.Select(item => item.Id)
+                                id = valueFilter.Select(item => item.Id),
+                                counts =
+                                     valueFilter.Select(item => item.Id).ToList().GroupJoin(
+                                             filterValueCounts.ToList(),
+                                                filtetByCat => filtetByCat,
+                                                filterValue => filterValue.idValueFilter,
+                                                (filtetByCat, filterValue) =>                                   
+                                                        filterValue.FirstOrDefault(f => f.idValueFilter == filtetByCat).count                                                   
+                                            )                              
                             }
                     );
+
+           
 
             return Json(respFilter);
 

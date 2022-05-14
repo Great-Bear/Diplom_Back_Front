@@ -31,6 +31,8 @@ export class EditAdComponent implements OnInit {
 
   public forLoadFiles : File[] =  Array();
 
+  filterList = new Array();
+
   urlImgs = new Array(this.countImgs);
   cancelBts : boolean[] = new Array(this.countImgs);
 
@@ -51,10 +53,28 @@ export class EditAdComponent implements OnInit {
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
                     this.requData = res;
+                    console.log(this.requData);
+                    let filteList_Db : any = res;
+
+                    this.requData.FiltersValue = new Array();
+                    for(let itemFilter of filteList_Db.filter_Ads){
+                      this.requData.FiltersValue.push(itemFilter);
+                    }
 
                     if(this.requData.IsError == true){
                       console.log("error");
                     }
+
+                    this.httpService.getFilters(Number.parseInt(this.requData.idCategory))
+                    .subscribe(res => {
+                      this.filterList = new Array();
+                      if(res instanceof Array){
+                        for(let filter of res){
+                          this.filterList.push(filter);
+                        }
+                      }                  
+                    })
+
                     this.countImgs = this.requData.countImgs;
 
                     this.requData.price = Number.parseFloat(this.requData.price);
@@ -79,7 +99,7 @@ export class EditAdComponent implements OnInit {
                       res => {
                         if(res instanceof Array){
                          this.typeAd.Categories = res;
-                         this.Category = res[this.requData.idCategory];                        
+                         this.Category = res[this.requData.idCategory - 1];                        
                         }
                       }
                      )    
@@ -165,11 +185,19 @@ export class EditAdComponent implements OnInit {
       reqData.title = this.requData.title;
       reqData.describe = this.requData.describe;
       reqData.price = this.requData.price;
-      reqData.idBrend = this.requData.Brend;
       reqData.idAd = this.activateRoute.snapshot.params['id'];
-      console.log(this.requData.Brend);
+      reqData.Phone =  this.requData.phoneNumber;
+      reqData.IsDelivery =  this.requData.isDelivery;
+      reqData.isNegotiatedPrice =  this.requData.isNegotiatedPrice;
 
-      this.httpService.editAds(form, reqData).subscribe(res => {
+      let filterStringValue = "";
+      for(let i = 0; i < this.requData.FiltersValue.length; i++ ){
+        filterStringValue += this.requData.FiltersValue[i];
+          if(i != this.requData.FiltersValue.length - 1){
+            filterStringValue += "|";
+          }
+      }
+      this.httpService.editAds(form,filterStringValue, reqData).subscribe(res => {
        if(res == true){
         this.route.navigate([`/card-ad/${reqData.idAd}`]);
         console.log(res);

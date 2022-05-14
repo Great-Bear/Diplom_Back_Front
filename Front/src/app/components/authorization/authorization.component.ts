@@ -56,6 +56,9 @@ export class AuthorizationComponent implements OnInit {
                   }
 
                 }
+                else{
+                  alert(authData.error)
+                }
 
                 return;
               }      

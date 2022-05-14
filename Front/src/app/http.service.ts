@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequCreateAd } from './Classes/Request/requ-create-ad';
 import { RequEditAd } from './Classes/Request/requ-edit-ad';
 import { catchError} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 const httpOptions = {
@@ -65,16 +66,22 @@ export class HttpService {
                 .pipe( res => { return res; }, err => {return err} );
   }
 
-  editAds( imgs: any, reqData : RequEditAd){
-    return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}
-        &Title=${reqData.title}
-        &Describe=${reqData.describe}
-        &Price=${reqData.price}
-        &idBrend=${reqData.idBrend}`,
+  list_adsGetByPagin(pagePagin:number, stepPagin : number, idCat : number){
+    return this.http.get( this.URL +
+       `/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}`)
+       .pipe( res => {
+         return res;
+       },
+       err => {
+         return err;
+       } )
+  }
+
+  editAds( imgs: any, filterStringValue : any, reqData : RequEditAd){  
+    return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}&Title=${reqData.title}&Describe=${reqData.describe}&Price=${reqData.price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&filtersValue=${filterStringValue}`,
           imgs)
           .pipe(res => {return res},err => {return err});
   }
-
   deleteAd(idAd : number){
     return this.http.delete(this.URL + `/Ad/DeleteAd?idAd=${idAd}`)
     .pipe( res => { return res; }, err => { return err } )

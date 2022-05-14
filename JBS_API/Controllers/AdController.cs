@@ -268,8 +268,17 @@ namespace JBS_API.Controllers
             var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
             var countImgs = _dbContext.Imgs.Count(i => i.AdId == idAd);
 
-            var resp = new Resp_One_Ad();
+           
+            _dbContext.Entry(ad).Collection("Filter_Ads").Load();
+            int[] filters = new int[ad.Filter_Ads.Count()];
 
+            for (int i = 0; i < ad.Filter_Ads.Count(); i++) 
+            {
+                filters[i] = ad.Filter_Ads.ElementAt(i).FilterValueId;
+            }
+
+            
+            var resp = new Resp_One_Ad();
 
             if (ad == null)
             {
@@ -285,18 +294,22 @@ namespace JBS_API.Controllers
             resp.idOwner = ad.UserId;
             resp.idCategory = ad.CategoryId;
             resp.idBrend = ad.BrendId;
+            resp.phoneNumber = ad.PhoneNumber;
+            resp.isNegotiatedPrice = ad.isNegotiatedPrice;
+            resp.isDelivery = ad.isDelivery;
+            resp.Filter_Ads = filters;
             
             return Json(resp);
         }
         [HttpPost]
         [Route("EditAd")]
         public JsonResult EditAd(int idAd, string Title, string Describe,
-            string Price, int idBrend,
+            string Price, string Phone, bool IsDelivery, bool isNegotiatedPrice,
+            string filtersValue,
             IFormFile[] filecollect)
         {
             try
             {
-                idBrend++;
                 var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
 
                 var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
@@ -304,8 +317,25 @@ namespace JBS_API.Controllers
                 ad.Describe = Describe;
                 ad.Title = Title;
                 ad.Price = Decimal.Parse(Price);
-                ad.BrendId = idBrend;
                 ad.StatusAdId = statusCheking.Id;
+                ad.PhoneNumber = Phone;
+                ad.isDelivery = IsDelivery;
+                ad.isNegotiatedPrice = isNegotiatedPrice;
+
+                _dbContext.Entry(ad).Collection("Filter_Ads").Load();
+
+                string[] valueFilters;
+                if (filtersValue.Length > 0)
+                {
+                    valueFilters = filtersValue.Split('|');
+
+                    for (int i = 0; i < valueFilters.Length; i++)
+                    {
+                        ad.Filter_Ads.ElementAt(i).FilterValueId = int.Parse(valueFilters[i]);
+                    }
+                }
+
+
 
                 var imgs = _dbContext.Imgs.Where(i => i.AdId == idAd).ToArray();
 

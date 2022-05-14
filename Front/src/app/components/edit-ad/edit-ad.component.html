@@ -29,12 +29,12 @@
             </div>
           </div>
 
-          <div class="input-group mb-3">
+          <div class="input-group mb-3" *ngFor="let filter of filterList;let i = index">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Бренд</label>
+              <label class="input-group-text" for="inputGroupSelect01">{{filter.filterName}}</label>
             </div>
-            <select class="custom-select" id="Brend" [(ngModel)]="requData.Brend"  >
-              <option *ngFor="let brand of typeAd.Brends; let i = index" value="{{i}}" >{{brand}}</option>
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.FiltersValue[i]" >
+              <option *ngFor="let filterItem of filter.value; let j = index" value="{{filter.id[j]}}" >{{filterItem}}</option>
             </select>
           </div>
 
@@ -46,12 +46,36 @@
           </div>
 
          <div id="miniBlock">
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="IsDelivery"  [(ngModel)]="requData.isDelivery" >
+            <label class="form-check-label" for="IsDelivery">
+              С доставкой
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="isNegotiatedPrice"  [(ngModel)]="requData.isNegotiatedPrice" >
+            <label class="form-check-label" for="isNegotiatedPrice">
+              Договорная цена
+            </label>
+          </div>
+
+
             <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="price">Цена</label>
             </div>
             <input type="number" class="form-control" id="price" [(ngModel)]="requData.price"  >
-            </div>       
+            </div>      
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <label class="input-group-text" for="tel">Телефон</label>
+              </div>
+              <input type="tel" class="form-control" id="tel" [(ngModel)]="requData.phoneNumber"  >
+          </div>  
+
         </div>
         <input class="btn btn-primary" type="button" value="Изменить объявление" (click)="EditAds()" >
         </div>

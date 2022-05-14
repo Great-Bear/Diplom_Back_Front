@@ -22,6 +22,7 @@ export class AppComponent {
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
+      console.log("change State" + state);
     }
    )
 
@@ -31,7 +32,7 @@ export class AppComponent {
      }
    )
 
-   this.globalHub.AnonimUser(false);
+   this.globalHub.AnonimUser(true);
 
      this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
 
@@ -50,7 +51,6 @@ ngOnInit(){
     }
 
  this.router.events.subscribe( event => {
-/*
   if (event instanceof NavigationEnd){
     console.log(this.cookieService.getAll())
      if(event.url != "/registration" && event.url != "/authorization"){
@@ -63,7 +63,6 @@ ngOnInit(){
         }   
     }
   }
-  */
  })
 
  window.onunload = (event) => {

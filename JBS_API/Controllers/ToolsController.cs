@@ -175,7 +175,7 @@ namespace JBS_API.Controllers
                 }
 
                 string[] Layer2_Category = {
-                   "Все",
+                   "Все категории",
                    "Група1",
                    "Група2",
                    "Група3",
@@ -196,7 +196,6 @@ namespace JBS_API.Controllers
                 }
 
                 string[] Layer1_Category = {
-                   "Все",
                    "Подгрупа1",
                    "Подгрупа2",
                    "Подгрупа3",
@@ -222,19 +221,7 @@ namespace JBS_API.Controllers
                 string[] Categories = {
                    "Ноутбуки и компьютеры",
                    "Смартфоны",
-                   "Бытовая техника",
-                   "Товары для дома",
-                   "Инструменты и автотовары",
-                   "Сантехника и ремонт",
-                   "Дача, сад и огород",
-                   "Спорт и увлечения",
-                   "Одежда, обувь и украшения",
-                   "Косметические товары",
-                   "Товары для детей",
                    "Зоотовары",
-                   "Канцтовары и книги",
-                   "Алкогольные напитки",
-                   "Товары для бизнеса",
                };
 
                 var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Подгрупа1");
@@ -314,7 +301,7 @@ namespace JBS_API.Controllers
                         Title = $"Товар {i + 1}",
                         Describe = "Описание товара это Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут Описание товара будет тут",
                         User = userOwner,
-                        CategoryId = random.Next(1, Categories.Length - 1),
+                        CategoryId = random.Next(1, Categories.Length ),
                         BrendId = random.Next(1, Brends.Length - 1),
                         QualityAdId = random.Next(1, 3),
                         TypeOwnerId = random.Next(1, 3),
@@ -338,6 +325,29 @@ namespace JBS_API.Controllers
                     var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = true };
                     _dbContext.Imgs.Add(newImg);
                     _dbContext.SaveChanges();
+
+                    int countAds = _dbContext.Ads.Count() - 1;
+                    var lastAd = _dbContext.Ads.Skip(countAds).ToList().Last();
+
+                    var filtersByCat = _dbContext.Filters.Where(f => f.CategoryId == lastAd.CategoryId).ToList();
+                    
+                    foreach (var filterItem in filtersByCat)
+                    {
+                        if (filterItem.CategoryId == lastAd.CategoryId)
+                        {
+                            var filtersValue = _dbContext.FilterValues.Where(f=> f.FilterId == filterItem.Id).ToList();
+ 
+
+                            int lengthFiltersValue = filtersValue.Count();
+                            _dbContext.Filter_Ad.Add(new Filter_Ad
+                            {
+                                FilterValueId = filtersValue.ElementAt(random.Next(0, lengthFiltersValue - 1)).Id,
+                                AdId = lastAd.Id,
+                            });
+                            _dbContext.SaveChanges();
+                        }
+                        
+                    }
 
 
                     for (int j = 0; j < files.Length; j++)
@@ -414,12 +424,13 @@ namespace JBS_API.Controllers
 
 
             string[] FValueDiag =
-            {
-                "Другое",
+            {                
                 "4.1",
                 "7.5",
                 "5.6",
-                "3"
+                "3",
+                "2.1",
+                "5.7"
             };
 
             _dbContext.Filters.Add(new Filter
@@ -444,11 +455,12 @@ namespace JBS_API.Controllers
             
             string[] FValueBrend =
             {
-                "Другое",
                 "Apple",
                 "Samsung",
                 "Nokia",
-                "Motorola"
+                "Motorola",
+                "Xiomi",
+                "BlackBerry"
             };
 
             _dbContext.Filters.Add(new Filter
@@ -474,11 +486,12 @@ namespace JBS_API.Controllers
 
             string[] FValueBrendPC =
             {
-                "Другое",
                 "Lenovo",
                 "Apple",
                 "HP",
-                "ASUS"              
+                "ASUS",
+                "Apple",
+                "Mark2",
             };
             _dbContext.Filters.Add(new Filter
             {
@@ -506,7 +519,9 @@ namespace JBS_API.Controllers
                 "2",
                 "4",
                 "6",
-                "12"
+                "12",
+                "24",
+                "99"
             };
             _dbContext.Filters.Add(new Filter
             {

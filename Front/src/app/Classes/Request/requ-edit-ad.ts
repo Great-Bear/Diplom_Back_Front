@@ -4,4 +4,9 @@ export class RequEditAd {
     public describe : string = "";
     public price : string = "";
     public idBrend : string = "";
+    public FiltersValue = new Array();
+    public Phone : string = "";
+    public IsDelivery : boolean = false;
+    public isNegotiatedPrice : boolean = false;
+
 }

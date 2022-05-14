@@ -328,6 +328,7 @@ ul {
   font-style: normal;
   font-weight: 300;
   margin-left: 2px;
+  margin-top: 5px;
   font-size: 16px;
   color: #253947;
 }
@@ -725,6 +726,15 @@ input::-webkit-inner-spin-button {
   top: 20px;
   left: 20px;
 }
+
+.deliveryIconAsPlitca
+{
+  position: absolute !important;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+}
+
 #containerPlitcaAds
 {
   display: flex;
@@ -735,6 +745,7 @@ input::-webkit-inner-spin-button {
 }
 .adAsPlitca
 {
+  position: relative;
   width: 243px;
   margin: 0 0 10px;
 
@@ -760,16 +771,26 @@ input::-webkit-inner-spin-button {
   padding: 10px 10px 20px 10px;
   color: #394C59;
 }
-
+.imgAds
+{
+  width: 252px;
+  height: 231px;
+}
+.imgAdsPlitca
+{
+  width: 243px;
+  height: 216px;
+}
 .extraInfoAd
 {
   position: relative;
   top: 5px;
   display: none;
   width: 100%;
-  height: 150px;
+  height: 130px;
   background-color: white;
   padding: 0 10px 0 10px;
+  z-index: 2;
 
   border-radius: 0px 0px 5px 5px;
 
