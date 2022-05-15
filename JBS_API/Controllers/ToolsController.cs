@@ -48,6 +48,7 @@ namespace JBS_API.Controllers
                             new
                             {
                                 layer1 = layer1.Name,
+                                layer1Id = layer1.Id,
                                 layer1T_idNextLayer = layer1.Layer2_CategoryId,
                                 cat = cat.Select( item => item.Name ),
                                 idCat = cat.Select(item => item.Id)
@@ -64,6 +65,7 @@ namespace JBS_API.Controllers
                     new
                     {
                         layer2 = layer2.Name,
+                        layer2Id = layer2.Id,
                         data = layer1
                     }
                 );
@@ -175,7 +177,6 @@ namespace JBS_API.Controllers
                 }
 
                 string[] Layer2_Category = {
-                   "Все категории",
                    "Група1",
                    "Група2",
                    "Група3",
@@ -308,7 +309,7 @@ namespace JBS_API.Controllers
                         isNegotiatedPrice = random.Next(0, 2) == 1 ? true : false,
                         isDelivery = random.Next(0, 2) == 1 ? true : false,
                         PhoneNumber = "+38(096)-350-38-33",
-                        Price = 1235,
+                        Price = random.Next(1, 10000),
                         StatusAd = statusPublish,
                     };
 
@@ -401,7 +402,10 @@ namespace JBS_API.Controllers
 
         private void CreateFilters()
         {
-
+            if(_dbContext.Filters.Count() > 0)
+            {
+                return;
+            }
             var CatPhone = _dbContext.Categories.FirstOrDefault( c => c.Name == "Смартфоны");
             var CatPC = _dbContext.Categories.FirstOrDefault( c => c.Name == "Ноутбуки и компьютеры");
             var CatZoo = _dbContext.Categories.FirstOrDefault( c => c.Name == "Зоотовары");

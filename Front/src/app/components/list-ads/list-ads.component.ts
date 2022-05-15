@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FilterValueContainer } from 'src/app/Classes/Request/filter-value-container';
 
 @Component({
   selector: 'app-list-ads',
@@ -13,6 +14,13 @@ export class ListAdsComponent implements OnInit {
   carLayer : any;
   catsList = new Array();
   catsListMarker = new Array();
+
+  catId = 0;
+  QualityId = 0;
+  isDelivery = true;
+
+  priceMin = 0;
+  priceMax = 0;
 
   filters = new Array();
 
@@ -29,6 +37,8 @@ export class ListAdsComponent implements OnInit {
   stepPagin : number = 10;
   countItemFilter = Array();
 
+  arrfiltersValueContainer = new Array();
+
   constructor(private http : HttpService,
               private globalHub : GlobalHubService,
               private sanitizer: DomSanitizer,
@@ -36,9 +46,10 @@ export class ListAdsComponent implements OnInit {
   { 
    this.carLayer = new Array();
    
+    this.loadFiltes(2);
+
     this.globalHub.categoriesLayers.subscribe( cats => {
       this.carLayer = cats;
-     
       for(let itemL3 of this.carLayer){
         for(let itemL2 of itemL3.data){
           let index = 0;
@@ -58,14 +69,25 @@ export class ListAdsComponent implements OnInit {
     
   }
 
+  clearMinPrice(){
+    this.priceMin = 0;
+  }
+
   loadNewAd(){
-    this.http.list_adsGetByPagin( 1, this.stepPagin, 0 )
+    console.log(this.arrfiltersValueContainer)
+    this.http.list_adsGetByPagin( 1, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
+      this.priceMin, this.priceMax, this.arrfiltersValueContainer )
     .subscribe(
       res => {
         let response : any = res;
+        console.log(res);
         if(response.isError == true){
           alert("error");
           return;
+        }
+        if(this.priceMax == 0 && this.priceMin == 0 && response.priceMin != undefined){
+          this.priceMin = response.priceMin;
+          this.priceMax = response.priceMax;
         }
         if(response.data instanceof Array){
           this.adsCollect = new Array();
@@ -85,6 +107,15 @@ export class ListAdsComponent implements OnInit {
         alert("error load ads");
       }
     )
+  }
+
+  choiceQualityAd(event : any){
+    this.QualityId = event.currentTarget.id;
+    this.loadNewAd();
+  }
+
+  changePrice(){
+    this.loadNewAd();
   }
 
   public LoadMainImgs(){
@@ -127,11 +158,37 @@ export class ListAdsComponent implements OnInit {
   }
 
   loadFiltes(idCat: number){
+
     this.http.getFilters(idCat)
     .subscribe(
       res =>{
           if(res instanceof Array){
           this.filters = res;  
+          this.arrfiltersValueContainer = new Array();
+          let index = 0;
+          for(let itemFilter of this.filters){
+           
+            let filterCont = new FilterValueContainer();
+            this.arrfiltersValueContainer.push(filterCont);
+            this.filters[index].useSlider = false;
+            if(itemFilter.typeName == "combo"){
+
+              let minValue = itemFilter.value[0];  
+              let maxValue = itemFilter.value[0];  
+
+              for(let value of itemFilter.value){
+                  if(minValue > value){
+                    this.filters[index].minValue = value;
+                    minValue = value;
+                  }
+                  if(maxValue < value){
+                    this.filters[index].maxValue = value;
+                    maxValue = value;
+                  }                
+              }             
+            }      
+            index++;     
+          }
           this.countItemFilter = new Array(res.length);  
           for(let i = 0; i < res.length; i++){
             this.countItemFilter[i] = 5;
@@ -145,19 +202,79 @@ export class ListAdsComponent implements OnInit {
 
   }
 
+  choiceFilterValue(event : any, idFilter: number){
+   if(event.target.id == "useFilter"){
+     let arr = event.currentTarget.getElementsByClassName("custom-checkbox");
+    
+     this.arrfiltersValueContainer[idFilter].values = new Array();
+     this.arrfiltersValueContainer[idFilter].userSlider = this.filters[idFilter].useSlider;
+     this.arrfiltersValueContainer[idFilter].idFilter =  this.filters[idFilter].idFilter;
+
+     if(this.filters[idFilter].useSlider == false){   
+        for(let item of arr){
+          if(item.checked){
+            this.arrfiltersValueContainer[idFilter].values.push(item.id.replace("filterValue",""))
+          }
+        }
+      }
+      else{
+        let arrInptPrice = event.currentTarget.getElementsByClassName("inptPrice");
+      
+        if(arrInptPrice != null && arrInptPrice.length > 0){
+         this.arrfiltersValueContainer[idFilter].minValue = arrInptPrice[0].value;
+         this.arrfiltersValueContainer[idFilter].maxValue = arrInptPrice[1].value;
+        }
+      }
+    this.loadNewAd();
+    
+   }
+  }
+
+  userSliderFilter(state : boolean, indexFilter : number, event : any)
+  {
+    if(state == true){
+      let arr = event.currentTarget.parentNode.getElementsByClassName("custom-checkbox");
+      for(let i = 0; i < arr.length; i++){
+        arr[i].checked = false;
+      }
+    }
+    this.filters[indexFilter].useSlider = state;
+  }
+
   choiceCat(event : any){
 
     let rep = event.target.innerText.replace("<b>",'');
     rep = rep.replace("</b>","");
-    console.log(rep);
 
     this.choiceCatValue = rep;
+    this.catId = event.target.id
+
 
     this.isDropListCat = false;
 
     this.isScrollListCat = true;
-
     this.loadFiltes(event.currentTarget.id);
+    this.loadNewAd();
+  }
+
+  choiceAllCat(){
+    this.filters = new Array();
+    this.catId = 0;
+    this.choiceCatValue = "Все категории";
+    this.loadNewAd();
+  }
+
+  changeDel = true;
+  changeIsDelivery(){
+    if(this.changeDel){
+      this.changeDel = !this.changeDel;
+      this.isDelivery = !this.isDelivery;
+      this.loadNewAd();
+    }
+    else{
+      this.changeDel = !this.changeDel;
+    }
+  
   }
 
   hoverInptCat(){

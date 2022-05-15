@@ -66,9 +66,25 @@ export class HttpService {
                 .pipe( res => { return res; }, err => {return err} );
   }
 
-  list_adsGetByPagin(pagePagin:number, stepPagin : number, idCat : number){
-    return this.http.get( this.URL +
-       `/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}`)
+  list_adsGetByPagin(pagePagin:number, stepPagin : number, idCat : number ,idQuality : number,isDel : boolean, priceMin : number, priceMax : number
+    , arrFilters : any){
+    let filtersValueContainer = {
+      maxValue : "2",
+      minValue : "3",
+      userSlider: false,
+      values : new Array()
+    }
+
+    filtersValueContainer.values.push("str")
+
+    console.log(arrFilters);
+
+    let arr = new Array();
+    arr.push(filtersValueContainer);
+
+    return this.http.post( this.URL +
+       `/List_Ads/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}&idQuality=${idQuality}&idDel=${isDel}&priceFrom=${priceMin}&priceBefore=${priceMax}`
+       , arrFilters)
        .pipe( res => {
          return res;
        },

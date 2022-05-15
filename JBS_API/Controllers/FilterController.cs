@@ -51,6 +51,7 @@ namespace JBS_API.Controllers
                         (filter, valueFilter) =>
                             new
                             {
+                                idFilter = filter.Id,
                                 filterName = filter.FilterName,
                                 typeName = filter.TypeFilter.Name,
                                 value = valueFilter.Select(item => item.Name),

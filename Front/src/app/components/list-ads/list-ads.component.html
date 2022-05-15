@@ -30,7 +30,16 @@
 
                 <div id="MenuLayer3" *ngIf="isDropListCat && isScrollListCat" >
                     <ul>
-                        <li class="filterItems" *ngFor="let item of carLayer">
+                        <li class="filterItems" id="0" (click)="choiceAllCat()" >
+                            <span >
+                               Все категории
+                            </span>
+                            <span >
+                                <img style="opacity: 0;" src="../assets/imgs/RightTriangle.png" alt="openCat">
+                            </span>
+                        </li>
+                    <ng-container *ngFor="let item of carLayer">
+                        <li class="filterItems" id="{{item.layer2Id}}" >
                             <span >
                                 {{item.layer2}}
                             </span>
@@ -55,7 +64,8 @@
                                     </div>
                                 </li>                              
                             </div>                      
-                        </li>                      
+                        </li>  
+                    </ng-container>                    
                     </ul>
                 </div>
                 <div id="ScrollCat" [hidden]="isScrollListCat">
@@ -81,19 +91,19 @@
                 </span>
             </div>
             <div class="panel"> 
-                <label for="stateAll">             
+                <label for="stateAll" id="0" (click)="choiceQualityAd($event)" >             
                     <div>      
                         <input class="custom-radio" type="radio" name="state" id="stateAll" checked>                 
                         <label for="stateAll">Все</label>
                     </div>
                 </label>
-                <label for="stateNew"> 
+                <label for="stateNew" id="1" (click)="choiceQualityAd($event)" > 
                     <div>
                         <input class="custom-radio" type="radio" name="state" id="stateNew">
                         <label for="stateNew">Новые</label>
                     </div>
                 </label>
-                    <label for="S/H"> 
+                    <label for="S/H" id="2" (click)="choiceQualityAd($event)" > 
                     <div>
                         <input class="custom-radio" type="radio" name="state" id="S/H">
                         <label for="S/H">Б/у</label>
@@ -112,9 +122,9 @@
                     </span>
                 </div>
                 <div class="panel">
-                    <label for="isDelivery"> 
-                        <div class="checkbox" id="containerCheboxDeliv">
-                            <input class="custom-checkbox" type="checkbox" id="isDelivery" name="color-1" checked value="Только с доставкой">
+                    <label for="isDelivery" (click)="changeIsDelivery()"  > 
+                        <div class="checkbox" id="containerCheboxDeliv"   >
+                            <input class="custom-checkbox" type="checkbox" id="isDelivery" checked  name="color-1" value="Только с доставкой">
                             <label for="isDelivery" id="isDeliveryText" >Только с доставкой</label>
                         </div>
                     </label>
@@ -132,15 +142,15 @@
                 </div>
                 <div class="panel" >
                     <div id="inptPrice" >
-                        <input type="number" id="priceFrom" class="inptPrice">
-                        <img id="cencelBtnPrice" src="../assets/imgs/LittleCancel.png" alt="resetFilter">
+                        <input type="number" id="priceFrom" class="inptPrice" [(ngModel)]="priceMin" >
+                        <img (click)="clearMinPrice()" id="cencelBtnPrice" src="../assets/imgs/LittleCancel.png" alt="resetFilter">
 
-                        <input type="number" id="priceBefore" class="inptPrice">
+                        <input type="number" id="priceBefore" [(ngModel)]="priceMax" class="inptPrice">
                     </div>
                     <div id="rangeBlock" >
                         <img src="../assets/imgs/Range.png" alt="openCat">
                     </div>
-                    <button class="confirmBtn">
+                    <button class="confirmBtn" (click)="changePrice()">
                         OK
                     </button>
                 </div>
@@ -158,16 +168,24 @@
                         <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
                     </span>
                 </div>
-                <div class="panel">
+                <div class="panel" (click)="choiceFilterValue($event,indexFilter)" >
 
+                    <ng-container *ngIf="filter.typeName == 'combo'">  
+                        <div id="inptPrice" (input)="userSliderFilter(true,indexFilter,$event)">
+                            <input type="text" id="priceFrom" class="inptPrice" value="{{filter.minValue}}" >
+                            <input type="text" id="priceBefore" class="inptPrice" value="{{filter.maxValue}}" >
+                        </div>
+                        <div id="rangeBlock" >
+                            <img src="../assets/imgs/Range.png" alt="openCat">
+                        </div>
+                    </ng-container>
 
-                <ng-container *ngIf="filter.typeName == 'items'">
                     <div *ngFor="let value of filter.value; let i = index" >
-                        <label for="brend1" class="brend" > 
+                        <label for="brend1" class="brend"  > 
                             <ng-container *ngIf="countItemFilter[indexFilter]>i">
-                            <div class="checkbox">
-                                <input class="custom-checkbox" type="checkbox" id="{{i+'c'}}">
-                                <label for="{{i+'c'}}" class="brendText" >{{value}}</label>
+                            <div class="checkbox" (input)="userSliderFilter(false,indexFilter,$event)" >
+                                <input class="custom-checkbox"  type="checkbox" id="{{filter.id[i]+'filterValue'}}">
+                                <label for="{{filter.id[i]+'filterValue'}}" class="brendText"  >{{value}}</label>
                             </div>
                             <div class="countItemBrend">
                                 ({{filter.counts[i]}})
@@ -178,43 +196,8 @@
 
                     <div class="blockContent" id="BrendBtns">
                         <button class="showAllBtn" (click)="changeCountItemFilter(indexFilter,$event)" >Показать все</button>
-                        <button class="confirmBtn">OK</button>
+                        <button class="confirmBtn" id="useFilter" >OK</button>
                     </div>
-                </ng-container>
-
-                <ng-container *ngIf="filter.typeName == 'combo'">
-                    
-                    <div>                    
-                        <div id="inptPrice"  >
-                            <input type="number" id="priceFrom" class="inptPrice">
-                            <input type="number" id="priceBefore" class="inptPrice">
-                        </div>
-                        <div id="rangeBlock" >
-                            <img src="../assets/imgs/Range.png" alt="openCat">
-                        </div>
-    
-                        <div>
-                            <label for="brend1" class="brend" *ngFor="let value of filter.value; let i = index"> 
-                                <ng-container *ngIf="countItemFilter[indexFilter]>i">
-                                    <div class="checkbox">
-                                        <input class="custom-checkbox" type="checkbox" id="{{i+'q'}}">
-                                        <label for="{{i+'q'}}" class="brendText" >{{value}}</label>
-                                    </div>
-                                    <div class="countItemBrend">
-                                        ({{filter.counts[i]}})
-                                    </div>
-                                </ng-container>
-                            </label>
-                        </div>
-        
-    
-                        <div class="blockContent" id="BrendBtns">
-                            <button class="showAllBtn" (click)="changeCountItemFilter(indexFilter,$event)" >Показать все</button>
-                            <button class="confirmBtn">OK</button>
-                        </div>
-                    </div>
-
-                </ng-container>
              
                 </div>
             </div>
