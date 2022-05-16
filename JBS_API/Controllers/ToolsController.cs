@@ -314,7 +314,6 @@ namespace JBS_API.Controllers
                     };
 
 
-
                     string extension = files[i].Substring(files[i].LastIndexOf('.'));
                     uniqueName = System.Guid.NewGuid().ToString() + extension;
 
@@ -429,12 +428,12 @@ namespace JBS_API.Controllers
 
             string[] FValueDiag =
             {                
-                "4.1",
-                "7.5",
-                "5.6",
+                "4,1",
+                "7,5",
+                "5,6",
                 "3",
-                "2.1",
-                "5.7"
+                "2,1",
+                "5,7"
             };
 
             _dbContext.Filters.Add(new Filter

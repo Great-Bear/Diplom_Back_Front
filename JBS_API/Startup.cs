@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
+using System.Text.Json.Serialization;
 
 namespace JBS_API
 {
@@ -33,7 +34,7 @@ namespace JBS_API
 
             services.AddSwaggerGen();
 
-            
+          
 
             string con = "Server=localhost;Port=3306;Database=JBS;User=root;Password=1234;TreatTinyAsBoolean=true;CharSet=utf8";
 
