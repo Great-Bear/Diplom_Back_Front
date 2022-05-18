@@ -27,6 +27,17 @@ export class GlobalHubService {
     this.categoriesLayers.next(catsLay);
   }
 
+  public searchWord = new Subject<any>();
+  public ChangeSearchWord(searchWord: any){
+    this.searchWord.next(searchWord);
+  }
+
+
+  public startSearch = new Subject<any>();
+  public StartSeachAction(){
+    this.startSearch.next("");
+  }
+
   constructor( private cookie : CookieService,
                private http: HttpService ) 
                {

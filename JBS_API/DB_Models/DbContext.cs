@@ -24,6 +24,8 @@ namespace JBS_API
         public DbSet<FilterValue> FilterValues { get; set; }
         public DbSet<Filter_Ad> Filter_Ad { get; set; }
 
+        public DbSet<Currency> Currencies { get; set; }
+
 
         public DbSet<Brend> Brends { get; set; }
         public DbSet<VipAd> VipAds { get; set; }

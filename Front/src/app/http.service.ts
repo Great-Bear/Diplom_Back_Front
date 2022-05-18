@@ -45,12 +45,10 @@ export class HttpService {
   authUser( data : object ){
     return this.http.post( this.URL + "/User/login", JSON.stringify( data ), httpOptions )
                 .pipe( res => { return res; },                
-                  catchError(err => {   
-                    return err.message;
-                }) 
+                      err => {
+                        return err;
+                      }
               )
-            
-
             }
 
   confirmEmail(data : object){
@@ -59,7 +57,6 @@ export class HttpService {
   }
 
   createAds(data : any, filtersid : any, reqData : RequCreateAd  ){
-    console.log(reqData);
     return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&FiltersValue=${filtersid}
           `,         
             data)
@@ -67,7 +64,8 @@ export class HttpService {
   }
 
   list_adsGetByPagin(pagePagin:number, stepPagin : number, idCat : number ,idQuality : number,isDel : boolean, priceMin : number, priceMax : number
-    , arrFilters : any){
+    ,searchWord : any,idCurrency : number,arrOrderByValue : Array<number>, arrFilters : any){
+
     let filtersValueContainer = {
       maxValue : "2",
       minValue : "3",
@@ -77,13 +75,19 @@ export class HttpService {
 
     filtersValueContainer.values.push("str")
 
-    console.log(arrFilters);
-
     let arr = new Array();
     arr.push(filtersValueContainer);
 
+    let orderByValue = "";
+    for(let i = 0; i < arrOrderByValue.length; i++){
+      orderByValue += arrOrderByValue[i];
+      if(i != arrOrderByValue.length - 1){
+        orderByValue += "|";
+      }
+    }
+
     return this.http.post( this.URL +
-       `/List_Ads/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}&idQuality=${idQuality}&idDel=${isDel}&priceFrom=${priceMin}&priceBefore=${priceMax}`
+       `/List_Ads/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}&idQuality=${idQuality}&idDel=${isDel}&priceFrom=${priceMin}&searchWord=${searchWord}&idCurrency=${idCurrency}&priceBefore=${priceMax}&orderBy=${orderByValue}`
        , arrFilters)
        .pipe( res => {
          return res;

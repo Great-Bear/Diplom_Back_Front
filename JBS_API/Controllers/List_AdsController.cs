@@ -23,9 +23,8 @@ namespace JBS_API.Controllers
         [HttpPost]
         [Route("GetAdsPagination")]
         public JsonResult GetAdsPagination(int pagePagination,int stepPagin, int idCategory, int idQuality, bool idDel,
-            int priceFrom, int priceBefore, FiltersValue[] filtersValue)
+            int priceFrom, int priceBefore,int idCurrency, string orderBy, string searchWord, FiltersValue[] filtersValue)
         {
-
             pagePagination--;
             paginationStep = stepPagin;
             int countItems = 0;
@@ -40,6 +39,12 @@ namespace JBS_API.Controllers
                 {
                     res = _dbContext.Ads;
                 }
+
+                if(searchWord.Length > 0)
+                {
+                    res = res.Where(a => a.Title.Contains(searchWord));
+                }
+
                 else if (idCategory != 0)
                 {
                     res = _dbContext.Ads.Where(a => a.CategoryId == idCategory);
@@ -50,12 +55,22 @@ namespace JBS_API.Controllers
                     res = res.Where(r => r.QualityAdId == idQuality);
                 }
 
-                res = res.Where(r => r.isDelivery == idDel);
+                if(idDel == true)
+                {
+                    res = res.Where(r => r.isDelivery == idDel);
+                }
 
-                if (priceBefore != priceFrom)
+                if (idCurrency != 0)
+                {
+                    res = res.Where(r => r.CurrencyId == idCurrency);
+                }
+
+                if (priceBefore != -1)
                 {
                     res = res.Where(r => r.Price >= priceFrom && r.Price <= priceBefore);
                 }
+
+                
 
 
                 List<Ad> finalListAd = new List<Ad>();
@@ -149,20 +164,72 @@ namespace JBS_API.Controllers
                     res = finalListAd.AsQueryable();
                 }
 
-                countItems = res.Count();
-                var listRes = res.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
-
-
-                foreach (var item in listRes)
+                if (orderBy != null && res.Count() > 0)
                 {
-                    _dbContext.Entry(item).Reference("TypeOwner").Load();
-                    _dbContext.Entry(item).Reference("QualityAd").Load();
+                    string[] orderByValues = orderBy.Split("|");
+
+                    if (orderByValues.Length > 0)
+                    {
+                        if (orderByValues[0] != "0")
+                        {
+                            if (orderByValues[0] == "-1")
+                            {
+                                res = res.OrderByDescending(a => a.TimeEnd);
+                            }
+                        }
+                        else if (orderByValues[1] != "0")
+                        {
+                            if (orderByValues[1] == "-1")
+                            {
+                                res = res.OrderBy(a => a.Price);
+                            }
+                            else
+                            {
+                                res = res.OrderByDescending(a => a.Price);
+                            }
+                        }
+                        else if (orderByValues[2] != "0")
+                        {
+                            var resArr = res.ToArray();
+                            var random = new Random();
+                            for (int i = resArr.Length - 1; i >= 1; i--)
+                            {
+                                int j = random.Next(i + 1);
+                                var temp = resArr[j];
+                                resArr[j] = resArr[i];
+                                resArr[i] = temp;
+                            }
+                            res = resArr.AsQueryable();
+                        }
+                    }
                 }
+           
+                if (res.Count() > 0)
+                {
+                    foreach (var item in res.ToArray())
+                    {
+                        _dbContext.Entry(item).Reference("TypeOwner").Load();
+                        _dbContext.Entry(item).Reference("QualityAd").Load();
+                        _dbContext.Entry(item).Reference("Currency").Load();
+                    }
+                }
+                countItems = res.Count();
+                List<Ad> listRes = res.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
+
+                decimal maxPrice = 0;
+                decimal minPirce = 0;
+                if(listRes.Count > 0)
+                {
+                    maxPrice = listRes.Max(f => f.Price);
+                    minPirce = listRes.Min(f => f.Price);
+                }
+
+
                 return Json(new
                 {
                     data = listRes,
-                    priceMin =  _dbContext.Ads.Min(f => f.Price),
-                    priceMax = _dbContext.Ads.Max( f => f.Price),
+                    priceMin = minPirce,
+                    priceMax = maxPrice,
                     countPages = Math.Ceiling((float)countItems / paginationStep),
                     isError = false,
                 });

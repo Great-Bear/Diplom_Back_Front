@@ -35,6 +35,10 @@ namespace JBS_API.DB_Models
         public int TypeOwnerId { get; set; }
         public TypeOwner TypeOwner { get; set; }
 
+
+        public int CurrencyId { get; set; }
+        public Currency Currency { get; set; }
+
         public ICollection<Img> Imgs { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
         public ICollection<Filter_Ad> Filter_Ads { get; set; }

@@ -593,7 +593,23 @@ input::-webkit-inner-spin-button {
   background: #182744 !important;
 }
 
-.isPickedItem .arrow
+.isPickedItemCurrency
+{
+  color: white;
+  background: #182744 !important;
+}
+
+.startPostArrow
+{
+  transform: rotate(180deg) ;
+}
+
+.arrowDown
+{
+  transform: rotate(0deg) ;
+}
+
+.arrowUp
 {
   transform: rotate(180deg) ;
 }

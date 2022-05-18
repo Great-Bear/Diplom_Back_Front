@@ -294,6 +294,22 @@ namespace JBS_API.Controllers
                     _dbContext.SaveChanges();
                 }
 
+                string[] currencies =
+                {
+                    "грн.",
+                    "$",
+                    "€",
+                };
+
+                if (_dbContext.Currencies.Count() == 0)
+                {
+                    foreach (var item in currencies)
+                    {
+                        _dbContext.Currencies.Add(new Currency { Name = item });
+                        _dbContext.SaveChanges();
+                    }
+                }
+
 
                 for (int i = 0; i < files.Length; i++)
                 {
@@ -308,6 +324,7 @@ namespace JBS_API.Controllers
                         TypeOwnerId = random.Next(1, 3),
                         isNegotiatedPrice = random.Next(0, 2) == 1 ? true : false,
                         isDelivery = random.Next(0, 2) == 1 ? true : false,
+                        CurrencyId = random.Next(1, 4),
                         PhoneNumber = "+38(096)-350-38-33",
                         Price = random.Next(1, 10000),
                         StatusAd = statusPublish,

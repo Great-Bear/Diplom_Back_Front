@@ -22,12 +22,25 @@ export class ListAdsComponent implements OnInit {
   priceMin = 0;
   priceMax = 0;
 
+  isNewMinMaxPrice = true;
+
+  searchWord = "";
+
+  isLoadItem = true;
+
   filters = new Array();
 
   adsCollect = new Array();
   imgCollect = new Array();
 
+  orderByDate = -1;
+  orderByPrice = 0;
+  orderByrandom = 0;
+
+  arrOrderByValue = Array();
+
   isPlitcaShow = false;
+  isNoAds = false;
 
   choiceCatValue : string = "Все категории";
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
@@ -37,6 +50,8 @@ export class ListAdsComponent implements OnInit {
   stepPagin : number = 10;
   countItemFilter = Array();
 
+  idCurrency = 0;
+
   arrfiltersValueContainer = new Array();
 
   constructor(private http : HttpService,
@@ -45,8 +60,21 @@ export class ListAdsComponent implements OnInit {
                ) 
   { 
    this.carLayer = new Array();
-   
+   this.arrOrderByValue.push(this.orderByDate);
+   this.arrOrderByValue.push(this.orderByPrice);
+   this.arrOrderByValue.push(this.orderByrandom);
+
     this.loadFiltes(2);
+
+    this.globalHub.searchWord.subscribe( searchWord => {
+      this.searchWord = searchWord;
+    } );
+
+    this.globalHub.startSearch.subscribe( () => {
+      console.log( this.searchWord);
+     // this.loadNewAd();
+    });
+
 
     this.globalHub.categoriesLayers.subscribe( cats => {
       this.carLayer = cats;
@@ -74,24 +102,41 @@ export class ListAdsComponent implements OnInit {
   }
 
   loadNewAd(){
-    console.log(this.arrfiltersValueContainer)
+    this.isLoadItem = true;
+
+    let priceMax= -1;
+
+    if(this.issortByPrice == true){
+      priceMax = this.priceMax;
+    }
+
     this.http.list_adsGetByPagin( 1, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
-      this.priceMin, this.priceMax, this.arrfiltersValueContainer )
+      this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
       res => {
         let response : any = res;
         console.log(res);
         if(response.isError == true){
-          alert("error");
+          alert(response.error);
           return;
         }
-        if(this.priceMax == 0 && this.priceMin == 0 && response.priceMin != undefined){
+        if(this.isNewMinMaxPrice){
           this.priceMin = response.priceMin;
           this.priceMax = response.priceMax;
+          this.isNewMinMaxPrice = false;
+          this.sortByPrice(false);
         }
         if(response.data instanceof Array){
           this.adsCollect = new Array();
          
+          if(response.data.length > 0){
+            this.isNoAds = false
+          }
+          else{
+            this.isNoAds = true;
+          }
+
+
           for(let ad of response.data){
             this.adsCollect.push(ad);
           }
@@ -99,8 +144,9 @@ export class ListAdsComponent implements OnInit {
           for(let i = 0; i < this.imgCollect.length; i++){
             this.imgCollect[i] = this.emptyImgUrl;
           }
-          console.log(this.adsCollect);
+          console.log(this.adsCollect);         
         }
+        this.isLoadItem = false;
         this.LoadMainImgs();
       },
       err => {
@@ -332,24 +378,98 @@ export class ListAdsComponent implements OnInit {
     }
   }
 
-  pickedSort(event:any){
-    
+  choiceOrderType : any;
+
+  pickedCurrency(event:any){
     if(event.target.tagName != "SPAN"){
       return;
     }
 
     let arr = event.currentTarget.getElementsByTagName("span")
-    console.log(arr[0] , event.target)
-    if(arr[0] == event.target){
-      return;
-    }
+      if(arr[0] == event.target){
+        return;
+      }
 
-    for(let i = 0; i < arr.length; i++){
-      if(arr[i].classList.contains("isPickedItem")){
-        arr[i].classList.remove("isPickedItem");
+    for(let itemCurrecy of arr){
+      if(itemCurrecy.classList.contains("isPickedItemCurrency")){
+        itemCurrecy.classList.remove("isPickedItemCurrency");
       }
     }
-    event.target.classList.add("isPickedItem");
+
+    event.target.classList.add("isPickedItemCurrency");
+
+    this.idCurrency = event.target.id;
+    this.isNewMinMaxPrice = true;
+    this.sortByPrice(false);
+    this.loadNewAd();
+
+  }
+  issortByPrice = false;
+  sortByPrice(value : boolean){
+    this.issortByPrice = value;
+  }
+
+  pickedSort(event:any){
+    
+    if(event.target.tagName != "SPAN"){
+      return;
+    }
+      let arr = event.currentTarget.getElementsByTagName("span")
+      if(arr[0] == event.target){
+        return;
+      }
+
+      if(this.choiceOrderType == undefined){
+        for(let typeOrder of arr){
+          if(typeOrder.classList.contains("isPickedItem")){
+            this.choiceOrderType = typeOrder;
+          }
+        }
+      }
+
+      let isFirstClick = true;
+      let arrow = this.choiceOrderType.getElementsByTagName('svg')[0];
+
+      if(event.target.classList.contains("isPickedItem")){
+        isFirstClick = false;
+        this.choiceOrderType = event.target;
+
+        if(event.target.id != "random"){
+          if(arrow.classList.contains("arrowUp")){
+            arrow.classList.remove("arrowUp")
+            arrow.classList.add("arrowDown")
+          }
+          else{
+            arrow.classList.remove("arrowDown")
+            arrow.classList.add("arrowUp")       
+          }
+        }
+      }
+      else{
+        this.choiceOrderType.classList.remove("isPickedItem");
+        this.choiceOrderType = event.target;
+        this.choiceOrderType.classList.add("isPickedItem");
+        arrow = this.choiceOrderType.getElementsByTagName('svg')[0];
+      }
+    
+    let indexOrderBy = 0;
+    for(let i = 1; i < arr.length; i++){
+      if(event.target == arr[i]){
+        indexOrderBy = i - 1;
+      }
+      this.arrOrderByValue[i - 1] = 0;
+    } 
+
+      if(arrow.classList.contains("arrowUp")){
+        this.arrOrderByValue[indexOrderBy] = -1;     
+      }
+      else{
+        this.arrOrderByValue[indexOrderBy] = 1;
+      }
+
+
+    this.loadNewAd();
+
   }
 
   changeTypeShowAds(event : any){

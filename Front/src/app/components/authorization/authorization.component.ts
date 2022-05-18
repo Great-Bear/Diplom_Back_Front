@@ -65,6 +65,8 @@ export class AuthorizationComponent implements OnInit {
               subRegUsr.unsubscribe();
               console.log("Show message error server");
 
+          }, err => {
+            alert("error http");
           });
         }  
 }

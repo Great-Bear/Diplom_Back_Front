@@ -15,6 +15,8 @@ export class AppComponent {
 
   isAnonimUser = true;
   isModer = false;
+
+  searchWord = "";
   
   constructor(private cookieService : CookieService,
               private router : Router,
@@ -22,9 +24,9 @@ export class AppComponent {
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
-      console.log("change State" + state);
     }
    )
+
 
    this.globalHub.isModer.subscribe(
      state => {
@@ -38,6 +40,14 @@ export class AppComponent {
 
 }
 
+startSearch(){
+  if(this.searchWord.length == 0){
+    alert("Поисковой запрос не может быть пустой");
+    return;
+  }
+  this.globalHub.StartSeachAction();
+}
+
 ngOnInit(){
 
 
@@ -49,7 +59,7 @@ ngOnInit(){
     else{
       this.cookieService.set("activeSession","no");
     }
-
+/*
  this.router.events.subscribe( event => {
   if (event instanceof NavigationEnd){
     console.log(this.cookieService.getAll())
@@ -64,6 +74,7 @@ ngOnInit(){
     }
   }
  })
+ */
 
  window.onunload = (event) => {
   this.cookieService.set("timeOutSession", (new Date().getTime() + 60000).toString() );

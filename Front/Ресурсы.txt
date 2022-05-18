@@ -2,3 +2,4 @@ https://html5css.ru/howto/howto_css_dropdown.php
 https://html5css.ru/howto/howto_js_accordion.php
 https://itchief.ru/html-and-css/styling-checkbox-and-radio
 https://only-to-top.ru/blog/coding/2020-01-31-stilizaciya-skrolla-css.html
+https://ru.stackoverflow.com/questions/547996/%D0%9A%D0%B0%D0%BA-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%88%D0%B0%D1%82%D1%8C-%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%BE-%D0%BF%D0%B5%D1%80%D0%B5%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C-%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-%D0%B2-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%B5
