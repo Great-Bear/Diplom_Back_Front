@@ -3,6 +3,9 @@ import { HttpService } from 'src/app/http.service';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FilterValueContainer } from 'src/app/Classes/Request/filter-value-container';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-list-ads',
@@ -57,22 +60,24 @@ export class ListAdsComponent implements OnInit {
   constructor(private http : HttpService,
               private globalHub : GlobalHubService,
               private sanitizer: DomSanitizer,
+              private activateRoute: ActivatedRoute,
+              private route : Router
                ) 
   { 
+   this.catId = activateRoute.snapshot.params['idCategory'];
+
+
    this.carLayer = new Array();
    this.arrOrderByValue.push(this.orderByDate);
    this.arrOrderByValue.push(this.orderByPrice);
    this.arrOrderByValue.push(this.orderByrandom);
-
-    this.loadFiltes(2);
 
     this.globalHub.searchWord.subscribe( searchWord => {
       this.searchWord = searchWord;
     } );
 
     this.globalHub.startSearch.subscribe( () => {
-      console.log( this.searchWord);
-     // this.loadNewAd();
+      this.loadNewAd();
     });
 
 
@@ -87,12 +92,14 @@ export class ListAdsComponent implements OnInit {
               id : itemL2.idCat[index]
             }
              this.catsList.push(catItem);
+            if(catItem.id == this.catId){
+              this.choiceCatValue = catItem.name;
+            }
              index++;
           }
         }
       }
     })   
-
     this.loadNewAd();
     
   }
@@ -407,6 +414,11 @@ export class ListAdsComponent implements OnInit {
   issortByPrice = false;
   sortByPrice(value : boolean){
     this.issortByPrice = value;
+  }
+
+  watchAd(id : any){
+    console.log(id);
+    this.route.navigate([`/card-ad/${id}`]);
   }
 
   pickedSort(event:any){

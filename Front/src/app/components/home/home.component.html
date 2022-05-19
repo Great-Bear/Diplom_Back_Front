@@ -17,12 +17,12 @@
          </div>
            <span class="txtTitle-filters">Категории</span> 
         </div>
-            <div id="filtersList" >    
+            <div id="filtersList" (click)="ChoiceCategoty($event)" >    
                 <ul>              
                     <li *ngFor="let cat of typeAd.Categories; let i = index;" >
-                    <label for="{{i}}" (click)="ChangeCheckBoxCat($event)" >
-                        <input type="checkbox" id="{{i}}">
-                         <span> {{cat}}</span>
+                    <label for="{{cat.id}}" (click)="ChangeCheckBoxCat($event)" >
+                        <input type="checkbox" id="{{cat.id}}">
+                         <span> {{cat.name}}</span>
                     </label>
                     </li>         
                 </ul>      

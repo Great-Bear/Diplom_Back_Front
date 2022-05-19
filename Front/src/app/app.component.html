@@ -45,12 +45,12 @@
 
     </nav>
 
-    <div id="serachBlock" *ngIf="isAnonimUser" >
+    <div id="serachBlock" *ngIf="!isAnonimUser && showSearchBlock" >
         <div id="containerSearchBlosk" >
             <div id="leftPart">
                 <div id="leftPartContainer">
                     <div id="searchInpit">
-                        <input type="text" [(ngModel)]="searchWord" placeholder="14 2343 Обьявлений рядом" >
+                        <input type="text" [(ngModel)]="searchWord" (input)="inputSearchWord()" placeholder="14 2343 Обьявлений рядом" >
                         <img src="../assets/imgs/Cancle_Icon.png" alt="">
                     </div>
                     <div id="location">

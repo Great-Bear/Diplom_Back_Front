@@ -17,6 +17,8 @@ export class AppComponent {
   isModer = false;
 
   searchWord = "";
+
+  showSearchBlock = false;
   
   constructor(private cookieService : CookieService,
               private router : Router,
@@ -40,11 +42,11 @@ export class AppComponent {
 
 }
 
+inputSearchWord(){
+ this.globalHub.ChangeSearchWord(this.searchWord);
+}
+
 startSearch(){
-  if(this.searchWord.length == 0){
-    alert("Поисковой запрос не может быть пустой");
-    return;
-  }
   this.globalHub.StartSeachAction();
 }
 
@@ -59,10 +61,9 @@ ngOnInit(){
     else{
       this.cookieService.set("activeSession","no");
     }
-/*
+
  this.router.events.subscribe( event => {
-  if (event instanceof NavigationEnd){
-    console.log(this.cookieService.getAll())
+  if(event instanceof NavigationEnd){
      if(event.url != "/registration" && event.url != "/authorization"){
         if( this.cookieService.get("idUser").length == 0){
             this.router.navigate(['/registration'])
@@ -72,9 +73,17 @@ ngOnInit(){
             this.router.navigate(["/authorization"])
         }   
     }
+    if(event.url.includes("/list_ads") || event.url == "/home"){
+      this.showSearchBlock = true;
+      console.log(event.url);
+      console.log(this.isAnonimUser)
+    }
+    else{
+      this.showSearchBlock = false;
+    }
   }
  })
- */
+ 
 
  window.onunload = (event) => {
   this.cookieService.set("timeOutSession", (new Date().getTime() + 60000).toString() );

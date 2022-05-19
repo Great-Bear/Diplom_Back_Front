@@ -2,14 +2,7 @@ import { HttpService } from "../http.service"
 export class TypeAd {
 
 
-    public Categories = [
-        "",
-        "Другое",
-        "Samsung",
-        "Apple",
-        "Xiomi",
-        "Nike",
-    ]
+    public Categories = new Array();
     public Brends = [
         "",
         "Другое",

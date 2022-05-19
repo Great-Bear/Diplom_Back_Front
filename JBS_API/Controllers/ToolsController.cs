@@ -31,7 +31,7 @@ namespace JBS_API.Controllers
                 namesCat[i] = arrayCat[i].Name;
             }
 
-            return Json(namesCat);
+            return Json(arrayCat);
         }
 
         [HttpGet]
@@ -223,6 +223,13 @@ namespace JBS_API.Controllers
                    "Ноутбуки и компьютеры",
                    "Смартфоны",
                    "Зоотовары",
+                   "Категория 1",
+                   "Категория 2",
+                   "Категория 3",
+                   "Категория 4",
+                   "Категория 5",
+                   "Категория 6",
+                   "Категория 7",
                };
 
                 var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Подгрупа1");

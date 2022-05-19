@@ -40,7 +40,7 @@ namespace JBS_API.Controllers
                     res = _dbContext.Ads;
                 }
 
-                if(searchWord.Length > 0)
+                if(searchWord != null )
                 {
                     res = res.Where(a => a.Title.Contains(searchWord));
                 }

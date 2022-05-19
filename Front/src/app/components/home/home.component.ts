@@ -50,9 +50,10 @@ export class HomeComponent implements OnInit {
    
     this.LoadNewItem();
 
-    this.httpService.getCategories().subscribe( 
+    this.httpService.getCategories().subscribe(      
       res => {
         if(res instanceof Array){
+          console.log(res);
          this.typeAd.Categories = res;
         }
       }
@@ -113,6 +114,12 @@ export class HomeComponent implements OnInit {
     this.LoadNewItem();
   }
    
+  ChoiceCategoty(event : any){  
+    if(event.target.tagName == "INPUT"){
+      this.route.navigate([`/list_ads/${event.target.id}`]);
+    }
+  }
+
   UpdatePagination(){
       let count = this.countPage.length;
   
@@ -171,7 +178,6 @@ export class HomeComponent implements OnInit {
 
   public ChangeCheckBoxCat(event : any){
     let idCat = event.target.getAttribute("id");
-    console.log(idCat)
     if(idCat != null){
       idCat++;
       if(idCat == this.activeCat.id){
