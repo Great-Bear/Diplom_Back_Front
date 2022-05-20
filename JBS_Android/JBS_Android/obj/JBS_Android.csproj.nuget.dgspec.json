@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\JBS_Android.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\JBS_Android.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\JBS_Android.csproj",
+        "projectName": "JBS_Android",
+        "projectPath": "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\JBS_Android.csproj",
+        "packagesPath": "C:\\Users\\38063\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\38063\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "monoandroid12.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "monoandroid12.0": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "monoandroid12.0": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            },
+            "Xamarin.AndroidX.AppCompat": {
+              "target": "Package",
+              "version": "[1.2.0.5, )"
+            },
+            "Xamarin.Essentials": {
+              "target": "Package",
+              "version": "[1.6.1, )"
+            },
+            "Xamarin.Google.Android.Material": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
