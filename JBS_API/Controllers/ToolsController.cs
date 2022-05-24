@@ -142,6 +142,8 @@ namespace JBS_API.Controllers
                         Role = roleUser
                     };
 
+
+
                     User userModer = new User
                     {
                         FirstName = "Moder1 name",
@@ -151,6 +153,8 @@ namespace JBS_API.Controllers
                         Password = "1234",
                         Role = roleModer
                     };
+
+
 
                     _dbContext.Users.Add(user1);
                     _dbContext.Users.Add(userModer);

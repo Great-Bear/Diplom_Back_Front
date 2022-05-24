@@ -3,6 +3,8 @@ import {  CookieService  } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { GlobalHubService } from './global-hub.service';
 import { NavigationEnd } from '@angular/router';
+import { AlertMessage } from './Classes/alert-message';
+import { of, timer, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,8 @@ export class AppComponent {
   isModer = false;
 
   searchWord = "";
+
+  arrAlertMessage = Array<AlertMessage>();
 
   showSearchBlock = false;
   
@@ -36,10 +40,26 @@ export class AppComponent {
      }
    )
 
+   this.globalHub.AlertMessage.subscribe(item =>{
+     this.arrAlertMessage.push(item);
+
+  timer(item.TimeShow)
+    .pipe()
+    .subscribe( () =>{
+      this.arrAlertMessage.pop();
+    });
+   })
+
    this.globalHub.AnonimUser(true);
 
-     this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
+    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
 
+}
+
+HiddenAlertMessage(event : any){
+  if(event.target.classList.contains("closeBtnAlMess")){
+    event.currentTarget.hidden = true;
+  }
 }
 
 inputSearchWord(){
@@ -47,6 +67,12 @@ inputSearchWord(){
 }
 
 startSearch(){
+  if(this.searchWord.length == 0){
+    return;
+  }
+  if(!this.router.url.includes("list_ads")){
+    this.router.navigate([`/list_ads/0/${this.searchWord}`]);
+  }
   this.globalHub.StartSeachAction();
 }
 
@@ -75,8 +101,6 @@ ngOnInit(){
     }
     if(event.url.includes("/list_ads") || event.url == "/home"){
       this.showSearchBlock = true;
-      console.log(event.url);
-      console.log(this.isAnonimUser)
     }
     else{
       this.showSearchBlock = false;

@@ -28,7 +28,7 @@ export class HttpService {
 
   // https://apijbs.azurewebsites.net
 //   https://localhost:44398
-  private URL : string = "https://apijbs.azurewebsites.net";
+  private URL : string = "https://localhost:44398";
 
    getData() {
       const response = this.http.get("/api/auth/TestMeth");

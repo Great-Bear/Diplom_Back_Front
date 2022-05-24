@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GNMpe2cdqMUITTHqUIde7Y9kPNc9AzOpsTvdnWgoW+Nv72OwtL4bdyTHpMe6UwfjCzzZDehWwhNgyw/hxH8ycA==",
+  "dgSpecHash": "0vt3CLMmsxkpqL6BeHF4isWmHCvPLWHcFaxPEucBT+2emMjAbBEoie+X6gVYmdqbCnO6q3SQuGcNsqWcScmFyw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\38063\\source\\repos\\JBS_Android\\JBS_Android\\JBS_Android.csproj",
+  "projectFilePath": "C:\\Users\\38063\\Desktop\\Diplom_Back_Front\\JBS_Android\\JBS_Android\\JBS_Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\38063\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\38063\\.nuget\\packages\\system.net.http\\4.3.4\\system.net.http.4.3.4.nupkg.sha512",

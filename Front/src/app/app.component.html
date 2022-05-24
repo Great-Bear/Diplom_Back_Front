@@ -76,4 +76,21 @@
         </div>    
     </div>
 
+    <div id="toastBlock"   >
+        <ng-container *ngFor="let message of arrAlertMessage">
+            <div class="toast" (click)="HiddenAlertMessage($event)" role="alert" aria-live="assertive"  aria-atomic="true">
+                <div class="toast-header">
+              <!--  <img src="..." class="rounded mr-2" alt="...">-->
+                <strong class="mr-auto">{{message.Title}}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true" class="closeBtnAlMess" >&times;</span>
+                </button>
+                </div>
+                <div class="toast-body">
+                    {{message.Message}}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
 <router-outlet></router-outlet>

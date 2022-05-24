@@ -96,7 +96,7 @@
                 <img [src]="VipImgs[i]" alt="">
                 <div class="descrAbs">{{ad.title | slice:0:35 }} </div>
                 <span class="price">{{ad.price}} грн</span>
-                <div class="heart"></div>
+                <div class="heart" [class.heartActive]="ad.isFavorit" (click)="addFavoriteAd($event,ad.id)" ></div>
             </div>  
         </ng-container>     
             <a name="ads"> </a>
@@ -121,7 +121,7 @@
                         <img [src]="imgs[i]" alt="">
                         <div class="descrAbs">{{ad.title | slice:0:35 }} </div>
                         <span class="price">{{ad.price}} грн</span>
-                        <div class="heart"></div>
+                        <div  class="heart" [class.heartActive]="ad.isFavorit" (click)="addFavoriteAd($event,ad.id)" ></div>
                     </div>  
                 </ng-container>     
             </div>

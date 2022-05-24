@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { CategoriesLayers } from './Classes/categories-layers';
 import { HttpService } from './http.service';
+import { BehaviorSubject } from 'rxjs';
+import { AlertMessage } from './Classes/alert-message';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,9 @@ import { HttpService } from './http.service';
 export class GlobalHubService {
 
   public isAnonim = new Subject<boolean>();
+  public currentisAnonim = new BehaviorSubject({});
   public AnonimUser(state : boolean){
+    this.isAnonim.next(state);
     this.isAnonim.next(state);
   }
 
@@ -23,8 +27,11 @@ export class GlobalHubService {
   }
 
   public categoriesLayers = new Subject<any>();
+  public currentCatLayers = new BehaviorSubject({});
+
   public ChangeCatLayers(catsLay: any){
     this.categoriesLayers.next(catsLay);
+    this.currentCatLayers.next(catsLay);
   }
 
   public searchWord = new Subject<any>();
@@ -38,12 +45,18 @@ export class GlobalHubService {
     this.startSearch.next("");
   }
 
+
+  public AlertMessage = new Subject<any>();
+  public addAlertMessage(message : AlertMessage){
+    this.AlertMessage.next(message);
+  }
+
   constructor( private cookie : CookieService,
                private http: HttpService ) 
                {
                  this.http.getCategoriesLayer()
                  .subscribe(res => {
-                   this.categoriesLayers.next(res);
+                   this.ChangeCatLayers(res);
                  })
                }
 

@@ -31,6 +31,7 @@ const appRoutes: Routes =[
   { path: 'my-ads', component: MyadsComponent},
   { path: 'card-ad/:id',component: CardAdComponent},
   { path: 'moderPage', component: ModerPageComponent},
+  { path: 'list_ads/:idCategory/:searchQuery', component: ListAdsComponent},
   { path: 'list_ads/:idCategory', component: ListAdsComponent},
   { path: '', component: HomeComponent},
   { path: '**', component: Page404Component }

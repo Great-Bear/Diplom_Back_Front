@@ -3,6 +3,8 @@ import { TypeAd } from 'src/app/Classes/typeAd';
 import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AlertMessage } from 'src/app/Classes/alert-message';
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 
 
@@ -45,7 +47,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private httpService : HttpService,
     private sanitizer: DomSanitizer,
-    private route : Router
+    private route : Router,
+    private globalHub : GlobalHubService
   ) {
    
     this.LoadNewItem();
@@ -53,7 +56,6 @@ export class HomeComponent implements OnInit {
     this.httpService.getCategories().subscribe(      
       res => {
         if(res instanceof Array){
-          console.log(res);
          this.typeAd.Categories = res;
         }
       }
@@ -66,6 +68,30 @@ export class HomeComponent implements OnInit {
          }
        }
       )
+   }
+
+
+   addFavoriteAd(event : any,idAd : number){
+    event.stopPropagation();
+   
+    let aMessage = new AlertMessage();
+    aMessage.Title = "Успешпо";
+
+    let item = this.Ads.find( ad => ad.id == idAd );
+        if(item.isFavorit){
+          item.isFavorit = false;     
+          aMessage.Message = "Товар удалён из избранных";
+        }
+        else{
+          item.isFavorit = true;
+          aMessage.Message = "Товар добавлен в избранные";
+        }
+
+      let vipAd = this.VipAds.find( ad => ad.id == item.id );
+      vipAd.isFavorit = item.isFavorit;
+
+    this.globalHub.addAlertMessage(aMessage);
+    
    }
 
    private indexStartPag = 0;
@@ -243,6 +269,11 @@ public ChangeCheckBoxBrend(event : any){
         }
 
         this.Ads = response.data;
+
+        for(let i = 0; i < this.Ads.length; i++ ){
+          this.Ads[i].isFavorit = false;
+        }
+
         this.imgs = new Array(count);
         this.LoadMainImgs();
         this.UpdatePagination();      
@@ -257,6 +288,7 @@ public ChangeCheckBoxBrend(event : any){
       let ads : any = res;
       for(let i = 0; i < ads.length; i++ ){
         this.VipAds[i] = ads[i];
+        this.VipAds[i].isFavorit = false;
       }
       this.LoadVipMainImgs();
     }, 

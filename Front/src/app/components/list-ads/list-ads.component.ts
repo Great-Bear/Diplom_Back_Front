@@ -65,6 +65,12 @@ export class ListAdsComponent implements OnInit {
                ) 
   { 
    this.catId = activateRoute.snapshot.params['idCategory'];
+   let queryStr = activateRoute.snapshot.params['searchQuery'];
+
+
+   if(queryStr != undefined){
+     this.searchWord = queryStr;
+   }
 
 
    this.carLayer = new Array();
@@ -80,29 +86,37 @@ export class ListAdsComponent implements OnInit {
       this.loadNewAd();
     });
 
-
     this.globalHub.categoriesLayers.subscribe( cats => {
       this.carLayer = cats;
-      for(let itemL3 of this.carLayer){
-        for(let itemL2 of itemL3.data){
-          let index = 0;
-          for(let cat of itemL2.cat){
-            let catItem = {
-              name : cat,
-              id : itemL2.idCat[index]
-            }
-             this.catsList.push(catItem);
-            if(catItem.id == this.catId){
-              this.choiceCatValue = catItem.name;
-            }
-             index++;
-          }
-        }
-      }
+      this.pardeCatLayer();
     })   
+
+    this.carLayer = this.globalHub.currentCatLayers.getValue();
+    this.pardeCatLayer();
+
     this.loadNewAd();
     
   }
+
+  private pardeCatLayer(){
+    for(let itemL3 of this.carLayer){
+      for(let itemL2 of itemL3.data){
+        let index = 0;
+        for(let cat of itemL2.cat){
+          let catItem = {
+            name : cat,
+            id : itemL2.idCat[index]
+          }
+           this.catsList.push(catItem);
+          if(catItem.id == this.catId){
+            this.choiceCatValue = catItem.name;
+          }
+           index++;
+        }
+      }
+    }
+  }
+
 
   clearMinPrice(){
     this.priceMin = 0;
@@ -150,8 +164,7 @@ export class ListAdsComponent implements OnInit {
           this.imgCollect = new Array(response.data.length);
           for(let i = 0; i < this.imgCollect.length; i++){
             this.imgCollect[i] = this.emptyImgUrl;
-          }
-          console.log(this.adsCollect);         
+          }       
         }
         this.isLoadItem = false;
         this.LoadMainImgs();
@@ -252,7 +265,7 @@ export class ListAdsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+  
   }
 
   choiceFilterValue(event : any, idFilter: number){

@@ -8,6 +8,7 @@ namespace JBS_API
         public DbSet<TypeOwner> TypeOwners { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<FavoriteAd> FavoriteAds { get; set; }
 
 
         public DbSet<QualityAd> QualityAds { get; set; }

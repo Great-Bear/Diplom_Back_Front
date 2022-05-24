@@ -15,6 +15,7 @@ namespace JBS_API.DB_Models
         public Role Role { get; set; }
 
         public ICollection<Ad> Ads { get; set; }
+        public ICollection<FavoriteAd> FavoriteAds { get; set; }
 
     }
 }

@@ -219,12 +219,18 @@
 .heart {
     width:  15px; 
     height: 15px; 
-    background-color: gray; 
+    background-color: grey; 
     transform: rotate(45deg);
     position: relative; 
     left: 90%;
     top: 0%;
+    cursor: pointer;
 }    
+
+.heartActive
+{
+    background-color: red;
+}
 
 .heart::before,
 .heart::after {
@@ -232,10 +238,15 @@
     display: block;
     width: 15px;
     height: 15px;
-    background-color: gray;
+    background-color: inherit;
     border-radius: 50%; 
     position: absolute;
 }
+
+
+
+
+
 .heart::before {
     top: -8px;
     left: 0;
