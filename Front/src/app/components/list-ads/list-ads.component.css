@@ -630,6 +630,10 @@ input::-webkit-inner-spin-button {
 {
   fill: #6A7881;
 }
+svg
+{
+ vertical-align:unset !important; 
+}
 
 .isPickedItem svg path
 {

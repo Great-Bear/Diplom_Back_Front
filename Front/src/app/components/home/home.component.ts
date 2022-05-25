@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
+import { CookieService  } from 'ngx-cookie-service';  
 
 
 
@@ -48,7 +49,8 @@ export class HomeComponent implements OnInit {
     private httpService : HttpService,
     private sanitizer: DomSanitizer,
     private route : Router,
-    private globalHub : GlobalHubService
+    private globalHub : GlobalHubService,
+    private cookie : CookieService
   ) {
    
     this.LoadNewItem();
@@ -78,20 +80,51 @@ export class HomeComponent implements OnInit {
     aMessage.Title = "Успешпо";
 
     let item = this.Ads.find( ad => ad.id == idAd );
-        if(item.isFavorit){
-          item.isFavorit = false;     
-          aMessage.Message = "Товар удалён из избранных";
-        }
-        else{
-          item.isFavorit = true;
-          aMessage.Message = "Товар добавлен в избранные";
-        }
 
-      let vipAd = this.VipAds.find( ad => ad.id == item.id );
-      vipAd.isFavorit = item.isFavorit;
+    let vipAd = this.VipAds.find( ad => ad.id == idAd );
 
-    this.globalHub.addAlertMessage(aMessage);
+        let idUser = Number.parseInt( this.cookie.get("idUser"));
+        let addToFavorite = !item.isFavorit;
+
     
+        this.httpService.updateFavorite(idUser, item.id,addToFavorite)
+        .subscribe( res  => {
+          let response : any = res;
+          if(response.isError == false){
+
+            if(item != null && item != undefined){
+              item.isFavorit = addToFavorite;
+            }
+
+            if(vipAd != null && vipAd != undefined){
+              vipAd.isFavorit = addToFavorite;
+            }
+            let valueCount = 0;
+
+            if(item.isFavorit){   
+              aMessage.Message = "Товар добавлен в избранные";
+              valueCount++;
+            }
+            else{     
+              aMessage.Message = "Товар удалён из избранных";
+              valueCount--;
+            }
+
+            this.globalHub.changeCountFavoriteAd(valueCount);
+
+            this.globalHub.addAlertMessage(aMessage);
+          }
+          else{
+            aMessage.Title = "Ошибка :(";
+            aMessage.Message = "Ой что-то пошло не так";
+            this.globalHub.addAlertMessage(aMessage);
+          }
+        },
+        err => {
+          aMessage.Title = "Ошибка :(";
+          aMessage.Message = "Сервер пока отдыхает";
+          this.globalHub.addAlertMessage(aMessage);
+        }); 
    }
 
    private indexStartPag = 0;
@@ -140,6 +173,46 @@ export class HomeComponent implements OnInit {
     this.LoadNewItem();
   }
    
+  LoadFavorite(){
+    let idUser = Number.parseInt(this.cookie.get("idUser"));
+
+    this.httpService.getFavoriteAd(idUser)
+    .subscribe(
+      res => {
+        console.log(res);
+       let resData : any  = res ;
+       if(resData.isError){
+        let aMessage = new AlertMessage();
+        aMessage.Title = "Ошибка :(";
+        aMessage.Message = "Ой что-то пошло не так";
+        this.globalHub.addAlertMessage(aMessage);
+       }
+       else{
+         if(resData.arrFavorite instanceof Array){
+           for(let itemFav of resData.arrFavorite){
+            let ad = this.Ads.find( a => a.id == itemFav.adId )
+            let adVip = this.VipAds.find( aV => aV.id == itemFav.adId )
+           
+            if(ad != null && ad != undefined){
+              ad.isFavorit = true;
+            }
+            if(adVip != null && ad != undefined){
+              adVip.isFavorit = true;
+            }
+
+           }
+         }
+       }
+      },
+      err => {
+        let aMessage = new AlertMessage();
+        aMessage.Title = "Ошибка :(";
+        aMessage.Message = "Сервер пока отдыхает";
+        this.globalHub.addAlertMessage(aMessage);
+      }
+    )
+  }
+
   ChoiceCategoty(event : any){  
     if(event.target.tagName == "INPUT"){
       this.route.navigate([`/list_ads/${event.target.id}`]);
@@ -276,7 +349,8 @@ public ChangeCheckBoxBrend(event : any){
 
         this.imgs = new Array(count);
         this.LoadMainImgs();
-        this.UpdatePagination();      
+        this.UpdatePagination();   
+        this.LoadFavorite();   
       } 
     )
   }

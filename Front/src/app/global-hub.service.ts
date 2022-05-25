@@ -16,7 +16,6 @@ export class GlobalHubService {
   public currentisAnonim = new BehaviorSubject({});
   public AnonimUser(state : boolean){
     this.isAnonim.next(state);
-    this.isAnonim.next(state);
   }
 
   public isModer = new Subject<boolean>();
@@ -50,6 +49,14 @@ export class GlobalHubService {
   public addAlertMessage(message : AlertMessage){
     this.AlertMessage.next(message);
   }
+
+  public countFavoriteAd = new BehaviorSubject(0)
+  public changeCountFavoriteAd(value : number){
+    this.countFavoriteAd.next(
+       this.countFavoriteAd.getValue() + value
+    )
+  }
+
 
   constructor( private cookie : CookieService,
                private http: HttpService ) 

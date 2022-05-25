@@ -51,13 +51,21 @@ export class RegistrationComponent implements OnInit {
               let resData;
                if(resObject instanceof Object){
                 resData = new RegResp(resObject);
-                console.log(resData);
+               
 
                 if(resData.error == null){
                   this.cookieService.set( "idUser", resData.id)
                   this.globalHub.AnonimUser(false);
                   this.router.navigate(['/home']);
                   this.cookieService.set("activeSession","yes");
+
+                  this.httpSevice.getCountFavoriteAd(
+                    Number.parseInt( resData.id) )
+                      .subscribe( res => {
+                        let response : any = res;               
+                        this.globalHub.changeCountFavoriteAd(response.count);                 
+                      });
+
                 }
 
                 return;

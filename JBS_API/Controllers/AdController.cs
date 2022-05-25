@@ -91,19 +91,20 @@ namespace JBS_API.Controllers
                     return Json("error server TypeAdItem is null");
                 }
 
-                Ad newAd = new Ad { 
-                        Title = Title,
-                        Describe = Describe,
-                        User = userOwner,
-                        Category = category,
-                        BrendId = 1,
-                        Price = price,
-                        PhoneNumber = Phone,
-                        isDelivery = IsDelivery,
-                        QualityAdId = QualityItem.Id,
-                        TypeOwnerId = TypeAdItem.Id,
-                        isNegotiatedPrice = isNegotiatedPrice,
-                        StatusAd = statusCheking
+                Ad newAd = new Ad {
+                    Title = Title,
+                    Describe = Describe,
+                    User = userOwner,
+                    Category = category,
+                    BrendId = 1,
+                    Price = price,
+                    PhoneNumber = Phone,
+                    isDelivery = IsDelivery,
+                    QualityAdId = QualityItem.Id,
+                    TypeOwnerId = TypeAdItem.Id,
+                    isNegotiatedPrice = isNegotiatedPrice,
+                    StatusAd = statusCheking,
+                    CurrencyId = 1
                 };
 
                 _dbContext.Ads.Add(newAd);

@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { GlobalHubService } from './global-hub.service';
 import { NavigationEnd } from '@angular/router';
 import { AlertMessage } from './Classes/alert-message';
-import { of, timer, concatMap } from 'rxjs';
+import { timer } from 'rxjs';
+import { HttpService } from './http.service';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +21,16 @@ export class AppComponent {
 
   searchWord = "";
 
+  countFavoriteAd : number = 0;
+
   arrAlertMessage = Array<AlertMessage>();
 
   showSearchBlock = false;
   
   constructor(private cookieService : CookieService,
               private router : Router,
-              private globalHub : GlobalHubService) {
+              private globalHub : GlobalHubService,
+              private http : HttpService) {
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
@@ -49,6 +53,21 @@ export class AppComponent {
       this.arrAlertMessage.pop();
     });
    })
+
+   this.globalHub.countFavoriteAd.subscribe(count => {
+    this.countFavoriteAd = count;
+  })
+
+  let idUser = Number.parseInt( this.cookieService.get("idUser") );
+  if(idUser > 0){
+    this.http.getCountFavoriteAd(idUser)
+      .subscribe( res => {
+       let response : any = res;
+        
+        this.globalHub.changeCountFavoriteAd(response.count);
+        
+      });
+  }
 
    this.globalHub.AnonimUser(true);
 
@@ -124,6 +143,11 @@ ngOnInit(){
     this.router.navigate(["/registration"]);
     this.globalHub.AnonimUser(true);
     this.globalHub.ModerUser(false);
+
+    this.globalHub.changeCountFavoriteAd(
+      -this.globalHub.countFavoriteAd.getValue()
+    )
+
   }
 
 

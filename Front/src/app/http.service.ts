@@ -97,6 +97,46 @@ export class HttpService {
        } )
   }
 
+  updateFavorite(idUser : number,
+                 idAd : number,
+                 addToFavorit : boolean){
+    let body = "";
+
+    return this.http.post(this.URL + `/Favorite/AddFovarite?idUser=${idUser}&idAd=${idAd}&adToFavorite=${addToFavorit}`,
+     body)
+     .pipe(
+       res => {
+         return res;
+       },
+       err => {
+         return err;
+       }
+     )
+  }
+
+  getFavoriteAd(idUser : number){
+    return this.http.get(this.URL + `/Favorite/GetFovarites?idUser=${idUser}`)
+    .pipe(res => {
+      return res;
+    },
+    err => {
+      return err;
+    }
+    )
+  }
+
+
+  getCountFavoriteAd(idUser : number){
+    return this.http.get(this.URL + `/Favorite/GetCountFovarites?idUser=${idUser}`)
+    .pipe(res => {
+      return res;
+    },
+    err => {
+      return err;
+    }
+    )
+  }
+
   editAds( imgs: any, filterStringValue : any, reqData : RequEditAd){  
     return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}&Title=${reqData.title}&Describe=${reqData.describe}&Price=${reqData.price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&filtersValue=${filterStringValue}`,
           imgs)

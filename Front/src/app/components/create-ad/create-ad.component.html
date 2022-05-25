@@ -45,7 +45,7 @@
                   <label class="input-group-text" for="inputGroupSelect01">Категория</label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Category" (change)="changeCat($event)" >
-                  <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{i+1}}" >{{cat}}</option>
+                  <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{i+1}}" >{{cat.name}}</option>
                 </select>
               </div>
 

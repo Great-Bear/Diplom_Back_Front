@@ -67,9 +67,9 @@ export class CreateAdComponent implements OnInit {
     let target = event.target;
     let nowLoadedFile = target.files;
 
-//       if ( !this.Imgs.type.startsWith("image/") ) {
-  //      alert("Image only please....");
-    //    }
+     //  if ( !this.Imgs.type.startsWith("image/") ) {
+    //    alert("Image only please....");
+        //}
 
       let idLoadedImg = 0;
      for(let i = 0; i < this.urlImgs.length; i++){
@@ -93,6 +93,7 @@ export class CreateAdComponent implements OnInit {
   }
 
   changeCat(event : any){
+    console.log(this.requData.Category);
     this.httpService.getFilters(Number.parseInt(this.requData.Category))
     .subscribe(res => {
       this.filterList = new Array();
@@ -145,7 +146,7 @@ export class CreateAdComponent implements OnInit {
         }
       }
 
-      this.requData.idUser = "2"
+    /*  this.requData.idUser = "2"
       this.requData.Title = "Title test"
       this.requData.Describe = "describe test"
       this.requData.Category = "1"
@@ -155,7 +156,7 @@ export class CreateAdComponent implements OnInit {
       this.requData.isNegotiatedPrice = false
       this.requData.Quality = "Новое"
       this.requData.TypeAd = "Бизнес"
-
+*/
 
       this.httpService.createAds(form,filtersid, this.requData).subscribe(res => {
         this.route.navigate([`/card-ad/${res}`]);

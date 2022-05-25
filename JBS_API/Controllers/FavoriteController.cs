@@ -25,12 +25,12 @@ namespace JBS_API.Controllers
             {
                 if (adToFavorite)
                 {
-                    await _dbContext.AddAsync(new FavoriteAd { AdId = idAd, UserId = idUser });
+                    await _dbContext.FavoriteAds.AddAsync(new FavoriteAd { AdId = idAd, UserId = idUser });
                 }
                 else
                 {
-                    var adForRemove = _dbContext.Ads.FirstOrDefault(ad => ad.Id == idAd);
-                    _dbContext.Ads.Remove( adForRemove );
+                    var adForRemove = _dbContext.FavoriteAds.FirstOrDefault(ad => ad.AdId == idAd && ad.UserId == idUser);
+                    _dbContext.FavoriteAds.Remove( adForRemove );
                 }
                 await _dbContext.SaveChangesAsync();
             }
@@ -40,6 +40,40 @@ namespace JBS_API.Controllers
             }
 
             return Json(new { isError = false } ); 
+        }
+
+        [HttpGet]
+        [Route("GetFovarites")]
+        public JsonResult GetFovarites(int idUser)
+        {
+            try
+            {
+                var resArray = _dbContext.FavoriteAds.Where(ad => ad.UserId == idUser);
+
+                return Json(new { isError = false, arrFavorite = resArray });
+             
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isError = true, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCountFovarites")]
+        public JsonResult GetCountFovarites(int idUser)
+        {
+            try
+            {
+                var countFav = _dbContext.FavoriteAds.Where(ad => ad.UserId == idUser).Count();
+
+                return Json(new { isError = false, count = countFav });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isError = true, message = ex.Message });
+            }
         }
     }
 }
