@@ -21,7 +21,12 @@ export class GlobalHubService {
   public isModer = new Subject<boolean>();
   public ModerUser(state : boolean){
     
-    this.cookie.set("isModer",  String(state))
+    if(state){
+      this.cookie.set("isModer",  String(state))
+    }
+    else{
+      this.cookie.set("isModer", "")
+    }
     this.isModer.next(state);
   }
 

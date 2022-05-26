@@ -630,6 +630,19 @@ input::-webkit-inner-spin-button {
 {
   fill: #6A7881;
 }
+
+.hearth path
+{
+  background-color: gray;
+  color: gray;
+}
+
+
+.hearthActive path
+{
+  background-color: red;
+}
+
 svg
 {
  vertical-align:unset !important; 

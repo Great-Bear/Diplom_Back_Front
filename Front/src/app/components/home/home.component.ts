@@ -179,7 +179,6 @@ export class HomeComponent implements OnInit {
     this.httpService.getFavoriteAd(idUser)
     .subscribe(
       res => {
-        console.log(res);
        let resData : any  = res ;
        if(resData.isError){
         let aMessage = new AlertMessage();

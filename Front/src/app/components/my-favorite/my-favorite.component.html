@@ -1,0 +1,33 @@
+
+<div id="containerAds">
+    <h1>Мои избранные объявления</h1>
+    <div class="navbar navbar-dark bg-dark">
+      <div class="container">
+      </div>
+    </div>
+  
+    
+    <div class="alert alert-success" role="alert" *ngIf="noAds" >
+      <h4 class="alert-heading"> У вас ещё нет избранных объявлений :(</h4>
+      <p>На этой странице вы сможете отслеживать свои избранные когда добавите их</p>
+      <hr>
+      <p class="mb-0">Для добавления объявления нажмите на значёк сердца рядом с ним</p>
+    </div>
+  
+    <div class="card-deck" *ngFor="let col of adsCol; let i = index;" >
+      <div class="card" class="ad" *ngFor="let row of col;"   >
+        <img class="card-img-top" [src]="row.url" alt="">
+        <div class="card-body">
+          <h5 class="card-title">{{row.data.title}}</h5>
+          <p class="card-text"></p>
+          <p class="card-text"><small class="text-muted">Опубликовано до: {{row.data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
+         
+          <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
+            <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Просмотреть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  

@@ -45,6 +45,7 @@ namespace JBS_API.Controllers
             bool isNegotiatedPrice,
             string Quality,
             string TypeAd,
+            int CurrencyId,
             string FiltersValue,
             IFormFile[] filecollect)  
         {
@@ -104,7 +105,7 @@ namespace JBS_API.Controllers
                     TypeOwnerId = TypeAdItem.Id,
                     isNegotiatedPrice = isNegotiatedPrice,
                     StatusAd = statusCheking,
-                    CurrencyId = 1
+                    CurrencyId = CurrencyId,
                 };
 
                 _dbContext.Ads.Add(newAd);

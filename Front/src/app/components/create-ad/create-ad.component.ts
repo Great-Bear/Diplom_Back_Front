@@ -30,9 +30,17 @@ export class CreateAdComponent implements OnInit {
 
   filterList = new Array();
 
+  currencies = [
+    "грн",
+    "$",
+    "€",
+  ]
+
   constructor(private httpService : HttpService,
               private cookieService : CookieService,
               private route : Router) {
+
+                this.requData.Currency = "1";
 
                 this.requData.idUser = this.cookieService.get("idUser");
 
@@ -159,7 +167,7 @@ export class CreateAdComponent implements OnInit {
 */
 
       this.httpService.createAds(form,filtersid, this.requData).subscribe(res => {
-        this.route.navigate([`/card-ad/${res}`]);
+       // this.route.navigate([`/card-ad/${res}`]);
       }, err => {
         alert(err);
       });

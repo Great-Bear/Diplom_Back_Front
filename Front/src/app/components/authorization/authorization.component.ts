@@ -61,6 +61,10 @@ export class AuthorizationComponent implements OnInit {
                   if(authData.role == "Moder"){
                     this.globalHub.ModerUser(true);
                   }
+                  else
+                  {
+                    this.globalHub.ModerUser(false);
+                  }
 
                 }
                 else{

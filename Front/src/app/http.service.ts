@@ -57,7 +57,8 @@ export class HttpService {
   }
 
   createAds(data : any, filtersid : any, reqData : RequCreateAd  ){
-    return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&FiltersValue=${filtersid}
+    console.log(reqData.Currency)
+    return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&CurrencyId=${reqData.Currency}&FiltersValue=${filtersid}
           `,         
             data)
                 .pipe( res => { return res; }, err => {return err} );
@@ -213,6 +214,18 @@ export class HttpService {
 
   getGetMyAds(idUser : any, statusId : number){
       return this.http.get(this.URL + `/Ad/MyAds?idUser=${idUser}&statusId=${statusId}`)
+      .pipe(
+        res => {
+          return res
+        },
+        err => {
+            return err;
+        }
+      );
+    }
+
+    getGetMyAdsFavorite(idUser : any){
+      return this.http.get(this.URL + `/Favorite/MyAdsFavorite?idUser=${idUser}`)
       .pipe(
         res => {
           return res

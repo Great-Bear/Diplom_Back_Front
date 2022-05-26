@@ -12,4 +12,5 @@ export class RequCreateAd {
     public isNegotiatedPrice : boolean = false;
     public Quality : string = "";
     public TypeAd : string = "";
+    public Currency : string = "";
 }

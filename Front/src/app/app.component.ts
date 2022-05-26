@@ -31,6 +31,8 @@ export class AppComponent {
               private router : Router,
               private globalHub : GlobalHubService,
               private http : HttpService) {
+
+
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
@@ -49,8 +51,8 @@ export class AppComponent {
 
   timer(item.TimeShow)
     .pipe()
-    .subscribe( () =>{
-      this.arrAlertMessage.pop();
+    .subscribe( () => {
+      this.arrAlertMessage.shift();
     });
    })
 
@@ -70,15 +72,18 @@ export class AppComponent {
   }
 
    this.globalHub.AnonimUser(true);
-
-    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
-
+   this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
+  
 }
 
 HiddenAlertMessage(event : any){
   if(event.target.classList.contains("closeBtnAlMess")){
     event.currentTarget.hidden = true;
   }
+}
+
+showCookie(){
+  console.log(this.cookieService.getAll())
 }
 
 inputSearchWord(){
@@ -118,7 +123,8 @@ ngOnInit(){
             this.router.navigate(["/authorization"])
         }   
     }
-    if(event.url.includes("/list_ads") || event.url == "/home"){
+    if(event.url.includes("list_ads") || event.url == "/home"
+     || event.url == "/"){
       this.showSearchBlock = true;
     }
     else{
@@ -139,7 +145,6 @@ ngOnInit(){
     this.cookieService.set("rememberMe","no");
     this.cookieService.set("activeSession","no");
     this.cookieService.set("idUser","")
-    this.cookieService.set("isModer", String(false));
     this.router.navigate(["/registration"]);
     this.globalHub.AnonimUser(true);
     this.globalHub.ModerUser(false);

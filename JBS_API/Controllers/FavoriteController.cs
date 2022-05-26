@@ -75,5 +75,36 @@ namespace JBS_API.Controllers
                 return Json(new { isError = true, message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("MyAdsFavorite")]
+        public JsonResult MyAdsFavorite(int idUser)
+        {
+
+            try
+            {
+                var ads = _dbContext.Ads.Join(
+                    _dbContext.FavoriteAds.Where( favAd => favAd.UserId == idUser ),
+                    ad => ad.Id,
+                    favAd => favAd.AdId,
+                    (ad, favAd) => new
+                    {
+                        ad
+                    }            
+                    );
+
+
+                return Json(new
+                {
+                    ads = ads,
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json("Ошибка сервера");
+            }
+
+        }
+
     }
 }

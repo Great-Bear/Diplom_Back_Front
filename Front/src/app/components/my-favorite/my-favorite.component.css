@@ -1,0 +1,56 @@
+html
+{
+    overflow-y: scroll;
+}
+
+#containerAds
+{
+    margin-top: 7rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80rem;
+}
+
+.card
+{
+    margin-bottom: 10px;
+}
+
+.ad
+{
+    width: 23%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+.card-deck
+{
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.navbar-brand
+{
+    color: black;
+}
+
+.navbar-brand:hover{
+    color: rgb(150, 120, 120);
+}
+.btn
+{
+    border-radius: 0;
+}
+.btsGroup
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+.card-img-top
+{
+    width: 100%;
+    height: 250px;
+}

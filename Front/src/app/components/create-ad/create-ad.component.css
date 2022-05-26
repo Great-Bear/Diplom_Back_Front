@@ -13,6 +13,11 @@
     margin: 0;
 }
 
+#currencyBlock
+{
+    margin-bottom: 16px;
+}
+
 .adImgs
 {
     width: 175px;

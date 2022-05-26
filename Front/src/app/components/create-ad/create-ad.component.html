@@ -96,7 +96,19 @@
                   </div>
                   <input type="number" class="form-control" id="price" [(ngModel)]="requData.Price"  >
                 </div>   
-                
+
+                <div id="currencyBlock" >
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Валюта</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Currency" (change)="changeCat($event)" >
+                      <option *ngFor="let currency of currencies; let i = index" value="{{i+1}}" >{{currency}}</option>
+                    </select>
+                  </div>
+                </div>
+              
+
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="tel">Телефон</label>

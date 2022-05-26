@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { FilterValueContainer } from 'src/app/Classes/Request/filter-value-container';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { AlertMessage } from 'src/app/Classes/alert-message';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class ListAdsComponent implements OnInit {
 
-  carLayer : any;
+  carLayer = new Array();
   catsList = new Array();
   catsListMarker = new Array();
 
@@ -61,15 +63,18 @@ export class ListAdsComponent implements OnInit {
               private globalHub : GlobalHubService,
               private sanitizer: DomSanitizer,
               private activateRoute: ActivatedRoute,
-              private route : Router
+              private route : Router,
+              private cookie : CookieService
                ) 
   { 
    this.catId = activateRoute.snapshot.params['idCategory'];
    let queryStr = activateRoute.snapshot.params['searchQuery'];
 
-
    if(queryStr != undefined){
      this.searchWord = queryStr;
+   }
+   if(this.catId == undefined){
+     this.catId = 0;
    }
 
 
@@ -91,7 +96,11 @@ export class ListAdsComponent implements OnInit {
       this.pardeCatLayer();
     })   
 
-    this.carLayer = this.globalHub.currentCatLayers.getValue();
+    let carLayerArr =  this.globalHub.currentCatLayers.getValue();
+    if(carLayerArr instanceof Array){
+      this.carLayer = carLayerArr
+    }
+  
     this.pardeCatLayer();
 
     this.loadNewAd();
@@ -99,6 +108,9 @@ export class ListAdsComponent implements OnInit {
   }
 
   private pardeCatLayer(){
+    if(this.carLayer.length == 0){
+      return;
+    }
     for(let itemL3 of this.carLayer){
       for(let itemL2 of itemL3.data){
         let index = 0;
@@ -136,7 +148,6 @@ export class ListAdsComponent implements OnInit {
     .subscribe(
       res => {
         let response : any = res;
-        console.log(res);
         if(response.isError == true){
           alert(response.error);
           return;
@@ -159,8 +170,12 @@ export class ListAdsComponent implements OnInit {
 
 
           for(let ad of response.data){
+            ad.isFavorit = false;
             this.adsCollect.push(ad);
           }
+
+          this.LoadFavorite();
+
           this.imgCollect = new Array(response.data.length);
           for(let i = 0; i < this.imgCollect.length; i++){
             this.imgCollect[i] = this.emptyImgUrl;
@@ -219,9 +234,81 @@ export class ListAdsComponent implements OnInit {
       "Показать все";
 
     }
-  
-
   }
+
+  addFavoriteAd(event : any, idAd : number){
+    event.stopPropagation();
+   
+   }
+
+   
+  LoadFavorite(){
+    let idUser = Number.parseInt(this.cookie.get("idUser"));
+
+    this.http.getFavoriteAd(idUser)
+    .subscribe(res => {
+      let respArr : any = res;
+      for(let itemFavAd of respArr.arrFavorite){
+        let adFav = this.adsCollect.find( ad => ad.id == itemFavAd.adId );
+        if(adFav != undefined){
+          adFav.isFavorit = true;
+        }
+      }
+    })
+  }
+
+
+  changeFavoriteState(event : any,idAd : number){
+
+      event.stopPropagation();
+     
+      let aMessage = new AlertMessage();
+      aMessage.Title = "Успешпо";
+  
+      let item = this.adsCollect.find( ad => ad.id == idAd );
+  
+          let idUser = Number.parseInt( this.cookie.get("idUser"));
+          let addToFavorite = !item.isFavorit;
+  
+      
+          this.http.updateFavorite(idUser, item.id,addToFavorite)
+          .subscribe( res  => {
+            let response : any = res;
+            if(response.isError == false){
+  
+              if(item != null && item != undefined){
+                item.isFavorit = addToFavorite;
+              }
+  
+              let valueCount = 0;
+  
+              if(item.isFavorit){   
+                aMessage.Message = "Товар добавлен в избранные";
+                valueCount++;
+              }
+              else{     
+                aMessage.Message = "Товар удалён из избранных";
+                valueCount--;
+              }
+  
+              this.globalHub.changeCountFavoriteAd(valueCount);
+  
+              this.globalHub.addAlertMessage(aMessage);
+            }
+            else{
+              aMessage.Title = "Ошибка :(";
+              aMessage.Message = "Ой что-то пошло не так";
+              this.globalHub.addAlertMessage(aMessage);
+            }
+          },
+          err => {
+            aMessage.Title = "Ошибка :(";
+            aMessage.Message = "Сервер пока отдыхает";
+            this.globalHub.addAlertMessage(aMessage);
+          }); 
+  }
+
+
 
   loadFiltes(idCat: number){
 
