@@ -43,6 +43,9 @@ namespace JBS_API.DB_Models
         [System.Text.Json.Serialization.JsonIgnore]
         public ICollection<Filter_Ad> Filter_Ads { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
+        public ICollection<Chat> Chats { get; set; }
+
 
     }
 }

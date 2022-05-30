@@ -17,5 +17,8 @@ namespace JBS_API.DB_Models
         public ICollection<Ad> Ads { get; set; }
         public ICollection<FavoriteAd> FavoriteAds { get; set; }
 
+        public ICollection<Chat> Chats { get; set; }
+        public ICollection<Msg_Chat> Msg_Chats { get; set; }
+
     }
 }

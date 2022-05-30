@@ -18,7 +18,13 @@
            <span class="txtTitle-filters">Категории</span> 
         </div>
             <div id="filtersList" (click)="ChoiceCategoty($event)" >    
-                <ul>              
+                <ul>          
+                  <li>
+                    <label for="0" (click)="ChangeCheckBoxCat($event)" >
+                      <input type="checkbox" id="0">
+                       <span> Все категории</span>
+                  </label>
+                  </li>    
                     <li *ngFor="let cat of typeAd.Categories; let i = index;" >
                     <label for="{{cat.id}}" (click)="ChangeCheckBoxCat($event)" >
                         <input type="checkbox" id="{{cat.id}}">

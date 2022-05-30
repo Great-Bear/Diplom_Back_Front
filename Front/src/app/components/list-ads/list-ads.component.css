@@ -4,7 +4,7 @@
 
     width: 80rem;
     margin: auto;
-    background-color: rgb(201, 191, 191);
+
     height: 500px;
     z-index: 1;
     font-family: 'Roboto';
@@ -16,7 +16,6 @@
 {
     width: 15rem;
     height: 100%;
-    background-color: antiquewhite;
 } 
 .blockContent
 {
@@ -655,7 +654,7 @@ svg
 
 #blockAds2
 {
-  height: 600px;
+  height:auto;
   width: 100%;
 }
 
@@ -849,7 +848,14 @@ svg
   justify-content: space-between;
 }
 
+#paginationBlock{
 
+  font-size: 14px;
+
+  margin-top: 40px !important;
+  margin: auto;
+  user-select: none;
+}
 
 
 

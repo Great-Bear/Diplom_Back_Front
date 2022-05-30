@@ -1,0 +1,62 @@
+#container
+{
+    margin-top: 7rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80rem;
+    display: flex;
+}
+
+#chatBLock
+{
+    width: 40%;
+    height: 25rem;
+    background-color: gray;
+    display: flex;
+    flex-direction: column;
+}
+
+.msg
+{
+    display: inline-block;
+    max-width: 80%;
+}
+
+.rightMsg
+{
+    background-color: green;
+    margin-left: auto;
+}
+.leftMsg
+{
+    background-color: blue;   
+    margin-right: auto;
+}
+
+#inputBlock
+{
+   display: flex;
+   flex-direction: column;
+   margin-top: 20px;
+   flex: 0.1;
+}
+
+#basic-addon2
+{
+    cursor: pointer;
+}
+
+#msgBlock
+{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 0.9;
+   
+}
+
+.disElement
+{
+    opacity: 0.5;
+    cursor: not-allowed;
+}

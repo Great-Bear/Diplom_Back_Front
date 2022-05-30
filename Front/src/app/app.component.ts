@@ -123,7 +123,7 @@ ngOnInit(){
             this.router.navigate(["/authorization"])
         }   
     }
-    if(event.url.includes("list_ads") || event.url == "/home"
+    if(event.url.includes("list_ads") || event.url.includes( "/home" )
      || event.url == "/"){
       this.showSearchBlock = true;
     }

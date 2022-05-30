@@ -19,9 +19,11 @@ import { CardAdComponent } from './components/card-ad/card-ad.component';
 import { ModerPageComponent } from './components/moder-page/moder-page.component';
 import { ListAdsComponent } from './components/list-ads/list-ads.component';
 import { MyFavoriteComponent } from './components/my-favorite/my-favorite.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { MyChatsComponent } from './components/my-chats/my-chats.component';
 
 
-const appRoutes: Routes =[
+const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'about', component: AboutComponent},
   { path: 'registration', component: RegistrationComponent},
@@ -36,6 +38,8 @@ const appRoutes: Routes =[
   { path: 'list_ads/:idCategory/:searchQuery', component: ListAdsComponent},
   { path: 'list_ads/:idCategory', component: ListAdsComponent},
   { path: 'list_ads', component: ListAdsComponent},
+  { path: 'mychats', component: MyChatsComponent},
+  { path: 'chat/:idChat', component: ChatComponent},
   { path: '', component: HomeComponent},
   { path: '**', component: Page404Component }
 ];
@@ -56,6 +60,8 @@ const appRoutes: Routes =[
     ModerPageComponent,
     ListAdsComponent,
     MyFavoriteComponent,
+    ChatComponent,
+    MyChatsComponent,
   ],
   imports: [
     BrowserModule,

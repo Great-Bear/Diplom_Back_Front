@@ -171,8 +171,5 @@ export class CreateAdComponent implements OnInit {
       }, err => {
         alert(err);
       });
-    
   }
-
-
 }

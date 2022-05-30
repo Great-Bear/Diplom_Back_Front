@@ -110,13 +110,18 @@ export class MyadsComponent implements OnInit {
   deleteAd(event : any){
     let isDelete = confirm("Вы хотите удалить объявление?");
     if(isDelete){
-      console.log(this.adsCol);
+      
       this.httpService.deleteAd(event.target.getAttribute("id"))
       .subscribe(res => {
         let answer : any = res;
         if(answer.isError == false){
           this.adsCol[ Math.ceil( this.adsCol.length / this.itemInRow ) ]
         }
+        
+        if(this.nowActivePage != 3){
+          this.arrCountsItem[3]++;
+        }
+
       })
 
       let idAd_db = Number.parseInt(event.target.getAttribute("id") );

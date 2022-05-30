@@ -1,0 +1,9 @@
+#container
+{
+    margin-top: 7rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80rem;
+    height: 40rem;
+    display: flex;
+}

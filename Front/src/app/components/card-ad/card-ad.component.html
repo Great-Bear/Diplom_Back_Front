@@ -15,14 +15,16 @@
           </div>
 
         </div>
-        <a *ngIf="data.countImgs > 1" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a *ngIf="data.countImgs > 1" class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+          <ng-container *ngIf="data.countImgs > 1" >
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </ng-container>
       </div> 
     </div>
 
@@ -46,7 +48,7 @@
             <span class="form-control" id="price">{{data.price}}</span>
             </div>       
         </div>
-        <input class="btn btn-primary" type="button" *ngIf="!isOwner" value="Написать продавцу"  >
+        <input class="btn btn-primary" type="button" *ngIf="!isOwner" value="Написать продавцу" (click)="openChat()"  >
         </div>
   </div>
 </div>

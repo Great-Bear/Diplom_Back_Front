@@ -32,6 +32,9 @@ namespace JBS_API
         public DbSet<VipAd> VipAds { get; set; }
         public DbSet<Img> Imgs { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Msg_Chat> Msg_Chats { get; set; }
+
         public DbContext(DbContextOptions<DbContext> options)
             : base(options)
         {

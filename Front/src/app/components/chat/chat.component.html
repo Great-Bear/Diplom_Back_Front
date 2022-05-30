@@ -1,0 +1,20 @@
+<div id="container">
+    <div id="chatBLock" >
+        <div id="msgBlock" >
+            <div class="msg rightMsg" >rightMsg</div>
+            <div class="msg leftMsg" >leftMsg</div>
+            <ng-container *ngFor="let msg of msgArr; first as isFirst">
+                <div onload="scrollDown"  class="msg" [class.leftMsg]="!msg.isMy" [class.rightMsg]="msg.isMy" >{{msg.value}}</div>           
+            </ng-container>
+        </div>
+        <div id="inputBlock" >
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" [(ngModel)]="newMsg.value" placeholder="Введите сообщение"  >
+                <div class="input-group-append">
+                  <button class="input-group-text" id="basic-addon2" [disabled]="!newMsg.value" [class.disElement]="!newMsg.value" (click)="sendMsg()" >Отправить</button>
+                </div>
+              </div>
+        </div>
+
+    </div>
+</div>

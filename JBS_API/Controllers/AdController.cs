@@ -32,8 +32,7 @@ namespace JBS_API.Controllers
         }
 
         [HttpPost]
-        [Route("create")]
-        
+        [Route("create")]       
         public JsonResult Create(
             string Title,
             string Describe,

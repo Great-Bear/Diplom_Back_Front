@@ -67,6 +67,13 @@ export class ListAdsComponent implements OnInit {
               private cookie : CookieService
                ) 
   { 
+
+    this.countPage = new Array();
+    for(let i = 1 ; i <= 15; i++){
+      this.countPage.push(i);
+    }
+    this.UpdatePagination();
+
    this.catId = activateRoute.snapshot.params['idCategory'];
    let queryStr = activateRoute.snapshot.params['searchQuery'];
 
@@ -143,7 +150,7 @@ export class ListAdsComponent implements OnInit {
       priceMax = this.priceMax;
     }
 
-    this.http.list_adsGetByPagin( 1, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
+    this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
       res => {
@@ -168,6 +175,13 @@ export class ListAdsComponent implements OnInit {
             this.isNoAds = true;
           }
 
+          let count = Number(response.countPages);
+
+          this.countPage = new Array();
+          for(let i = 1 ; i <= count; i++){
+            this.countPage.push(i);
+          }
+          this.UpdatePagination();
 
           for(let ad of response.data){
             ad.isFavorit = false;
@@ -196,6 +210,7 @@ export class ListAdsComponent implements OnInit {
   }
 
   changePrice(){
+    this.activePage = 1;
     this.loadNewAd();
   }
 
@@ -530,6 +545,7 @@ export class ListAdsComponent implements OnInit {
       if(arr[0] == event.target){
         return;
       }
+      this.activePage = 1;
 
       if(this.choiceOrderType == undefined){
         for(let typeOrder of arr){
@@ -578,14 +594,10 @@ export class ListAdsComponent implements OnInit {
       else{
         this.arrOrderByValue[indexOrderBy] = 1;
       }
-
-
     this.loadNewAd();
-
   }
 
   changeTypeShowAds(event : any){
-
     let arr = document.getElementsByClassName("containerImgs");
 
     for(let i = 0; i < arr.length; i++){
@@ -601,7 +613,88 @@ export class ListAdsComponent implements OnInit {
     else{
       this.stepPagin = 10;
     }
+    this.activePage = 1;
     this.loadNewAd();
   }
+
+  private indexStartPag = 0;
+  public activePage : number = 1 ;
+  public countPage = Array();
+
+  public linePagin = Array();
+  public countLinePagin = 10;
+
+  public isLeftDis = true;
+  public isRightDis = true;
+
+  setActivaPagin(event : any){
+    let idPag = event.target.id;
+    if(idPag == ""){
+      return;
+    }
+    if(idPag == 0 ){
+      this.activePage--;
+    }
+    else if(idPag == Number(this.countPage.length) +  Number(2) ){
+      this.activePage++;
+    }
+    else{
+      this.activePage = idPag;
+    }
+     
+      let indexActivePage = this.linePagin.findIndex( i => i == this.activePage);
+      let rightBorderPag = this.linePagin.length - 1;
+      let leftBorderPag = 0;
+      let stepPag = this.linePagin.length - 1;
+
+
+      if(indexActivePage == rightBorderPag){ 
+      let needStock = this.countPage.length - this.linePagin[rightBorderPag];
+     
+      if( needStock > stepPag ){
+        this.indexStartPag += stepPag;
+      }
+      else{
+        this.indexStartPag += needStock;
+      }
+    }
+    else if(indexActivePage == leftBorderPag){
+      let needStock = this.linePagin[leftBorderPag] - stepPag;
+
+      if( needStock <= 0 ){
+        this.indexStartPag = 0;
+      }
+      else{
+        this.indexStartPag -= stepPag;
+      }
+    }
+    this.loadNewAd();
+  }
+
+
+  UpdatePagination(){
+    let count = this.countPage.length;
+
+    if(count < 10){
+      this.countLinePagin = count
+      this.linePagin = new Array(count)
+    }
+    else{
+      this.countLinePagin = 10
+      this.linePagin = new Array(10)
+    }
+    
+
+      let index = 0;
+      let reserveCount = Number(this.indexStartPag) + Number(this.linePagin.length);
+
+      for(let i = this.indexStartPag ; i < reserveCount ; i++ ){
+        this.linePagin[index++] = this.countPage[i] ;
+      }
+
+      this.isLeftDis = this.activePage > 1 ? false : true;
+      this.isRightDis = this.activePage < this.countPage.length ? false : true;
+
+}
 
 }

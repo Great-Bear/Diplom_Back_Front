@@ -142,6 +142,16 @@ namespace JBS_API.Controllers
                         Role = roleUser
                     };
 
+                    User user2 = new User
+                    {
+                        FirstName = "Bob",
+                        LastName = "Marly",
+                        Phone = "+43243423",
+                        Email = "User2",
+                        Password = "1234",
+                        Role = roleUser
+                    };
+
 
 
                     User userModer = new User
@@ -157,6 +167,7 @@ namespace JBS_API.Controllers
 
 
                     _dbContext.Users.Add(user1);
+                    _dbContext.Users.Add(user2);
                     _dbContext.Users.Add(userModer);
                     _dbContext.SaveChanges();
 
