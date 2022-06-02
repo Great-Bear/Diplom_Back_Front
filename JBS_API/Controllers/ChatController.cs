@@ -122,24 +122,116 @@ namespace JBS_API.Controllers
         [Route("MyChats")]
         public JsonResult GetMyChats(int idUser)
         {
-
-            var chats = _dbContext.Chats.Where(c => c.Msg_Chats.Count > 0 && (c.UserId == idUser || c.Ad.UserId == idUser)).ToArray();
-
-            var myChatList = new List<Resp_My_Chat>();
-
-            foreach (var itemChat in chats)
+            try
             {
-                var lastMsg = _dbContext.Msg_Chats.Where(m => m.ChatId == itemChat.Id).ToList().First();
+                var chats = _dbContext.Chats.Where(c => c.Msg_Chats.Count > 0 && (c.UserId == idUser || c.Ad.UserId == idUser)).ToArray();
 
-                myChatList.Add(new Resp_My_Chat
+                var myChatList = new List<Resp_My_Chat>();
+                foreach (var itemChat in chats)
                 {
-                    Chat = itemChat,
-                    Msg_Chat = lastMsg
+                    var lastMsg = _dbContext.Msg_Chats.Where(m => m.ChatId == itemChat.Id).ToArray().Last();
+                    myChatList.Add(new Resp_My_Chat
+                    {
+                        IdChat = itemChat.Id,
+                        LastMsgChat = lastMsg.Value,
+                        IdOwner = lastMsg.UserId,
+                        IsRead = lastMsg.isRead
+                    });
+                }
+
+                return Json( new { 
+                    data = myChatList,
+                    isError = false
                 });
             }
-
-            return Json(myChatList);
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    message = ex.Message,
+                    isError = false
+                });
+            }
+           
         }
+
+
+
+        [HttpGet]
+        [Route("GetNewMsgChat")]
+        public JsonResult GetMyChats(int idLastMsg, int idChat,int idUser)
+        {
+            var res = _dbContext.Msg_Chats.Where(m => m.ChatId == idChat && m.Id > idLastMsg && m.UserId != idUser);
+
+            return Json( new
+            {
+                isError = false,
+                data = res
+            } );
+        }
+
+        [HttpGet]
+        [Route("GetUnreadChatCount")]
+        public JsonResult GetUnreadChatCount(int idUser)
+        {
+
+            try
+            {
+                    var myChats =
+                 _dbContext.Chats.Where(
+                     c => c.Msg_Chats.Count > 0
+                     && (c.UserId == idUser || c.Ad.UserId == idUser)
+                     && c.Msg_Chats.OrderBy(c => c.Id).Last().UserId != idUser
+                     && c.Msg_Chats.OrderBy(c => c.Id).Last().isRead == false
+                 );
+
+
+                    return Json(new
+                    {
+                        countUnreadMsg = myChats.Count(),
+                        isError = false
+                    });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    message = ex.Message,
+                    isError = true
+                });
+            }
+          
+
+            // var myChats =
+            //       _dbContext.Chats.Where(c => c.Msg_Chats.Count > 0 && (c.UserId == idUser || c.Ad.UserId == idUser)).ToArray();
+
+         /*   var res = myChats.GroupJoin(
+                _dbContext.Msg_Chats.Where(c => c.isRead == false && c.UserId != idUser).ToArray(),
+                chat => chat.Id,
+                msg => msg.ChatId,
+                (chat, msg) => new
+                {
+                    chat = chat,
+                    msg = msg
+                });
+
+
+            int countUnredMsg = 0;
+            foreach (var item in res)
+            {
+                if(item.msg.Count() > 0)
+                {
+                    countUnredMsg++;
+                }
+            }
+
+            return Json(
+            countUnredMsg
+                ) ;*/
+        }
+         
+
+
 
     }
 }

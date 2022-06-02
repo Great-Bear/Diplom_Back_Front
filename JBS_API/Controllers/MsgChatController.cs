@@ -54,5 +54,21 @@ namespace JBS_API.Controllers
                 });
             }
         }
+
+        [HttpPut]
+        [Route("ReadMsg")]
+        public async Task<JsonResult> ReadMsg(int idMsg)
+        {
+            var msg = _dbContext.Msg_Chats.Where(m => m.Id == idMsg).First();
+            msg.isRead = true;
+            _dbContext.Msg_Chats.Update(msg);
+            await  _dbContext.SaveChangesAsync();
+
+            return Json(
+                new
+                {
+                    isError = false
+                });
+        }
     }
 }

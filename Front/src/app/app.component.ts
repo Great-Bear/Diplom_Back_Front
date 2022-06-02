@@ -19,9 +19,12 @@ export class AppComponent {
   isAnonimUser = true;
   isModer = false;
 
+  idUser = 0;
+
   searchWord = "";
 
   countFavoriteAd : number = 0;
+  countUnreadMsg : number = 0;
 
   arrAlertMessage = Array<AlertMessage>();
 
@@ -36,6 +39,9 @@ export class AppComponent {
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
+      if(state == false){
+        this.UpdateInfoPanel();
+      }
     }
    )
 
@@ -60,21 +66,49 @@ export class AppComponent {
     this.countFavoriteAd = count;
   })
 
-  let idUser = Number.parseInt( this.cookieService.get("idUser") );
-  if(idUser > 0){
-    this.http.getCountFavoriteAd(idUser)
-      .subscribe( res => {
-       let response : any = res;
-        
-        this.globalHub.changeCountFavoriteAd(response.count);
-        
-      });
-  }
+ // this.UpdateInfoPanel();
 
-   this.globalHub.AnonimUser(true);
+   this.globalHub.AnonimUser( Boolean( this.cookieService.get("idUser") ) );
    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
   
 }
+
+  UpdateFavoriteAds(){
+    this.http.getCountFavoriteAd(this.idUser)
+    .subscribe( res => {
+     let response : any = res;     
+      this.globalHub.changeCountFavoriteAd(response.count);   
+    });
+  }
+
+  UpdateInfoPanel(){
+    let idUser = Number.parseInt( this.cookieService.get("idUser") );
+    if(idUser > 0 && idUser != NaN){
+      this.idUser = idUser;
+      this.UpdateFavoriteAds();
+      this.UpdateUnredMessage();
+    }
+  }
+
+  UpdateUnredMessage(){
+
+    if(this.idUser == 0 || this.isAnonimUser){
+      return;
+    }
+
+    this.http.getUnreadChatCount(this.idUser)
+    .subscribe(res => {
+      let response : any = res;
+      this.countUnreadMsg = response.countUnreadMsg;
+    })
+    
+      timer(1000)
+      .pipe()
+      .subscribe( () => {
+       this.UpdateUnredMessage();
+      }); 
+  }
+
 
 HiddenAlertMessage(event : any){
   if(event.target.classList.contains("closeBtnAlMess")){
@@ -149,9 +183,12 @@ ngOnInit(){
     this.globalHub.AnonimUser(true);
     this.globalHub.ModerUser(false);
 
+    this.idUser = 0;
+
     this.globalHub.changeCountFavoriteAd(
       -this.globalHub.countFavoriteAd.getValue()
     )
+    this.countUnreadMsg = 0;
 
   }
 

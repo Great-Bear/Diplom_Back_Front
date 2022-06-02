@@ -1,4 +1,8 @@
 <div id="container" >
-    <p>my-chats works!</p>
+   <div id="BlokChats" >
+    <div class="chat" *ngFor="let chat of chats" (click)="showChat(chat.idChat)" >
+        <p [class.unredMsg]="chat.idOwner != idUser && chat.isRead == false"  >{{chat.lastMsgChat}}</p>
+    </div>
+   </div>
 </div>
 

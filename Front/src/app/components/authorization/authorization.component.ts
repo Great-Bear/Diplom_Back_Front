@@ -46,17 +46,11 @@ export class AuthorizationComponent implements OnInit {
                   else{
                     this.cookieService.set("rememberMe","no")
                   }
-                  this.globalHub.AnonimUser(false);
+                  
                   this.cookieService.set( "idUser", authData.id)
+                  this.globalHub.AnonimUser(false);       
                   this.router.navigate(['/home']);
                   this.cookieService.set("activeSession","yes");
-
-                  this.httpSevice.getCountFavoriteAd(
-                     Number.parseInt( authData.id) )
-                  .subscribe( res => {
-                   let response : any = res;               
-                    this.globalHub.changeCountFavoriteAd(response.count);                 
-                  });
 
                   if(authData.role == "Moder"){
                     this.globalHub.ModerUser(true);

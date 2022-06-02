@@ -1,8 +1,6 @@
 <div id="container">
     <div id="chatBLock" >
         <div id="msgBlock" >
-            <div class="msg rightMsg" >rightMsg</div>
-            <div class="msg leftMsg" >leftMsg</div>
             <ng-container *ngFor="let msg of msgArr; first as isFirst">
                 <div onload="scrollDown"  class="msg" [class.leftMsg]="!msg.isMy" [class.rightMsg]="msg.isMy" >{{msg.value}}</div>           
             </ng-container>
@@ -15,6 +13,5 @@
                 </div>
               </div>
         </div>
-
     </div>
 </div>

@@ -10,7 +10,7 @@
                          </span>
                         <span routerLink="/mychats" >
                             <img src="../assets/imgs/Message_Icon.png" >
-                            <span class="countMsg" (click)="showCookie()" >10</span>
+                            <span class="countMsg" (click)="showCookie()" >{{countUnreadMsg}}</span>
                         </span>                                  
                         <span routerLink="/myfavorite">
                             <img src="../assets/imgs/Hearth_Icon.png" >
@@ -37,7 +37,7 @@
                             <img src="../assets/imgs/Plus_Icon.png" >
                              <span>Подать обьявление</span> 
                         </div>     
-                                           
+        
                     </div> 
                 </div>
                          

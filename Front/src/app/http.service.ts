@@ -105,6 +105,47 @@ export class HttpService {
     } )
   }
 
+  getMyChats(idUser : number){
+    return this.http.get(this.URL + `/Chat/MyChats?idUser=${idUser}`)
+    .pipe( res => {
+      return res;
+    }, err => {
+      return err;
+    })
+  }
+
+  getNewMsgChat(idLastMsg : number, idChat : number, idUser : number){
+    return this.http.get(this.URL + `/Chat/GetNewMsgChat?idLastMsg=${idLastMsg}&idChat=${idChat}&idUser=${idUser}`)
+    .pipe( res => {
+      return res;
+    }, err => {
+      return err;
+    } )
+  }
+
+  getUnreadChatCount(idUser : number){
+    return this.http.get(this.URL + `/Chat/GetUnreadChatCount?idUser=${idUser}`)
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
+  readMsg(idMsg : number){
+    let body = new Object();
+
+    return this.http.put(this.URL + `/MsgChat/ReadMsg?idMsg=${idMsg}`, body)
+    .pipe( res => {
+      return res;
+    }, err => {
+      return err;
+    } )
+  }
+
   createAds(data : any, filtersid : any, reqData : RequCreateAd  ){
     return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&CurrencyId=${reqData.Currency}&FiltersValue=${filtersid}
           `,         

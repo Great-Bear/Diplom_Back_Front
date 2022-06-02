@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/http.service';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
@@ -25,7 +25,9 @@ export class ChatComponent implements OnInit {
   constructor(private cookie : CookieService,
               private activeRoute : ActivatedRoute,
               private http : HttpService,
-              private globalHub : GlobalHubService) 
+              private globalHub : GlobalHubService,
+              private router : Router
+              ) 
   { 
     this.newMsg.idUser = Number.parseInt(this.cookie.get("idUser"));
     this.newMsg.idChat = this.activeRoute.snapshot.params['idChat'];
@@ -49,6 +51,7 @@ export class ChatComponent implements OnInit {
       this.globalHub.addAlertMessage(aMessage);
       return;
     }
+    this.newMsg.value = "";
     this.addNewMsg(response.msg);
 
    }, err => {
@@ -76,6 +79,8 @@ export class ChatComponent implements OnInit {
 
       this.newMsg.value = "";
 
+      this.LoadNewMsg();
+
     },err => {
       let aMessage = new AlertMessage();
       this.globalHub.addAlertMessage(aMessage);
@@ -90,6 +95,8 @@ export class ChatComponent implements OnInit {
 
     if(this.newMsg.idUser != msg.userId){ 
       newMsg.isMy = false;
+      this.http.readMsg(msg.id).subscribe( res => {      
+      })     
     }
     this.msgArr.push(newMsg);
     this.scrollDown();
@@ -102,6 +109,50 @@ export class ChatComponent implements OnInit {
         let block : any = document.getElementById("msgBlock");
         block.scrollTop = block.scrollHeight;
       });
+
   }
 
+  LoadNewMsg(){
+   
+    let idLastMsg = 0;
+
+    for(let msg of this.msgArr){
+        if(msg.isMy == false){
+          idLastMsg = msg.id;
+        }
+    }
+    
+    this.http.getNewMsgChat(idLastMsg, this.newMsg.idChat, this.newMsg.idUser)
+      .subscribe( res => {
+          let response : any = res;
+          if(response.isError){
+            let aMessage = new AlertMessage();
+            this.globalHub.addAlertMessage(aMessage);
+          }
+
+          if(response.data instanceof Array){
+
+            for(let newMsg of response.data){
+              this.addNewMsg(newMsg);
+             
+            }
+          }
+         this.msgArr = this.msgArr.sort( 
+            (a, b) => {
+              return a.id - b.id;
+            }
+          );
+      }, err => {
+        let aMessage = new AlertMessage();
+        this.globalHub.addAlertMessage(aMessage);
+      } )
+
+      if(this.router.url.includes("chat")){      
+         timer(1000)
+      .pipe()
+      .subscribe( () => {
+        this.LoadNewMsg();
+      }); 
+    }  
+  }
 }

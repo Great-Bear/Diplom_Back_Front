@@ -7,3 +7,28 @@
     height: 40rem;
     display: flex;
 }
+
+#BlokChats
+{
+    background-color: aliceblue;
+    width: 40rem;
+}
+
+.chat
+{
+    height: 10%;
+    background-color: rgb(212, 228, 228);
+    border: 1px solid black;
+    margin-top: 5px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.chat:hover
+{
+    background-color: rgb(200, 243, 243);
+}
+
+.unredMsg
+{
+    font-weight: 700;
+}

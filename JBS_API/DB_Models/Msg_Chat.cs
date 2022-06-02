@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Value { get; set; }
+        public bool isRead { get; set; }
 
         public int ChatId { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
