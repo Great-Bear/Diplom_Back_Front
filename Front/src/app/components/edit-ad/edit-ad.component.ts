@@ -6,7 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RequEditAd } from 'src/app/Classes/Request/requ-edit-ad';
 import { Router } from '@angular/router';
-
+import { AlertMessage } from 'src/app/Classes/alert-message';
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 @Component({
   selector: 'app-edit-ad',
@@ -31,6 +32,28 @@ export class EditAdComponent implements OnInit {
 
   public forLoadFiles : File[] =  Array();
 
+  phoneRegExp = new RegExp("[^0-9-]");
+  priceRegExp = new RegExp("[^0-9]");
+
+  errMsg = {
+    Title : "",
+    Describe : "",
+    Category : "",
+    Filters : new Array(),
+    Price : "",
+    TypeAd : "",
+    Quality : "",
+    Phone : ""
+  }
+
+  currencies = [
+    "грн",
+    "$",
+    "€",
+  ]
+
+
+
   filterList = new Array();
 
   urlImgs = new Array(this.countImgs);
@@ -41,7 +64,8 @@ export class EditAdComponent implements OnInit {
               private cookieService : CookieService,
               private activateRoute : ActivatedRoute,
               private sanitizer: DomSanitizer,
-              private route : Router) {
+              private route : Router,
+              private globalHub : GlobalHubService) {
 
                 let idAd = this.activateRoute.snapshot.params['id'];
 
@@ -53,7 +77,6 @@ export class EditAdComponent implements OnInit {
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
                     this.requData = res;
-                    console.log(this.requData);
                     let filteList_Db : any = res;
 
                     this.requData.FiltersValue = new Array();
@@ -72,7 +95,7 @@ export class EditAdComponent implements OnInit {
                         for(let filter of res){
                           this.filterList.push(filter);
                         }
-                      }                  
+                      }               
                     })
 
                     this.countImgs = this.requData.countImgs;
@@ -99,7 +122,7 @@ export class EditAdComponent implements OnInit {
                       res => {
                         if(res instanceof Array){
                          this.typeAd.Categories = res;
-                         this.Category = res[this.requData.idCategory - 1];                        
+                         this.Category = res[this.requData.idCategory - 1].name;                        
                         }
                       }
                      )    
@@ -170,7 +193,118 @@ export class EditAdComponent implements OnInit {
       }  
   }
 
+
+
+  findErrorForm(): Boolean {
+
+    let isError = false;
+
+    if(this.requData.title.length == 0){
+      this.errMsg.Title = "Заголовок не может быть пустым";
+    }
+    else{
+      this.errMsg.Title = "";
+    }
+
+    if(this.requData.describe.length == 0){
+      this.errMsg.Describe = "Описание не может быть пустым";
+    }
+    else{
+      this.errMsg.Describe = "";
+    }
+
+    if(this.requData.phoneNumber.length <= 0){
+      this.errMsg.Phone = "Номер телефона не может быть пустым";
+    }
+    else if(this.phoneRegExp.test(this.requData.phoneNumber)){
+      this.errMsg.Phone = "Некорректный номер телефона";
+    }
+    else{
+      this.errMsg.Phone = "";
+    }
+
+    if(this.requData.price.length <= 0){
+      this.errMsg.Price = "Цена не может быть пустой";
+    }
+    else if (this.priceRegExp.test(this.requData.price)){
+      this.errMsg.Price = "Цена может состоять только из цифр"
+    }
+    else{
+      this.errMsg.Price = "";
+    }
+
+   if(this.requData.category == ""){
+    this.errMsg.Category = "Выберете категорию";
+   }
+   else{
+    this.errMsg.Category = "";
+   }
+
+   if(this.requData.typeAd == ""){
+     this.errMsg.TypeAd = "Выберете тип объявления";
+   }
+   else{
+     this.errMsg.TypeAd = "";
+   }
+
+   if(this.requData.quality == ""){
+    this.errMsg.Quality = "Выберете состояние объявления";
+  }
+  else{
+    this.errMsg.Quality = "";
+  }
+
+  let isFilterEmpty = false;
+
+  if(this.filterList.length != 0){
+    for(let i = 0; i < this.requData.FiltersValue.length; i++){
+      if(this.requData.FiltersValue[i] == null){
+        this.errMsg.Filters[i] = `Веберети ${this.filterList[i].filterName}`;
+        isFilterEmpty = true;
+      }
+      else{
+        this.errMsg.Filters[i] = "";
+      }
+    }
+  }
+    if(
+      this.errMsg.Category.length > 0 ||
+      this.errMsg.Describe.length > 0 ||
+      this.errMsg.Quality.length > 0 ||
+      this.errMsg.TypeAd.length > 0 ||
+      this.errMsg.Title.length > 0 ||
+      this.errMsg.Phone.length > 0 ||
+      isFilterEmpty == true
+      ){
+        isError = true;
+      }
+
+    return isError;
+  }
+
+
+
+
   EditAds(){    
+    console.log(this.requData)
+    if(this.findErrorForm() == true){
+
+      let aMessage = new AlertMessage();
+      aMessage.Title = "Некорректные данные :(";
+      aMessage.Message = "Введите коректные данные для создания товара;"
+      aMessage.TimeShow = 3000;
+
+      this.globalHub.addAlertMessage(aMessage);
+
+      return;
+    }
+
+
+    let aMessage = new AlertMessage();
+      aMessage.Title = "нет ошибок";
+      aMessage.Message = "Введите коректные данные для создания товара;"
+      aMessage.TimeShow = 3000;
+
 
     this.requData.idUser = this.cookieService.get("idUser");
 
@@ -189,6 +323,7 @@ export class EditAdComponent implements OnInit {
       reqData.Phone =  this.requData.phoneNumber;
       reqData.IsDelivery =  this.requData.isDelivery;
       reqData.isNegotiatedPrice =  this.requData.isNegotiatedPrice;
+      reqData.idCurrency = this.requData.idCurrency;
 
       let filterStringValue = "";
       for(let i = 0; i < this.requData.FiltersValue.length; i++ ){
@@ -200,7 +335,6 @@ export class EditAdComponent implements OnInit {
       this.httpService.editAds(form,filterStringValue, reqData).subscribe(res => {
        if(res == true){
         this.route.navigate([`/card-ad/${reqData.idAd}`]);
-        console.log(res);
        }
       }, err => {
         console.log(err);

@@ -4,6 +4,8 @@ import { CookieService  } from 'ngx-cookie-service';
 import { TypeAd } from 'src/app/Classes/typeAd';
 import { RequCreateAd } from 'src/app/Classes/Request/requ-create-ad';
 import { Router } from '@angular/router';
+import { AlertMessage } from 'src/app/Classes/alert-message';
+import { GlobalHubService } from 'src/app/global-hub.service';
 
 @Component({
   selector: 'app-create-ad',
@@ -16,11 +18,9 @@ export class CreateAdComponent implements OnInit {
   Describe : string = "describe ad";
 
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
-
   private countImgs : number = 12;
 
   public requData : RequCreateAd = new RequCreateAd();
-
   public typeAd : TypeAd = new TypeAd();
 
   urlImgs : string[] = new Array(this.countImgs);
@@ -30,6 +30,21 @@ export class CreateAdComponent implements OnInit {
 
   filterList = new Array();
 
+  errMsg = {
+    Title : "",
+    Describe : "",
+    Category : "",
+    Filters : new Array(),
+    Price : "",
+    TypeAd : "",
+    Quality : "",
+    Phone : ""
+  }
+
+  phoneRegExp = new RegExp("[^0-9-]");
+  priceRegExp = new RegExp("[^0-9]");
+
+
   currencies = [
     "грн",
     "$",
@@ -38,7 +53,9 @@ export class CreateAdComponent implements OnInit {
 
   constructor(private httpService : HttpService,
               private cookieService : CookieService,
-              private route : Router) {
+              private route : Router,
+              private globalHub : GlobalHubService
+              ) {
 
                 this.requData.Currency = "1";
 
@@ -101,13 +118,14 @@ export class CreateAdComponent implements OnInit {
   }
 
   changeCat(event : any){
-    console.log(this.requData.Category);
     this.httpService.getFilters(Number.parseInt(this.requData.Category))
     .subscribe(res => {
       this.filterList = new Array();
+      this.errMsg.Filters = new Array();
       if(res instanceof Array){
         for(let filter of res){
           this.filterList.push(filter);
+          this.errMsg.Filters.push("");
         }
       }   
       this.requData.FiltersValue = new Array(this.filterList.length);
@@ -135,10 +153,108 @@ export class CreateAdComponent implements OnInit {
       }  
   }
 
+  findErrorForm(): Boolean {
+
+    let isError = false;
+
+    if(this.requData.Title.length == 0){
+      this.errMsg.Title = "Заголовок не может быть пустым";
+    }
+    else{
+      this.errMsg.Title = "";
+    }
+
+    if(this.requData.Describe.length == 0){
+      this.errMsg.Describe = "Описание не может быть пустым";
+    }
+    else{
+      this.errMsg.Describe = "";
+    }
+
+    if(this.requData.Phone.length <= 0){
+      this.errMsg.Phone = "Номер телефона не может быть пустым";
+    }
+    else if(this.phoneRegExp.test(this.requData.Phone)){
+      this.errMsg.Phone = "Некорректный номер телефона";
+    }
+    else{
+      this.errMsg.Phone = "";
+    }
+
+    if(this.requData.Price.length <= 0){
+      this.errMsg.Price = "Цена не может быть пустой";
+    }
+    else if (this.priceRegExp.test(this.requData.Price)){
+      this.errMsg.Price = "Цена может состоять только из цифр"
+    }
+    else{
+      this.errMsg.Price = "";
+    }
+
+   if(this.requData.Category == ""){
+    this.errMsg.Category = "Выберете категорию";
+   }
+   else{
+    this.errMsg.Category = "";
+   }
+
+   if(this.requData.TypeAd == ""){
+     this.errMsg.TypeAd = "Выберете тип объявления";
+   }
+   else{
+     this.errMsg.TypeAd = "";
+   }
+
+   if(this.requData.Quality == ""){
+    this.errMsg.Quality = "Выберете состояние объявления";
+  }
+  else{
+    this.errMsg.Quality = "";
+  }
+
+  let isFilterEmpty = false;
+
+  if(this.filterList.length != 0){
+    for(let i = 0; i < this.requData.FiltersValue.length; i++){
+      if(this.requData.FiltersValue[i] == null){
+        this.errMsg.Filters[i] = `Веберети ${this.filterList[i].filterName}`;
+        isFilterEmpty = true;
+      }
+      else{
+        this.errMsg.Filters[i] = "";
+      }
+    }
+  }
+    if(
+      this.errMsg.Category.length > 0 ||
+      this.errMsg.Describe.length > 0 ||
+      this.errMsg.Quality.length > 0 ||
+      this.errMsg.TypeAd.length > 0 ||
+      this.errMsg.Title.length > 0 ||
+      this.errMsg.Phone.length > 0 ||
+      isFilterEmpty == true
+      ){
+        isError = true;
+      }
+
+    return isError;
+  }
+
   CreateAds(){    
 
-    this.requData.idUser = this.cookieService.get("idUser");
+    if(this.findErrorForm() == true){
 
+      let aMessage = new AlertMessage();
+      aMessage.Title = "Некорректные данные :(";
+      aMessage.Message = "Введите коректные данные для создания товара;"
+      aMessage.TimeShow = 3000;
+
+      this.globalHub.addAlertMessage(aMessage);
+
+      return;
+    }
+
+    this.requData.idUser = this.cookieService.get("idUser");
     let form = new FormData();
 
       for(let i = 0; i < this.requData.Files.length; i++){
@@ -150,24 +266,13 @@ export class CreateAdComponent implements OnInit {
       for(let i = 0; i < this.requData.FiltersValue.length; i++){
         filtersid += this.requData.FiltersValue[i]
         if(i != this.requData.FiltersValue.length - 1){
-          filtersid+="|"
+          filtersid += "|"
         }
       }
 
-    /*  this.requData.idUser = "2"
-      this.requData.Title = "Title test"
-      this.requData.Describe = "describe test"
-      this.requData.Category = "1"
-      this.requData.Price = "123"
-      this.requData.Phone = "84239847239"
-      this.requData.IsDelivery = true
-      this.requData.isNegotiatedPrice = false
-      this.requData.Quality = "Новое"
-      this.requData.TypeAd = "Бизнес"
-*/
-
       this.httpService.createAds(form,filtersid, this.requData).subscribe(res => {
-       // this.route.navigate([`/card-ad/${res}`]);
+     console.log(res);
+        //  this.route.navigate([`/card-ad/${res}`]);
       }, err => {
         alert(err);
       });

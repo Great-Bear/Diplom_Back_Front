@@ -77,3 +77,15 @@
 {
     width: 250px;
 }
+
+.errorMsg
+{
+   color: red;
+}
+
+.errorMsgOffset
+{
+   position: relative;
+   top : -15px;
+   color: red;
+}

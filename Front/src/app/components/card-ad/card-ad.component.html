@@ -40,14 +40,31 @@
             <textarea disabled name="" id="Describe" class="form-control" cols="30" rows="10">{{data.describe}}</textarea>
           </div>
 
+          <div *ngIf="data.isNegotiatedPrice" >
+            Договорная
+          </div>
+
          <div id="miniBlock">
             <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="price">Цена</label>
-            </div>
-            <span class="form-control" id="price">{{data.price}}</span>
-            </div>       
+              <div class="input-group-prepend">
+                  <label class="input-group-text" for="price">Цена</label>
+              </div>
+              <span class="form-control" id="price">{{data.price}}</span>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{currencies[data.idCurrency - 1]}}</span>
+              </div>
+            </div>    
         </div>
+
+        <div id="blockPhone" >
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="phone">Телефон</label>
+            </div>
+            <span class="form-control" id="phone">{{data.phoneNumber}}</span>
+            </div>  
+        </div>
+
         <input class="btn btn-primary" type="button" *ngIf="!isOwner" value="Написать продавцу" (click)="openChat()"  >
         </div>
   </div>

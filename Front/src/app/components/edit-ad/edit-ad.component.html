@@ -7,6 +7,7 @@
                 </div>
                 <input type="text" class="form-control" id="Title" [(ngModel)]="requData.title" >
               </div>
+              <span class="errorMsg" >{{errMsg.Title}}</span>
     
     <div>
         <br>
@@ -44,6 +45,7 @@
             </div>
             <textarea name="" id="Describe" [(ngModel)]="requData.describe" class="form-control" cols="30" rows="10"></textarea>
           </div>
+          <span class="errorMsgOffset" >{{errMsg.Describe}}</span>
 
          <div id="miniBlock">
 
@@ -67,7 +69,19 @@
                 <label class="input-group-text" for="price">Цена</label>
             </div>
             <input type="number" class="form-control" id="price" [(ngModel)]="requData.price"  >
-            </div>      
+            <span class="errorMsg" >{{errMsg.Price}}</span>
+          </div>      
+
+          <div id="currencyBlock" >
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Валюта</label>
+              </div>
+              <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.idCurrency"  >
+                <option *ngFor="let currency of currencies; let i = index" value="{{i+1}}" >{{currency}}</option>
+              </select>
+            </div>
+          </div>
             
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -75,6 +89,7 @@
               </div>
               <input type="tel" class="form-control" id="tel" [(ngModel)]="requData.phoneNumber"  >
           </div>  
+          <span class="errorMsgOffset" >{{errMsg.Phone}}</span>
 
         </div>
         <input class="btn btn-primary" type="button" value="Изменить объявление" (click)="EditAds()" >

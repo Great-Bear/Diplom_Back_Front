@@ -14,6 +14,7 @@ namespace JBS_API.Response_Model
         public int idOwner { get; set; }
         public int idBrend { get; set; }
         public int idCategory { get; set; }
+        public int idCurrency { get; set; }
         public string phoneNumber { get; set; }
         public bool isNegotiatedPrice { get; set; }
         public bool isDelivery { get; set; }

@@ -94,7 +94,7 @@ namespace JBS_API.Controllers
                 Ad newAd = new Ad {
                     Title = Title,
                     Describe = Describe,
-                    User = userOwner,
+                    UserId = userOwner.Id,
                     Category = category,
                     BrendId = 1,
                     Price = price,
@@ -110,27 +110,27 @@ namespace JBS_API.Controllers
                 _dbContext.Ads.Add(newAd);
                 _dbContext.SaveChanges();
 
-
-                string[] valueFilters;
-                if (FiltersValue.Length > 0)
+                if (FiltersValue != null)
                 {
-                    valueFilters = FiltersValue.Split('|');
-                  
+                    string[] valueFilters;
+                    if (FiltersValue.Length > 0)
+                    {
+                        valueFilters = FiltersValue.Split('|');
 
-                    foreach (var filterId in valueFilters)
-                    {                                       
-
-                        var lastAd = _dbContext.Ads.ToList().Last();
-
-                        _dbContext.Filter_Ad.Add(new Filter_Ad
+                        foreach (var filterId in valueFilters)
                         {
-                            FilterValueId = int.Parse(filterId),
-                            AdId = lastAd.Id
-                        });
+
+                            var lastAd = _dbContext.Ads.ToList().Last();
+
+                            _dbContext.Filter_Ad.Add(new Filter_Ad
+                            {
+                                FilterValueId = int.Parse(filterId),
+                                AdId = lastAd.Id
+                            });
                             _dbContext.SaveChanges();
                         }
+                    }
                 }
-
 
 
 
@@ -299,12 +299,13 @@ namespace JBS_API.Controllers
             resp.isNegotiatedPrice = ad.isNegotiatedPrice;
             resp.isDelivery = ad.isDelivery;
             resp.Filter_Ads = filters;
+            resp.idCurrency = ad.CurrencyId;
             
             return Json(resp);
         }
         [HttpPost]
         [Route("EditAd")]
-        public JsonResult EditAd(int idAd, string Title, string Describe,
+        public JsonResult EditAd(int idAd,int idCurrency, string Title, string Describe,
             string Price, string Phone, bool IsDelivery, bool isNegotiatedPrice,
             string filtersValue,
             IFormFile[] filecollect)
@@ -322,6 +323,7 @@ namespace JBS_API.Controllers
                 ad.PhoneNumber = Phone;
                 ad.isDelivery = IsDelivery;
                 ad.isNegotiatedPrice = isNegotiatedPrice;
+                ad.CurrencyId = idCurrency;
 
                 _dbContext.Entry(ad).Collection("Filter_Ads").Load();
 

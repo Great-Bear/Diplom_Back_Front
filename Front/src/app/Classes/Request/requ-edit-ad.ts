@@ -8,5 +8,6 @@ export class RequEditAd {
     public Phone : string = "";
     public IsDelivery : boolean = false;
     public isNegotiatedPrice : boolean = false;
+    public idCurrency = 0;
 
 }

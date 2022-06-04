@@ -147,7 +147,7 @@ export class HttpService {
   }
 
   createAds(data : any, filtersid : any, reqData : RequCreateAd  ){
-    return this.http.post( this.URL + `/Ad/create?idUser=2&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&CurrencyId=${reqData.Currency}&FiltersValue=${filtersid}
+    return this.http.post( this.URL + `/Ad/create?idUser=${reqData.idUser}&Title=${reqData.Title}&Describe=${reqData.Describe}&Category=${reqData.Category}&Price=${reqData.Price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&Quality=${reqData.Quality}&TypeAd=${reqData.TypeAd}&CurrencyId=${reqData.Currency}&FiltersValue=${filtersid}
           `,         
             data)
                 .pipe( res => { return res; }, err => {return err} );
@@ -228,7 +228,7 @@ export class HttpService {
   }
 
   editAds( imgs: any, filterStringValue : any, reqData : RequEditAd){  
-    return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}&Title=${reqData.title}&Describe=${reqData.describe}&Price=${reqData.price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&filtersValue=${filterStringValue}`,
+    return this.http.post(this.URL + `/Ad/EditAd?idAd=${reqData.idAd}&idCurrency=${reqData.idCurrency}&Title=${reqData.title}&Describe=${reqData.describe}&Price=${reqData.price}&Phone=${reqData.Phone}&IsDelivery=${reqData.IsDelivery}&isNegotiatedPrice=${reqData.isNegotiatedPrice}&filtersValue=${filterStringValue}`,
           imgs)
           .pipe(res => {return res},err => {return err});
   }

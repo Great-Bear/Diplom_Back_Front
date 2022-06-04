@@ -16,8 +16,17 @@ export class AuthorizationComponent implements OnInit {
               private cookieService: CookieService,
               private globalHub : GlobalHubService ) { }
 
+  loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
+  lowCaseRgExp : RegExp = new RegExp("[a-z]")
+  upCaseRegExp : RegExp = new RegExp("[A-Z]")
+  specSymRegExp : RegExp = new RegExp("[^A-Za-z0-9_]");
+
+
   login : string = "";
   passwd : string = "";
+
+  loginErrMsg : string = "";
+  passwdErrMsg : string = "";
 
   //  login : string = "Bogdan";
  //  passwd : string = "1235";
@@ -28,6 +37,10 @@ export class AuthorizationComponent implements OnInit {
   }
 
   sendDataAuth(){
+
+    if(this.ValidetData() == false){
+     // return ;
+    }
 
   const body = { login : this.login, password : this.passwd }
 
@@ -74,4 +87,30 @@ export class AuthorizationComponent implements OnInit {
             alert("error http");
           });
         }  
+
+        ValidetData() : boolean
+        {
+          this.loginErrMsg = !this.loginRegExp.test( this.login )
+          ? "Некорректный логин" 
+          : "";
+
+          if( this.passwd.length < 8 ){
+            this.passwdErrMsg = "Пароль должен быть минимум из 8 символов" ;
+          }    
+          else if( !this.upCaseRegExp.test( this.passwd ) ) {
+            this.passwdErrMsg = "В пароле должа быть хотя бы одна большая буква" ;
+          }
+          else if( !this.lowCaseRgExp.test( this.passwd ) ){
+            this.passwdErrMsg = "В пароле должа быть хотя бы одна маленькая буква" ;
+          }
+          else if( !this.specSymRegExp.test(this.passwd) ){
+            this.passwdErrMsg = "В пароле должен быть хотя бы один спец. символ" ;
+          }
+          else{
+            this.passwdErrMsg = "";
+          }
+          return ( this.loginErrMsg + this.passwdErrMsg ) != ""
+            ?  false : true; 
+        }
+
 }

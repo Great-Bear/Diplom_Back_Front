@@ -23,6 +23,12 @@ export class CardAdComponent implements OnInit {
   idUser = 0;
   idAd = 0;
 
+  currencies = [
+    "грн",
+    "$",
+    "€",
+  ]
+
   constructor(
     private activateRoute: ActivatedRoute,
     private http : HttpService,
@@ -45,11 +51,22 @@ export class CardAdComponent implements OnInit {
             this.idChat = response.idChat;            
           }
       } )
-
       this.http.getOneAd(idAd).subscribe(
         res => {
 
+          if(this.data.isError){
+            let aMessage = new AlertMessage();
+            aMessage.Message = "Не удалось открыть товар";
+            aMessage.TimeShow = 2000;
+            this.globalHub.addAlertMessage(aMessage);
+            this.route.navigate([`home`]);
+          }
+
           this.data = res;
+
+          if(this.cookie.get("idUser") == this.data.idOwner){
+            this.isOwner = true;
+          }
 
           if(this.data.countImgs == 0){
               this.firstImg = "../assets/imgs/emptyImg.png";
@@ -57,14 +74,6 @@ export class CardAdComponent implements OnInit {
           }
           this.imgs = new Array(this.data.countImgs - 1)
           
-          if(this.data.isError){
-            console.log(this.data.error)
-          }
-
-          if(this.cookie.get("idUser") == this.data.idOwner){
-            this.isOwner = true;
-          }
-
           this.http.GetImgOfAd(idAd, 0).subscribe(
             imgBlob => {
               const urlToBlob = window.URL.createObjectURL(imgBlob)  

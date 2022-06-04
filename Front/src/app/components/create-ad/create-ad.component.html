@@ -5,9 +5,10 @@
                     <div class="input-group-prepend">
                       <label class="input-group-text" for="Title">Заголовок</label>
                     </div>
-                    <input type="text" class="form-control" id="Title" [(ngModel)]="requData.Title" >
+                    <input type="text" class="form-control" id="Title" [(ngModel)]="requData.Title" >                 
                   </div>
-        
+                  <span class="errorMsg" >{{errMsg.Title}}</span>
+                 
         <div>
             <br>
             <input multiple type="file" id="Photo" class="form-control" class="Photos" (change)="FileSelected($event)" >
@@ -29,6 +30,7 @@
                 <option value="Частное">Частное</option>
               </select>
             </div>
+            <span class="errorMsgOffset" >{{errMsg.TypeAd}}</span>
 
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -39,6 +41,7 @@
                   <option value="Б/У">Б/У</option>
                 </select>
               </div>
+              <span class="errorMsgOffset" >{{errMsg.Quality}}</span>
 
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -46,17 +49,21 @@
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Category" (change)="changeCat($event)" >
                   <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{i+1}}" >{{cat.name}}</option>
-                </select>
+                </select>        
               </div>
+              <span class="errorMsgOffset" >{{errMsg.Category}}</span>
 
-              <div class="input-group mb-3" *ngFor="let filter of filterList;let i = index">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">{{filter.filterName}}</label>
+              <ng-container *ngFor="let filter of filterList;let i = index" >
+                <div class="input-group mb-3" >
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">{{filter.filterName}}</label>
+                  </div>
+                  <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.FiltersValue[i]" >
+                    <option *ngFor="let filterItem of filter.value; let j = index" value="{{filter.id[j]}}" >{{filterItem}}</option>
+                  </select>      
                 </div>
-                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.FiltersValue[i]" >
-                  <option *ngFor="let filterItem of filter.value; let j = index" value="{{filter.id[j]}}" >{{filterItem}}</option>
-                </select>
-              </div>
+                <span class="errorMsgOffset" >{{errMsg.Filters[i]}}</span>
+            </ng-container>
 
               <div class="input-group mb-3" style="display: none;">
                 <div class="input-group-prepend">
@@ -67,13 +74,14 @@
                 </select>
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 is-invalid ">
                 <div class="input-group-prepend">
                   <label class="input-group-text" for="Describe" >Описание</label>
                 </div>
-                <textarea name="" id="Describe" [(ngModel)]="requData.Describe" class="form-control" cols="30" rows="10"></textarea>
+                  <textarea name="" id="Describe" [(ngModel)]="requData.Describe" class="form-control" cols="30" rows="10"></textarea>                    
               </div>
-
+              <span class="errorMsgOffset" >{{errMsg.Describe}}</span>
+            
              <div id="miniBlock">
 
               <div class="form-check">
@@ -95,6 +103,7 @@
                       <label class="input-group-text" for="price">Цена</label>
                   </div>
                   <input type="number" class="form-control" id="price" [(ngModel)]="requData.Price"  >
+                  <span class="errorMsg" >{{errMsg.Price}}</span>
                 </div>   
 
                 <div id="currencyBlock" >
@@ -102,7 +111,7 @@
                     <div class="input-group-prepend">
                       <label class="input-group-text" for="inputGroupSelect01">Валюта</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Currency" (change)="changeCat($event)" >
+                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Currency">
                       <option *ngFor="let currency of currencies; let i = index" value="{{i+1}}" >{{currency}}</option>
                     </select>
                   </div>
@@ -115,7 +124,7 @@
                     </div>
                     <input type="tel" class="form-control" id="tel" [(ngModel)]="requData.Phone"  >
                 </div>   
-
+                <span class="errorMsgOffset" >{{errMsg.Phone}}</span>
 
             </div>
             <input class="btn btn-primary" type="button" value="Создать объявление"  (click)="CreateAds()" >
