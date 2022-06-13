@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Linq;
 using JBS_API.Response_Model;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace JBS_API.Controllers
 {
@@ -33,7 +35,7 @@ namespace JBS_API.Controllers
 
         [HttpPost]
         [Route("create")]       
-        public JsonResult Create(
+        public async Task<JsonResult> Create(
             string Title,
             string Describe,
             int idUser,
@@ -51,14 +53,14 @@ namespace JBS_API.Controllers
               try
               {        
 
-                var userOwner = _dbContext.Users.FirstOrDefault(u => u.Id == idUser);
+                var userOwner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == idUser);
 
                 if(userOwner == null)
                 {
                     return Json("error server User is null");
                 }
 
-                var category = _dbContext.Categories.FirstOrDefault(c => c.Id == Category);
+                var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == Category);
 
                 if(category == null)
                 {
@@ -71,21 +73,21 @@ namespace JBS_API.Controllers
                     return Json("error server price is incorrent");
                 }
 
-                var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
+                var statusCheking = await _dbContext.StatusAds.FirstOrDefaultAsync(s => s.Name == "Проверяется");
                 if(statusCheking == null)
                 {
                     return Json("error server" + "StatusCheking is null");
                 }
 
                 
-                var QualityItem = _dbContext.QualityAds.FirstOrDefault(q => q.Name == Quality);
+                var QualityItem = await _dbContext.QualityAds.FirstOrDefaultAsync(q => q.Name == Quality);
 
                 if (QualityItem == null)
                 {
                     return Json("error server Quality is null");
                 }
 
-                var TypeAdItem = _dbContext.TypeOwners.FirstOrDefault(q => q.Name == TypeAd);
+                var TypeAdItem = await _dbContext.TypeOwners.FirstOrDefaultAsync(q => q.Name == TypeAd);
                 if (TypeAdItem == null)
                 {
                     return Json("error server TypeAdItem is null");
@@ -107,8 +109,8 @@ namespace JBS_API.Controllers
                     CurrencyId = CurrencyId,
                 };
 
-                _dbContext.Ads.Add(newAd);
-                _dbContext.SaveChanges();
+                await _dbContext.Ads.AddAsync(newAd);
+                await _dbContext.SaveChangesAsync();
 
                 if (FiltersValue != null)
                 {
@@ -119,15 +121,12 @@ namespace JBS_API.Controllers
 
                         foreach (var filterId in valueFilters)
                         {
-
-                            var lastAd = _dbContext.Ads.ToList().Last();
-
-                            _dbContext.Filter_Ad.Add(new Filter_Ad
+                            await _dbContext.Filter_Ad.AddAsync(new Filter_Ad
                             {
                                 FilterValueId = int.Parse(filterId),
-                                AdId = lastAd.Id
+                                AdId = newAd.Id
                             });
-                            _dbContext.SaveChanges();
+                            await _dbContext.SaveChangesAsync();
                         }
                     }
                 }
@@ -148,23 +147,22 @@ namespace JBS_API.Controllers
 
                         using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
                         {
-                            file.CopyTo(fileStream);
+                            await file.CopyToAsync(fileStream);
                         }
 
-                        var lastAd = _dbContext.Ads.ToList().Last();
-                        var newImg = new Img { Name = uniqueName, Ad = lastAd, IsMainImg = isMainImg };
+                        var newImg = new Img { Name = uniqueName, Ad = newAd, IsMainImg = isMainImg };
 
-                        if(isMainImg == true)
+                        if(isMainImg)
                         {
                             isMainImg = !isMainImg;
                         }
 
-                        _dbContext.Imgs.Add(newImg);
+                        await _dbContext.Imgs.AddAsync(newImg);
 
                     }
                 }
 
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
 
                 return Json(newAd.Id);           
               }
@@ -177,20 +175,19 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("MyAds")]
-        public JsonResult TakeMyAds(int idUser, int statusId)
+        public async Task<JsonResult> TakeMyAds(int idUser, int statusId)
         {
-
             try
             {
                 var ads = _dbContext.Ads                                  
                                     .Where(a => a.UserId == idUser);
 
-                var countPublish = ads.Where(a => a.StatusAdId == (int)stateAd.publish).Count();
-                var countNoPublish = ads.Where(a => a.StatusAdId == (int)stateAd.noPublish).Count();
-                var countReject = ads.Where(a => a.StatusAdId == (int)stateAd.reject).Count();
-                var countCheking = ads.Where(a => a.StatusAdId == (int)stateAd.cheking).Count();
+                var countPublish = await ads.Where(a => a.StatusAdId == (int)stateAd.publish).CountAsync();
+                var countNoPublish = await ads.Where(a => a.StatusAdId == (int)stateAd.noPublish).CountAsync();
+                var countReject = await ads.Where(a => a.StatusAdId == (int)stateAd.reject).CountAsync();
+                var countCheking = await ads.Where(a => a.StatusAdId == (int)stateAd.cheking).CountAsync();
 
-                var filterAds = ads.Where(a => a.StatusAdId == statusId).ToArray();
+                var filterAds = await ads.Where(a => a.StatusAdId == statusId).ToArrayAsync();
 
                 int[] countsItem =
                     { 
@@ -216,10 +213,10 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("GetWaitingAds")]
-        public JsonResult GetWaitingAds()
+        public async Task<JsonResult> GetWaitingAds()
         {
             return Json( new { 
-                ads = _dbContext.Ads.Where(a => a.StatusAdId == (int)stateAd.cheking)
+                ads = await _dbContext.Ads.Where(a => a.StatusAdId == (int)stateAd.cheking).ToArrayAsync()
             });
         }
 
