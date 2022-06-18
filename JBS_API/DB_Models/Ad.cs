@@ -40,11 +40,17 @@ namespace JBS_API.DB_Models
         public Currency Currency { get; set; }
 
         public ICollection<Img> Imgs { get; set; }
+
         [System.Text.Json.Serialization.JsonIgnore]
         public ICollection<Filter_Ad> Filter_Ads { get; set; }
 
+
         [System.Text.Json.Serialization.JsonIgnore]
         public ICollection<Chat> Chats { get; set; }
+
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public ICollection<FavoriteAd> FavoriteAds { get; set; }
 
 
     }

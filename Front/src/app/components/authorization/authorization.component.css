@@ -236,6 +236,21 @@
     color: #8C979F;
 }
 
+#resetTxt
+{
+    position: relative;
+    top: -5px;
+    left: 30px;
+    border-bottom: 1px solid #2600ff;
+    cursor: pointer;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+
+    color: #2600ff;
+}
+
 #regButt
 {
     background: #314757;

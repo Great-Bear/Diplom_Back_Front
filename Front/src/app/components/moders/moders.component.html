@@ -1,0 +1,18 @@
+<div id="moderBlock">
+    <table>
+        <tr>
+            <th>Почта</th>
+        </tr>
+        <tr *ngFor="let moder of modersCollect" > 
+            <td>
+                {{moder.email}}
+            </td>
+            <td class="delBtn">
+                <button type="button" class="btn btn-danger" (click)="deleteModer(moder.id)" >🗑</button>
+            </td>
+        </tr>
+    </table>
+    <input class="btn btn-primary" type="submit" routerLink="/ModersComponent/moders/add"   value="Создать модератора">
+</div>
+
+<router-outlet></router-outlet>

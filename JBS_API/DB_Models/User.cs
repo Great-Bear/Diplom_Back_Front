@@ -11,7 +11,10 @@ namespace JBS_API.DB_Models
         public string Phone { get; set; }
         public string Password { get; set; }
 
+        public bool IsConfirmEmail { get; set; } = false;
+
         public int RoleId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public Role Role { get; set; }
 
         public ICollection<Ad> Ads { get; set; }

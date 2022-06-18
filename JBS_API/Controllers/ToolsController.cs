@@ -119,6 +119,8 @@ namespace JBS_API.Controllers
                     Role role1 = new Role { Name = "Admin" };
                     Role role2 = new Role { Name = "User" };
                     Role roleModer = new Role { Name = "Moder" };
+                    
+                  
 
                     _dbContext.Roles.Add(role1);
                     _dbContext.Roles.Add(role2);
@@ -131,6 +133,7 @@ namespace JBS_API.Controllers
                 {
                     Role roleUser = _dbContext.Roles.First(r => r.Name == "User");
                     Role roleModer = _dbContext.Roles.First(r => r.Name == "Moder");
+                    Role adminModer = _dbContext.Roles.First(r => r.Name == "Admin");
 
                     User user1 = new User
                     {
@@ -139,6 +142,7 @@ namespace JBS_API.Controllers
                         Phone = "+43243423",
                         Email = "User1",
                         Password = "1234",
+                        IsConfirmEmail = true,
                         Role = roleUser
                     };
 
@@ -149,10 +153,9 @@ namespace JBS_API.Controllers
                         Phone = "+43243423",
                         Email = "User2",
                         Password = "1234",
+                        IsConfirmEmail = true,
                         Role = roleUser
                     };
-
-
 
                     User userModer = new User
                     {
@@ -161,14 +164,30 @@ namespace JBS_API.Controllers
                         Phone = "+43243423",
                         Email = "Moder1",
                         Password = "1234",
+                        IsConfirmEmail = true,
                         Role = roleModer
+                    };
+
+                    User userAdmin = new User
+                    {
+                        FirstName = "Admin1 name",
+                        LastName = "Admin1 last name",
+                        Phone = "+43243423",
+                        Email = "Admin1",
+                        Password = "1234",
+                        IsConfirmEmail = true,
+                        Role = adminModer
                     };
 
 
 
+
                     _dbContext.Users.Add(user1);
+                    _dbContext.SaveChanges();
+
                     _dbContext.Users.Add(user2);
                     _dbContext.Users.Add(userModer);
+                    _dbContext.Users.Add(userAdmin);
                     _dbContext.SaveChanges();
 
                 }

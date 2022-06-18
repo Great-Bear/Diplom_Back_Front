@@ -4,7 +4,7 @@
                     <div id="logo" >
                         <div><a routerLink="/home" >JBS</a></div>
                     </div>         
-                     <div id="links">    
+                     <div id="links" *ngIf="!isAnonimUser" >    
                          <span id="langSwitch" >
                              RU
                          </span>
@@ -22,21 +22,25 @@
                                 <span class="dropbtn"></span>                           
                                 <ng-container *ngIf="!isAnonimUser" > 
                                     <div class="dropdown-content">
-                                        <a routerLink="/my-ads"> Мои обьявление</a>
-                                        <a *ngIf="isModer" routerLink="/moderPage" >Модерировать</a>
-                                        <!--<a >Настройки</a>
-                                        <span>Избранные</span>
-                                        <a href="#">Объявления</a>-->
+                                        <a routerLink="/my-ads" *ngIf="!isModer" > Мои обьявление</a>
+                                        <a *ngIf="isModer || isAdmin" routerLink="/moderPage" >Модерировать</a>
+                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Роли</a>
+                                        
                                         <a (click)="LogOut()" >Выйти</a>
                                     </div>
                                 </ng-container> 
                             </div>
                         </span>
                         
-                        <div routerLink="create-ad" id="createAd">
+                        <div routerLink="create-ad" id="createAd" *ngIf="!isModer && !isAdmin" >
                             <img src="../assets/imgs/Plus_Icon.png" >
                              <span>Подать обьявление</span> 
-                        </div>     
+                        </div>   
+                        
+                        <div id="createAd" class="noneCreateAd" *ngIf="isModer || isAdmin" >
+                            <img src="../assets/imgs/Plus_Icon.png" >
+                             <span>Подать обьявление</span> 
+                        </div>
         
                     </div> 
                 </div>

@@ -1,0 +1,19 @@
+#container
+{
+    margin-top: 70px;
+    width: 75rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 20px;
+}
+
+.btn-activity
+{
+    margin-right: 5px;
+}
+
+#contentPage
+{
+    margin-top: 10px;
+}

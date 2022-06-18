@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   public VipAds = Array();
   public VipImgs = Array();
 
+  public acrivePartPage = 0;
+
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
 
   public activeCat = {
@@ -127,6 +129,17 @@ export class HomeComponent implements OnInit {
         }); 
    }
 
+
+   changePartPage( event : any){
+    let numberPart = 0;
+    for(let item of event.currentTarget.children){
+      if(item == event.target){
+        this.acrivePartPage = numberPart;
+      }
+      numberPart++;
+    }
+   }
+
    private indexStartPag = 0;
    setActivaPagin(event : any){
     let idPag = event.target.id;
@@ -175,6 +188,9 @@ export class HomeComponent implements OnInit {
    
   LoadFavorite(){
     let idUser = Number.parseInt(this.cookie.get("idUser"));
+    if(idUser == NaN){
+      return;
+    }
 
     this.httpService.getFavoriteAd(idUser)
     .subscribe(

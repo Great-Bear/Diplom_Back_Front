@@ -111,6 +111,7 @@ export class ListAdsComponent implements OnInit {
     this.pardeCatLayer();
 
     this.loadNewAd();
+    this.loadFiltes(this.catId);
     
   }
 
@@ -149,7 +150,7 @@ export class ListAdsComponent implements OnInit {
     if(this.issortByPrice == true){
       priceMax = this.priceMax;
     }
-
+    console.log(this.arrOrderByValue);
     this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
@@ -417,6 +418,8 @@ export class ListAdsComponent implements OnInit {
     this.choiceCatValue = rep;
     this.catId = event.target.id
 
+    this.filters = new Array();
+    this.arrfiltersValueContainer = new Array();
 
     this.isDropListCat = false;
 
@@ -425,10 +428,69 @@ export class ListAdsComponent implements OnInit {
     this.loadNewAd();
   }
 
+  resetFilters(){
+    this.isDelivery = true;
+    this.QualityId = 0;
+
+    let isDelInpt : any = document.getElementById("isDelivery");
+    isDelInpt.checked = true;
+
+    let qualityId : any = document.getElementById("stateAll");
+    qualityId.checked = true;
+
+    this.idCurrency = 0;
+
+    let blockCurrency : any = document.getElementById("blockCurrency");
+    let arrCurrency = blockCurrency.getElementsByTagName("span");
+    for(let item of arrCurrency){
+      if(item == arrCurrency[0]){
+        continue;
+      }
+      if(item.id != 0){
+        item.classList.remove("isPickedItemCurrency");
+      }
+      else{
+        item.classList.add("isPickedItemCurrency");
+      }
+    }
+
+    this.issortByPrice = false;
+
+    let orderTypes : any  = document.getElementById("choiceFilterBlock")?.getElementsByTagName("span");
+
+
+    for(let item of orderTypes){
+      if(item == orderTypes[0]){
+        continue;
+      }
+      if(item.classList.contains("isPickedItem")){
+        item.classList.remove("isPickedItem");
+      }
+    }
+
+    orderTypes[1].classList.add("isPickedItem");
+    this.choiceOrderType = orderTypes[1];
+
+
+    this.arrOrderByValue[0] = -1;
+
+    for(let i = 1; i < 3; i++){
+    let arrow = orderTypes[i].getElementsByTagName('svg')[0];
+
+      if(arrow.classList.contains("arrowDown")){
+        arrow.classList.add("arrowUp")
+      }
+    }
+    
+    this.choiceAllCat();
+  }
+
   choiceAllCat(){
     this.filters = new Array();
     this.catId = 0;
     this.choiceCatValue = "Все категории";
+    this.filters = new Array();
+    this.arrfiltersValueContainer = new Array();
     this.loadNewAd();
   }
 
@@ -541,6 +603,7 @@ export class ListAdsComponent implements OnInit {
     if(event.target.tagName != "SPAN"){
       return;
     }
+
       let arr = event.currentTarget.getElementsByTagName("span")
       if(arr[0] == event.target){
         return;

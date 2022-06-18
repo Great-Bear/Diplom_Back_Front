@@ -271,10 +271,22 @@ export class CreateAdComponent implements OnInit {
       }
 
       this.httpService.createAds(form,filtersid, this.requData).subscribe(res => {
-     console.log(res);
-        //  this.route.navigate([`/card-ad/${res}`]);
+        let response : any = res;
+        if(response.isError){
+          let aMessage = new AlertMessage();
+          aMessage.Title = "Ошибка создания :(";
+          aMessage.Message = "Сервер не смог создать объявление"
+          aMessage.TimeShow = 3000;
+          this.globalHub.addAlertMessage(aMessage);
+          return;
+        }
+          this.route.navigate([`/card-ad/${response.idAd}`]);
       }, err => {
-        alert(err);
+        let aMessage = new AlertMessage();
+        aMessage.Title = "Ой что-то пошло не так :(";
+        aMessage.Message = "В этом нет вашей вины, попробуйте повторить попытку позже";
+        aMessage.TimeShow = 3000;
+        this.globalHub.addAlertMessage(aMessage);
       });
   }
 }

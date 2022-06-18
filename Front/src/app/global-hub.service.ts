@@ -30,6 +30,18 @@ export class GlobalHubService {
     this.isModer.next(state);
   }
 
+  public isAdmin = new Subject<boolean>();
+  public AdminUser(state : boolean){
+    
+    if(state){
+      this.cookie.set("isAdmin",  String(state))
+    }
+    else{
+      this.cookie.set("isAdmin", "")
+    }
+    this.isAdmin.next(state);
+  }
+
   public categoriesLayers = new Subject<any>();
   public currentCatLayers = new BehaviorSubject({});
 
@@ -41,6 +53,11 @@ export class GlobalHubService {
   public searchWord = new Subject<any>();
   public ChangeSearchWord(searchWord: any){
     this.searchWord.next(searchWord);
+  }
+
+  public listModers = new Subject<any>();
+  public UpdateListModers(){
+    this.listModers.next(true);
   }
 
 

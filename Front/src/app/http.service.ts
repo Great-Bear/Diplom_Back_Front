@@ -30,17 +30,19 @@ export class HttpService {
 //   https://localhost:44398
   private URL : string = "https://localhost:44398";
 
-   getData() {
-      const response = this.http.get("/api/auth/TestMeth");
-      response.subscribe(res => console.log("Это ответ Get:" + res));
-  }
   registerUser( data : object ){
         return this.http.post(this.URL + "/User/register", JSON.stringify( data ), httpOptions )
-                      .pipe( res => { return res  }, 
-                        catchError(err => {   
-                          return err.message;
-                      }) ) 
+                .pipe( 
+                    res => 
+                    { 
+                      return res
+                    }, 
+                    err => {   
+                      return err;
+                });
 }
+
+
 
   authUser( data : object ){
     return this.http.post( this.URL + "/User/login", JSON.stringify( data ), httpOptions )
@@ -52,8 +54,18 @@ export class HttpService {
             }
 
   confirmEmail(data : object){
-      return this.http.post("/api/auth/confirm", JSON.stringify( data ), httpOptions )
+      return this.http.post( this.URL + "/User/confirmEmail", JSON.stringify( data ), httpOptions )
                 .pipe( res => { return res; }, err => { return err } ) ;
+  }
+
+  resetPasswd(data : object ){
+    console.log(data);
+    return this.http.post(this.URL + "/User/ResetPasswd", data)
+    .pipe( res => {
+      return res;
+    }, err => {
+      return err;
+    })
   }
 
   getIdChat(idBuyer : number, idAd : number){
@@ -201,6 +213,39 @@ export class HttpService {
        err => {
          return err;
        }
+     )
+  }
+
+  deleteModer(data : any){
+    return this.http.delete( this.URL + `/Moder/DeleteModer?id=${data.id}`)
+    .pipe( res => {
+      return res;
+    }, err => {
+      return err;
+    });
+  }
+
+  addModer(data : any){
+    return this.http.post(this.URL + "/Moder/AddModer", data)
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
+  loadModers(){
+   return this.http.get(this.URL + "/Moder/GetAllModers")
+    .pipe( 
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
      )
   }
 

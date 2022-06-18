@@ -65,7 +65,7 @@ namespace JBS_API.Controllers
         {
             try
             {
-                var countFav = _dbContext.FavoriteAds.Where(ad => ad.UserId == idUser).Count();
+                var countFav = _dbContext.FavoriteAds.Where(ad => ad.UserId == idUser).GroupBy( ad => ad.Id ).Count();
 
                 return Json(new { isError = false, count = countFav });
 

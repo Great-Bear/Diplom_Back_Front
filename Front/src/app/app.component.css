@@ -167,6 +167,12 @@ footer{
     padding-right: 20px;
 
 }
+
+.noneCreateAd
+{
+    cursor: not-allowed !important;
+}
+
 #createAd span
 {
     position: relative;

@@ -5,6 +5,15 @@
     margin-left: auto;
     margin-right: auto;
 }
+#titles span
+{
+    cursor: pointer;
+}
+
+.ActivePartPage
+{
+    border-bottom: 1px solid black;
+}
 
 #filtersBlock 
 {

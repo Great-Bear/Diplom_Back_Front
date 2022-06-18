@@ -133,3 +133,5 @@ C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\obj\Release\net5.0\ref\JBS_API.
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Release\net5.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Release\net5.0\MySql.EntityFrameworkCore.dll
 C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Release\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Release\net5.0\MailKit.dll
+C:\Users\38063\Desktop\Diplom_Back_Front\JBS_API\bin\Release\net5.0\MimeKit.dll

@@ -30,25 +30,19 @@ namespace JBS_API.Controllers
             int countItems = 0;
             var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
-            IQueryable<Ad> res = _dbContext.Ads;
+            IQueryable<Ad> res = _dbContext.Ads.Where(a => a.StatusAdId == statusCheking.Id);
             try
             {
-                res = res.Where(a => a.StatusAdId == statusCheking.Id);
 
-                if (idCategory == 0)
+                if (idCategory != 0)
                 {
-                    res = _dbContext.Ads;
+                    res = res.Where(a => a.CategoryId == idCategory);
                 }
 
-                if(searchWord != null )
+                if (searchWord != null )
                 {
                     res = res.Where(a => a.Title.Contains(searchWord));
-                }
-
-                else if (idCategory != 0)
-                {
-                    res = _dbContext.Ads.Where(a => a.CategoryId == idCategory);
-                }
+                }          
 
                 if (idQuality != 0)
                 {
@@ -147,12 +141,12 @@ namespace JBS_API.Controllers
                             );
 
                       foreach (var item in Filter_AdBySort.ToList())
-                            {
+                      {
 
-                            if (finalListAd.Contains(item.ad) == false)
-                            {
-                                finalListAd.Add(item.ad);
-                            }
+                        if (finalListAd.Contains(item.ad) == false)
+                        {
+                            finalListAd.Add(item.ad);
+                        }
                       }
                         index++;
                     }
@@ -175,6 +169,10 @@ namespace JBS_API.Controllers
                             if (orderByValues[0] == "-1")
                             {
                                 res = res.OrderByDescending(a => a.TimeEnd);
+                            }
+                            else
+                            {
+                                res = res.OrderBy(a => a.TimeEnd);
                             }
                         }
                         else if (orderByValues[1] != "0")

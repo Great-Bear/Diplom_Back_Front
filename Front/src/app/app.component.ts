@@ -18,6 +18,7 @@ export class AppComponent {
 
   isAnonimUser = true;
   isModer = false;
+  isAdmin = false;
 
   idUser = 0;
 
@@ -34,12 +35,12 @@ export class AppComponent {
               private router : Router,
               private globalHub : GlobalHubService,
               private http : HttpService) {
-
-
+this.cookieService.deleteAll();
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
       if(state == false){
+        this.idUser = Number.parseInt( this.cookieService.get("idUser") );
         this.UpdateInfoPanel();
       }
     }
@@ -51,6 +52,14 @@ export class AppComponent {
        this.isModer = state;
      }
    )
+
+     this.globalHub.isAdmin.subscribe(
+      state => {
+        this.isAdmin = state;
+        console.log("Admin" + state);
+      }
+     )
+
 
    this.globalHub.AlertMessage.subscribe(item =>{
      this.arrAlertMessage.push(item);
@@ -65,11 +74,8 @@ export class AppComponent {
    this.globalHub.countFavoriteAd.subscribe(count => {
     this.countFavoriteAd = count;
   })
-
- // this.UpdateInfoPanel();
-
-   this.globalHub.AnonimUser( Boolean( this.cookieService.get("idUser") ) );
    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
+   this.globalHub.AdminUser( Boolean( this.cookieService.get("isAdmin")) )
   
 }
 
@@ -82,6 +88,11 @@ export class AppComponent {
   }
 
   UpdateInfoPanel(){
+
+    if(this.idUser == 0 || this.isAnonimUser || this.idUser == NaN){
+      return;
+    }
+
     let idUser = Number.parseInt( this.cookieService.get("idUser") );
     if(idUser > 0 && idUser != NaN){
       this.idUser = idUser;
@@ -148,7 +159,7 @@ ngOnInit(){
 
  this.router.events.subscribe( event => {
   if(event instanceof NavigationEnd){
-     if(event.url != "/registration" && event.url != "/authorization"){
+     if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
         if( this.cookieService.get("idUser").length == 0){
             this.router.navigate(['/registration'])
         }
@@ -178,7 +189,9 @@ ngOnInit(){
   LogOut(){
     this.cookieService.set("rememberMe","no");
     this.cookieService.set("activeSession","no");
-    this.cookieService.set("idUser","")
+    this.cookieService.set("idUser","");
+    this.cookieService.set("isModer", "");
+    this.cookieService.set("isAdmin", "");
     this.router.navigate(["/registration"]);
     this.globalHub.AnonimUser(true);
     this.globalHub.ModerUser(false);

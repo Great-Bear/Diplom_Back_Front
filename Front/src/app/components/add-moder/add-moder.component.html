@@ -1,0 +1,20 @@
+<div id="BlockAddModer" >
+  <span class="error" >{{err.email}}</span>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"  >@</span>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="newModer.email" placeholder="Почта модератора" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <span class="error" >{{err.password}}</span>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">🔐</span>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="newModer.password" placeholder="Пароль для входа" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+      <input class="btn btn-primary" type="submit" value="Добавить" (click)="addModer()" >
+
+</div>

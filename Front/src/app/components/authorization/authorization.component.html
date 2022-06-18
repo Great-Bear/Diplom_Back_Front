@@ -43,6 +43,7 @@
 
                 <input name="isMemberMe" [(ngModel)]="isMemberMe" type="checkbox" />
                 <span id="rememberMe">Запомнить меня</span>
+                <span id="resetTxt" (click)="ResertPassword()" >Сбросить пароль</span>
                 </div>
 
             <button type="button" id="regButt" (click)="sendDataAuth()" >Вход</button>

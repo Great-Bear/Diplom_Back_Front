@@ -21,6 +21,21 @@ import { ListAdsComponent } from './components/list-ads/list-ads.component';
 import { MyFavoriteComponent } from './components/my-favorite/my-favorite.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { MyChatsComponent } from './components/my-chats/my-chats.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { AdminControllerComponent } from './components/admin-controller/admin-controller.component';
+import { ModersComponent } from './components/moders/moders.component';
+import { FiltersControllerComponent } from './components/filters-controller/filters-controller.component';
+import { AddModerComponent } from './components/add-moder/add-moder.component';
+
+const itemRoutesModer: Routes = [
+  { path: 'add', component: AddModerComponent},
+]
+
+const itemRoutesAdmin: Routes = [
+  { path: 'moders', component: ModersComponent, children : itemRoutesModer},
+  { path: 'filters', component: FiltersControllerComponent},
+];
+
 
 
 const appRoutes: Routes = [
@@ -38,6 +53,10 @@ const appRoutes: Routes = [
   { path: 'list_ads/:idCategory/:searchQuery', component: ListAdsComponent},
   { path: 'list_ads/:idCategory', component: ListAdsComponent},
   { path: 'list_ads', component: ListAdsComponent},
+  { path: 'ModersComponent', component: AdminControllerComponent},
+  { path: 'ModersComponent', component: AdminControllerComponent, children: itemRoutesAdmin},
+  { path: 'admin_controller', component: AdminControllerComponent},
+  { path: 'confirm_Email/:idUser', component: ConfirmEmailComponent},
   { path: 'mychats', component: MyChatsComponent},
   { path: 'chat/:idChat', component: ChatComponent},
   { path: '', component: HomeComponent},
@@ -62,6 +81,11 @@ const appRoutes: Routes = [
     MyFavoriteComponent,
     ChatComponent,
     MyChatsComponent,
+    ConfirmEmailComponent,
+    AdminControllerComponent,
+    ModersComponent,
+    FiltersControllerComponent,
+    AddModerComponent,
   ],
   imports: [
     BrowserModule,

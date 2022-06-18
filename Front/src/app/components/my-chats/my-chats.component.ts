@@ -39,8 +39,6 @@ export class MyChatsComponent implements OnInit {
         this.globalHub.addAlertMessage(aMessage);
       }
        this.chats = response.data;
-       console.log(this.chats)
-
     }, err => {
       let aMessage = new AlertMessage();
         this.globalHub.addAlertMessage(aMessage);

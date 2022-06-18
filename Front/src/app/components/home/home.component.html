@@ -109,10 +109,10 @@
     </div>
 </div>
 <div id="GeneralAdsBlock">
-    <div id="titles">
-        <span>Все товары</span>
-        <span>Популярные</span>
-        <span>Рекомендованные</span>
+    <div id="titles" (click)="changePartPage($event)" >
+        <span [class.ActivePartPage]="acrivePartPage == 0" >Все товары</span>
+        <span [class.ActivePartPage]="acrivePartPage == 1" >Популярные</span>
+        <span [class.ActivePartPage]="acrivePartPage == 2" >Рекомендованные</span>
     </div>
         <div id="containerGeneralAds">
 

@@ -6,6 +6,9 @@ using System;
 using System.IO;
 using System.Linq;
 using JBS_API.Response_Model;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace JBS_API.Controllers
 {
@@ -55,26 +58,26 @@ namespace JBS_API.Controllers
 
                 if(userOwner == null)
                 {
-                    return Json("error server User is null");
+                    throw new Exception("error server User is null");
                 }
 
                 var category = _dbContext.Categories.FirstOrDefault(c => c.Id == Category);
 
                 if(category == null)
                 {
-                    return Json("error server Category is null");
+                    throw new Exception("error server Category is null");
                 }
 
 
                 decimal price;
                 if( Decimal.TryParse(Price, out price) == false ){
-                    return Json("error server price is incorrent");
+                    throw new Exception("error server price is incorrent");
                 }
 
                 var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Проверяется");
                 if(statusCheking == null)
                 {
-                    return Json("error server" + "StatusCheking is null");
+                    throw new Exception("error server" + "StatusCheking is null");
                 }
 
                 
@@ -82,13 +85,13 @@ namespace JBS_API.Controllers
 
                 if (QualityItem == null)
                 {
-                    return Json("error server Quality is null");
+                    throw new Exception("error server Quality is null");
                 }
 
                 var TypeAdItem = _dbContext.TypeOwners.FirstOrDefault(q => q.Name == TypeAd);
                 if (TypeAdItem == null)
                 {
-                    return Json("error server TypeAdItem is null");
+                    throw new Exception("error server TypeAdItem is null");
                 }
 
                 Ad newAd = new Ad {
@@ -166,11 +169,19 @@ namespace JBS_API.Controllers
 
                 _dbContext.SaveChanges();
 
-                return Json(newAd.Id);           
+                return Json( new
+                {
+                    idAd = newAd.Id,
+                    isError = false
+                } );           
               }
               catch (Exception ex)
               {
-                  return Json("error server" + ex.Message );
+                  return Json( new
+                  {
+                      isError = true,
+                      message = "Ошибка сервера",
+                  } );
               }
             
         }
@@ -395,6 +406,7 @@ namespace JBS_API.Controllers
             return Json(true);
         }
 
+
         private int paginationStep = 16;
         [HttpGet]
         [Route("GetAdsPagination")]
@@ -436,10 +448,62 @@ namespace JBS_API.Controllers
             }
 
             return Json( new { 
-                data = res, 
+                data = res.OrderByDescending( r => r.TimeEnd ), 
                 countPages = Math.Ceiling((float)countItems / paginationStep) });
         }
+        [HttpGet]
+        [Route("PopularAds")]
+        public JsonResult PopularAds(int pagePagination)
+        {
+            try
+            {
+                return Json(new SuccessCollection
+                {
+                    IsError = false,
+                    data = _dbContext.Ads.OrderByDescending(a => a.FavoriteAds.Count)
+                });
+            }
+            catch (Exception)
+            {
 
+                return Json(new Error
+                {
+                    IsError = true,
+                    Message = "Ошибка сервера"
+                } );
+            }          
+        }
+        [HttpGet]
+        [Route("RecommendedAds")]
+        public async Task<JsonResult> RecommendedAds(int pagePagination, int idUser)
+        {
+            try
+            {
+              
+
+                var FavOfUser = _dbContext.FavoriteAds.Include( f => f.Ad).Where(u => u.UserId == idUser);
+
+
+
+                return Json(FavOfUser.ToList() .GroupBy( a => a.Ad.CategoryId ) );
+
+
+                return Json(new 
+                {
+                    IsError = false,
+                    data = ""
+                });
+            }
+            catch (Exception)
+            {
+
+                return Json(new Error
+                {
+                    IsError = true,
+                    Message = "Ошибка сервера"
+                });
+            }
+        }
 
         [HttpPost]
         [Route("CheckListImg")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 
@@ -29,9 +30,10 @@ namespace JBS_API.Controllers
             }
 
             var arrFiltersValue = _dbContext.FilterValues.ToList();
+            var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
             var filterValueCounts = arrFiltersValue.GroupJoin(
-                   _dbContext.Filter_Ad.ToList(),
+                   _dbContext.Filter_Ad.Include(p => p.Ad).ToList(),
                    filterValue => filterValue.Id,
                    filtet_Ad => filtet_Ad.FilterValueId,
                        (filter, filtet_Ad) =>
@@ -39,7 +41,7 @@ namespace JBS_API.Controllers
                            {
                                idValueFilter = filter.Id,
                                Name = filter.Name,
-                               count = filtet_Ad.Count()
+                               count = filtet_Ad.Where( fA => fA.Ad.StatusAdId == statusCheking.Id).Count()
                            }
                    );
 

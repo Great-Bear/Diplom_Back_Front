@@ -4,6 +4,7 @@ import { AuthUserResponse } from 'src/app/Classes/auth-user-response';
 import { Router } from '@angular/router';
 import { CookieService  } from 'ngx-cookie-service';  
 import { GlobalHubService } from 'src/app/global-hub.service';
+import { AlertMessage } from 'src/app/Classes/alert-message';
 
 @Component({
   selector: 'app-authorization',
@@ -14,7 +15,13 @@ export class AuthorizationComponent implements OnInit {
 
   constructor(private httpSevice: HttpService, private router : Router,
               private cookieService: CookieService,
-              private globalHub : GlobalHubService ) { }
+              private globalHub : GlobalHubService ) 
+              {
+                let idUser = this.cookieService.get("idUser");
+                if(idUser.length != 0){
+                  this.router.navigate(['/home']);
+                }
+              }
 
   loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
   lowCaseRgExp : RegExp = new RegExp("[a-z]")
@@ -73,9 +80,21 @@ export class AuthorizationComponent implements OnInit {
                     this.globalHub.ModerUser(false);
                   }
 
+                  if(authData.role == "Admin"){
+                    this.globalHub.AdminUser(true);
+                  }
+                  else
+                  {
+                    this.globalHub.AdminUser(false);
+                  }
+
                 }
                 else{
-                  alert(authData.error)
+                  let aMessage = new AlertMessage();
+                  aMessage.Title = "Предупреждение"
+                  aMessage.Message = authData.error;
+                  aMessage.TimeShow = 20000;
+                  this.globalHub.addAlertMessage(aMessage);
                 }
 
                 return;
@@ -112,5 +131,76 @@ export class AuthorizationComponent implements OnInit {
           return ( this.loginErrMsg + this.passwdErrMsg ) != ""
             ?  false : true; 
         }
+
+
+        checkPassword( passwd : string){
+          let err;
+          if( passwd.length < 8 ){
+            err = "Пароль должен быть минимум из 8 символов" ;
+          }    
+          else if( !this.upCaseRegExp.test( passwd ) ) {
+            err = "В пароле должа быть хотя бы одна большая буква" ;
+          }
+          else if( !this.lowCaseRgExp.test( passwd ) ){
+            err = "В пароле должа быть хотя бы одна маленькая буква" ;
+          }
+          else if( !this.specSymRegExp.test( passwd ) ){
+            err = "В пароле должен быть хотя бы один спец. символ" ;
+          }
+          else{
+            err = "";
+          }
+          return err;
+        }
+        
+
+      ResertPassword(){
+        if(this.loginRegExp.test( this.login )){
+          let msg = 'Введите новый пароль';
+          let isResetPwd = false;
+          let oldPsd = "";
+
+          while(!isResetPwd){     
+            let newPsd = prompt( msg, oldPsd );
+
+            if(newPsd == null){
+              return;        
+            }
+        
+            msg = this.checkPassword(newPsd);
+
+            if(msg == ""){
+              isResetPwd = true;
+            }
+
+            oldPsd = newPsd;
+          }
+         
+          let newPassword = {
+            email: this.login,
+            newPasswd: oldPsd
+          }
+
+          this.httpSevice.resetPasswd(newPassword)
+          .subscribe( res => {
+            let response : any = res;
+
+            let aMessage = new AlertMessage();
+            if(response.isError){          
+              aMessage.Message = response.message;
+            }
+            else{
+              aMessage.Title = "Успешно";
+              aMessage.Message = "Пароль изменён";
+            }            
+            this.globalHub.addAlertMessage(aMessage);
+          }, err => {
+            this.globalHub.addAlertMessage(new AlertMessage());
+          })
+        }
+        else{
+          alert("Введите коректную почту");
+        }
+      }
 
 }

@@ -4,10 +4,17 @@ using JBS_API.Response_Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Threading.Tasks;
+using MailKit.Security;
 
 namespace JBS_API.Controllers
 {
@@ -24,7 +31,75 @@ namespace JBS_API.Controllers
             _dbContext = db;
         }
 
-        
+        private async Task<JsonResult> SendEmail(string email, int idUser)
+        {
+            try
+            {
+                var emailMessage = new MimeMessage();
+
+                emailMessage.From.Add(new MailboxAddress("Администрация сайта", "bgroholsky@gmail.com"));
+                emailMessage.To.Add(new MailboxAddress("", email));
+                emailMessage.Subject = "Регистрация на JBS";
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = $"Ваша почта была указана при регистрации на сайте JBS для подтверждения перейдите на ссылке: <a>http://localhost:4200/confirm_Email/{idUser}</a>"
+                };
+             
+                using (var client = new SmtpClient())
+                {
+                     await  client.ConnectAsync("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+                     await client.AuthenticateAsync("bgroholsky", "cwhzkcawbnpnzssy");
+                     await client.SendAsync(emailMessage);
+
+                    await client.DisconnectAsync(true);
+                }
+            }
+            catch(Exception ex)
+            {
+                return (new JsonResult(new { err = ex }));
+            }
+            return (new JsonResult(new { err = "ok" }));
+        }
+
+        [Route("confirmEmail")]
+        [HttpPost]
+        public async Task<JsonResult> confirmEmail(Requ_Confirm_Email requ_Confirm_Email)
+        {
+            try
+            {
+                var user = _dbContext.Users.FirstOrDefault(u => u.Id == requ_Confirm_Email.IdUser);
+
+                if(user != null)
+                {
+                    user.IsConfirmEmail = true;
+                    _dbContext.Users.Update(user);
+                    await _dbContext.SaveChangesAsync();
+
+                    return new JsonResult(new
+                    {
+                        isError = false,
+                        data = user
+                    }) ;
+                }
+                else
+                {
+                    return new JsonResult(new
+                    {
+                        isError = true,
+                        Message = "Пользователь не зарегестрирован"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new
+                {
+                    isError = true,
+                    Message = "Ошибка сервера"
+                });
+                throw;
+            }
+        }
 
         [Route("register")]
         [HttpPost]
@@ -56,6 +131,7 @@ namespace JBS_API.Controllers
 
 
             var addedUser = _dbContext.Users.First(u => u.Email == requ_Register.Login);
+            await SendEmail(addedUser.Email, addedUser.Id);
 
             return new JsonResult(new Resp_Register { Id = addedUser.Id, Role = addedUser.Role.Name });
         }
@@ -76,6 +152,12 @@ namespace JBS_API.Controllers
                     return new JsonResult(new Resp_Login { Error = "Пользователь не найден" });
                 }
 
+                if(existingUser.IsConfirmEmail == false)
+                {
+                    await SendEmail(existingUser.Email, existingUser.Id);
+                    return new JsonResult(new Resp_Login { Error = "Почта не подтвержена, ссылка для подтверждения была отправлена на почту" });
+                }
+
                 _dbContext.Entry(existingUser).Reference("Role").Load();
 
                
@@ -90,19 +172,41 @@ namespace JBS_API.Controllers
         }
 
 
-        [Route("reg")]
+        [Route("ResetPasswd")]
         [HttpPost]
-        public JsonResult reg(Regu_register data)
+        public JsonResult ResetPasswd(Requ_Reset_Passwd data)
         {
             try
             {
-                return new JsonResult(new { q = data, db = _dbContext.Ads.Count() });
+                var user = _dbContext.Users.FirstOrDefault(u => u.Email == data.Email);
+
+                if(user == null)
+                {
+                    return new JsonResult(new
+                    {
+                        isError = true,
+                        message = "Пользовател не найден"
+                    });
+                }
+
+                user.Password = data.NewPasswd;
+                _dbContext.Users.Update(user);
+                _dbContext.SaveChangesAsync();
+
+                return new JsonResult(new
+                {
+                    isError = false,
+                });
             }
             catch (Exception ex)
             {
-
+                return new JsonResult( new
+                {
+                    isError = true,
+                    message = "Ошибка сервера",
+                });
             }
-            return new JsonResult(new { q = data });
+           
         }
 
 
