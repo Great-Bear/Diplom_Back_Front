@@ -22,7 +22,7 @@ export class ListAdsComponent implements OnInit {
 
   catId = 0;
   QualityId = 0;
-  isDelivery = true;
+  isDelivery = false;
 
   priceMin = 0;
   priceMax = 0;
@@ -155,6 +155,7 @@ export class ListAdsComponent implements OnInit {
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
       res => {
+        this.searchWord = "";
         let response : any = res;
         if(response.isError == true){
           alert(response.error);
@@ -429,11 +430,11 @@ export class ListAdsComponent implements OnInit {
   }
 
   resetFilters(){
-    this.isDelivery = true;
+    this.isDelivery = false;
     this.QualityId = 0;
 
     let isDelInpt : any = document.getElementById("isDelivery");
-    isDelInpt.checked = true;
+    isDelInpt.checked = false;
 
     let qualityId : any = document.getElementById("stateAll");
     qualityId.checked = true;

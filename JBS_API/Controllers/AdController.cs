@@ -449,7 +449,9 @@ namespace JBS_API.Controllers
 
             return Json( new { 
                 data = res.OrderByDescending( r => r.TimeEnd ), 
-                countPages = Math.Ceiling((float)countItems / paginationStep) });
+                countPages = Math.Ceiling((float)countItems / paginationStep) ,
+                isError = false,
+            });
         }
         [HttpGet]
         [Route("PopularAds")]
@@ -457,15 +459,26 @@ namespace JBS_API.Controllers
         {
             try
             {
-                return Json(new SuccessCollection
+                var statusChecked = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
+
+                pagePagination--;
+                 var resList = _dbContext.Ads
+                    .Where( ad => ad.StatusAdId == statusChecked.Id)
+                    .OrderByDescending(a => a.FavoriteAds.Count)
+                    .Skip(paginationStep * (pagePagination))
+                    .Take(paginationStep);
+
+                int countItems = resList.Count();
+
+                return Json(new 
                 {
                     IsError = false,
-                    data = _dbContext.Ads.OrderByDescending(a => a.FavoriteAds.Count)
+                    data = resList,
+                    countPages = Math.Ceiling((float)countItems / paginationStep)
                 });
             }
             catch (Exception)
             {
-
                 return Json(new Error
                 {
                     IsError = true,
@@ -479,19 +492,34 @@ namespace JBS_API.Controllers
         {
             try
             {
-              
+                pagePagination--;
+                var statusChecked = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
-                var FavOfUser = _dbContext.FavoriteAds.Include( f => f.Ad).Where(u => u.UserId == idUser);
+                var FavOfUser = _dbContext.FavoriteAds
+                    .Include( f => f.Ad)
+                    .Where(u => u.UserId == idUser && u.Ad.StatusAd == statusChecked)
+                    .ToList().GroupBy(a => a.Ad.CategoryId);
 
+                
+                var resList = new List<Ad>();
 
+                foreach (var item in FavOfUser)
+                {
+                    resList.AddRange( 
+                        _dbContext.Ads
+                        .Where( a => a.CategoryId == item
+                        .First().Ad.CategoryId )
+                        );
+                }
 
-                return Json(FavOfUser.ToList() .GroupBy( a => a.Ad.CategoryId ) );
-
+                int countItems = resList.Count();
+                resList = resList.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
 
                 return Json(new 
                 {
                     IsError = false,
-                    data = ""
+                    data = resList.OrderByDescending(r => r.TimeEnd),
+                    countPages = Math.Ceiling((float)countItems / paginationStep)
                 });
             }
             catch (Exception)

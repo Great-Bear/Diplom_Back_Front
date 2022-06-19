@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
    }
 
 
-   addFavoriteAd(event : any,idAd : number){
+   addFavoriteAd(event : any, idAd : number){
     event.stopPropagation();
    
     let aMessage = new AlertMessage();
@@ -86,10 +86,19 @@ export class HomeComponent implements OnInit {
     let vipAd = this.VipAds.find( ad => ad.id == idAd );
 
         let idUser = Number.parseInt( this.cookie.get("idUser"));
-        let addToFavorite = !item.isFavorit;
+        let addToFavorite : boolean;
+        let targetItem : any;
+        if(item != undefined){
+           addToFavorite = !item.isFavorit;
+           targetItem = item
+        }
+        else{
+          addToFavorite = !vipAd.isFavorit;
+          targetItem = vipAd
+        }
 
     
-        this.httpService.updateFavorite(idUser, item.id,addToFavorite)
+        this.httpService.updateFavorite(idUser, idAd,addToFavorite)
         .subscribe( res  => {
           let response : any = res;
           if(response.isError == false){
@@ -103,7 +112,7 @@ export class HomeComponent implements OnInit {
             }
             let valueCount = 0;
 
-            if(item.isFavorit){   
+            if(targetItem.isFavorit){   
               aMessage.Message = "Товар добавлен в избранные";
               valueCount++;
             }
@@ -138,6 +147,11 @@ export class HomeComponent implements OnInit {
       }
       numberPart++;
     }
+
+    console.log(this.acrivePartPage);
+
+    this.activePage = 1;
+    this.LoadNewItem();
    }
 
    private indexStartPag = 0;
@@ -187,8 +201,9 @@ export class HomeComponent implements OnInit {
   }
    
   LoadFavorite(){
+
     let idUser = Number.parseInt(this.cookie.get("idUser"));
-    if(idUser == NaN){
+    if(isNaN(idUser)){
       return;
     }
 
@@ -343,12 +358,46 @@ public ChangeCheckBoxBrend(event : any){
 
   public LoadNewItem(){
     this.LoadVipAds();
-    this.httpService.GetAdsPagination(
-      this.activePage,
-      this.activeCat.id,
-      this.activeBrend.id ).subscribe(
-      res => {
-        let response : any = res;
+    if(this.acrivePartPage == 0){
+      this.httpService.GetAdsPagination(
+        this.activePage,
+        this.activeCat.id,
+        this.activeBrend.id ).subscribe(
+        res => {
+          this.parseAnswer(res);
+        },
+        err => {
+          let aMessage = new AlertMessage();
+          aMessage.Message ="Не удалось загрузить товары";
+          this.globalHub.addAlertMessage(aMessage);
+        } 
+      )
+    }
+    else if(this.acrivePartPage == 1){
+      this.httpService.getPopularAds(this.activePage)
+      .subscribe( res => {
+        this.parseAnswer(res);
+      }, err => {
+        let aMessage = new AlertMessage();
+        aMessage.Message ="Не удалось загрузить популярные товары товары";
+        this.globalHub.addAlertMessage(aMessage);
+      });
+    }
+    else{
+      let idUser = Number.parseInt( this.cookie.get("idUser") );
+      this.httpService.getRecommendedAds(this.activePage,idUser)
+      .subscribe( res => {
+        this.parseAnswer(res);
+      }, err => {
+        let aMessage = new AlertMessage();
+        aMessage.Message ="Не удалось загрузить популярные товары товары";
+        this.globalHub.addAlertMessage(aMessage);
+      });
+    }
+  }
+
+  parseAnswer(res : object){
+    let response : any = res;
         let count = Number(response.countPages.toString());
 
         this.countPage = new Array();
@@ -366,8 +415,6 @@ public ChangeCheckBoxBrend(event : any){
         this.LoadMainImgs();
         this.UpdatePagination();   
         this.LoadFavorite();   
-      } 
-    )
   }
 
   LoadVipAds(){

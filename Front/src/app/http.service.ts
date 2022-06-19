@@ -250,6 +250,7 @@ export class HttpService {
   }
 
   getFavoriteAd(idUser : number){
+
     return this.http.get(this.URL + `/Favorite/GetFovarites?idUser=${idUser}`)
     .pipe(res => {
       return res;
@@ -260,6 +261,7 @@ export class HttpService {
     )
   }
 
+ 
 
   getCountFavoriteAd(idUser : number){
     return this.http.get(this.URL + `/Favorite/GetCountFovarites?idUser=${idUser}`)
@@ -420,6 +422,24 @@ export class HttpService {
       )
     }
 
+    getPopularAds(page : number){
+      return this.http.get( this.URL + `/Ad/PopularAds?pagePagination=${page}`)
+      .pipe( res => {
+        return res;
+      }, err => {
+        return err;
+      } )
+    }
+
+    getRecommendedAds(page : number,  idUser : number){
+      return this.http.get(this.URL + `/Ad/RecommendedAds?pagePagination=${page}&idUser=${idUser}`)
+      .pipe( res => {
+        return res;
+      }, err => {
+        return err;
+      } )
+    }
+
     GetVipAds(){
       return this.http.get(this.URL + "/VipAd/GetVipAds")
       .pipe( res => {
@@ -431,4 +451,24 @@ export class HttpService {
        )
     }
 
+    populateDB(){
+      let body = {
+        fsdf : 1
+      }
+
+      return this.http.put( "https://apijbs.azurewebsites.net" + "/Tools/PopulateDb",body)
+      .pipe( res => {return res }
+        ,err => {
+          return err
+        })
+    }
+
+    loadSameWords(word : string){
+      return this.http.get(this.URL + `/Tools/SameWords?word=${word}`)
+      .pipe(res => {
+        return res;
+      }, err => {
+        return err;
+      })
+    }
 }

@@ -24,7 +24,7 @@
                                     <div class="dropdown-content">
                                         <a routerLink="/my-ads" *ngIf="!isModer" > Мои обьявление</a>
                                         <a *ngIf="isModer || isAdmin" routerLink="/moderPage" >Модерировать</a>
-                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Роли</a>
+                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Админка</a>
                                         
                                         <a (click)="LogOut()" >Выйти</a>
                                     </div>
@@ -55,7 +55,15 @@
                 <div id="leftPartContainer">
                     <div id="searchInpit">
                         <input type="text" [(ngModel)]="searchWord" (input)="inputSearchWord()" placeholder="14 2343 Обьявлений рядом" >
-                        <img src="../assets/imgs/Cancle_Icon.png" alt="">
+                        <img class="pointerCursor" src="../assets/imgs/Cancle_Icon.png" alt="clearSearchLine" (click)="clearSearchLine()" >
+                        <div id="dropSearchWord" *ngIf="sameWords.length > 0" >
+                            <ul>
+                                <li (click)="choiceSameWord(item.title)" class="itemDropSearchWord" *ngFor="let item of sameWords" >
+                                    <span class="wordItem" >{{item.title}}</span>    
+                                    <span class="catItem" >{{item.categoryName}}</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div id="location">
                         <img src="../assets/imgs/Marker.png" alt="">

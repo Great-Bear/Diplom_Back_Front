@@ -1,8 +1,12 @@
 ﻿using JBS_API.DB_Models;
+using JBS_API.Request_Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace JBS_API.Controllers
 {
@@ -16,6 +20,7 @@ namespace JBS_API.Controllers
         public ToolsController(DbContext db)
         {
             _dbContext = db;
+
         }
 
         [HttpGet]
@@ -32,6 +37,34 @@ namespace JBS_API.Controllers
             }
 
             return Json(arrayCat);
+        }
+
+        [HttpGet]
+        [Route("SameWords")]
+        public async Task<JsonResult> SameWords(string word)
+        {
+            try
+            {
+                var statusChecked = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано").Id;
+
+                var sameAds = _dbContext.Ads
+                    .Select(a => new 
+                    {
+                        Title = a.Title, CategoryName =  a.Category.Name, StatusId = a.StatusAdId
+                    })
+                    .Where( a => a.Title.Contains(word) && a.StatusId == statusChecked)
+                    .Take(6);
+
+                return Json(new
+                {
+                    isError = false,
+                    data = sameAds
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new Error());
+            }
         }
 
         [HttpGet]

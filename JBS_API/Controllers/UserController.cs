@@ -42,7 +42,7 @@ namespace JBS_API.Controllers
                 emailMessage.Subject = "Регистрация на JBS";
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                 {
-                    Text = $"Ваша почта была указана при регистрации на сайте JBS для подтверждения перейдите на ссылке: <a>http://localhost:4200/confirm_Email/{idUser}</a>"
+                    Text = $"Ваша почта была указана при регистрации на сайте JBS для подтверждения перейдите на ссылке: <a>https://jbs.z22.web.core.windows.net/confirm_Email/{idUser}</a>"
                 };
              
                 using (var client = new SmtpClient())

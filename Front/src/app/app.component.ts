@@ -30,12 +30,14 @@ export class AppComponent {
   arrAlertMessage = Array<AlertMessage>();
 
   showSearchBlock = false;
+
+  sameWords = new Array();
   
   constructor(private cookieService : CookieService,
               private router : Router,
               private globalHub : GlobalHubService,
               private http : HttpService) {
-this.cookieService.deleteAll();
+
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
@@ -56,7 +58,6 @@ this.cookieService.deleteAll();
      this.globalHub.isAdmin.subscribe(
       state => {
         this.isAdmin = state;
-        console.log("Admin" + state);
       }
      )
 
@@ -88,7 +89,7 @@ this.cookieService.deleteAll();
   }
 
   UpdateInfoPanel(){
-
+    console.log(this.idUser);
     if(this.idUser == 0 || this.isAnonimUser || this.idUser == NaN){
       return;
     }
@@ -132,13 +133,46 @@ showCookie(){
 }
 
 inputSearchWord(){
+  this.loadSameWord(this.searchWord);
  this.globalHub.ChangeSearchWord(this.searchWord);
 }
+
+ loadSameWord(word : string){
+  this.http.loadSameWords(word)
+  .subscribe( res => {
+    let response : any = res;
+    if(response.isError){
+
+    }
+    else{
+      this.sameWords = response.data;
+    }
+  })
+ }
+
+ choiceSameWord(word : string){
+  this.searchWord = word;
+  this.globalHub.ChangeSearchWord(word);
+
+  this.startSearch();
+  this.sameWords = new Array();
+
+  this.clearSearchLine();
+ }
+
+ clearSearchLine(){
+  this.searchWord = "";
+  this.globalHub.ChangeSearchWord("");
+  this.sameWords = new Array();
+ }
 
 startSearch(){
   if(this.searchWord.length == 0){
     return;
   }
+
+  console.log(this.searchWord);
+
   if(!this.router.url.includes("list_ads")){
     this.router.navigate([`/list_ads/0/${this.searchWord}`]);
   }
@@ -165,6 +199,7 @@ ngOnInit(){
         }
         if(this.cookieService.get("rememberMe") != "yes" && 
            this.cookieService.get("activeSession") != "yes" ){
+            this.cookieService.set("idUser","");
             this.router.navigate(["/authorization"])
         }   
     }
