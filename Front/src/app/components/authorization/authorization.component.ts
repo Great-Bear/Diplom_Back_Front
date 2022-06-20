@@ -43,18 +43,6 @@ export class AuthorizationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-popubDb(){
-  console.log("start pop");
-  this.httpSevice.populateDB().subscribe(
-    res => {
-      console.log(res);
-    },
-    err => {
-      console.log( JSON.stringify( err));
-    }
-  )
-}
-
   sendDataAuth(){
 
     if(this.ValidetData() == false){

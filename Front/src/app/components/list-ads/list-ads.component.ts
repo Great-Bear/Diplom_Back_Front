@@ -150,7 +150,6 @@ export class ListAdsComponent implements OnInit {
     if(this.issortByPrice == true){
       priceMax = this.priceMax;
     }
-    console.log(this.arrOrderByValue);
     this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
@@ -762,3 +761,5 @@ export class ListAdsComponent implements OnInit {
 }
 
 }
+
+

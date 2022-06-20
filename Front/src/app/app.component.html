@@ -49,7 +49,7 @@
 
     </nav>
 
-    <div id="serachBlock" *ngIf="showSearchBlock" >
+    <div id="serachBlock" *ngIf="showSearchBlock" (click)="globalClick($event)" >
         <div id="containerSearchBlosk"  >
             <div id="leftPart">
                 <div id="leftPartContainer">
@@ -67,17 +67,71 @@
                     </div>
                     <div id="location">
                         <img src="../assets/imgs/Marker.png" alt="">
-                        <span>Одесса, Иванофра</span>
-                        <img src="../assets/imgs/Cancle_Icon.png" alt="">
+                        <span id="locationValue" class="pointerCursor" (click)="CloseOpenDropList($event)" >{{locationValue | slice:0:16}}</span>
+                        <img src="../assets/imgs/Cancle_Icon.png" alt="" class="pointerCursor" (click)="ClearLocation()" >
+                        <div id="dropListLocations" *ngIf="showDropListLocations" >
+                            <ul>
+                                <li class="containerLocation pointerCursor" *ngFor="let item of collLocation; let i = index" >
+                                   <div class="regionItem" [class.choiceItemLocation]="item.IsOpen" >
+                                        <span (click)="choiceLocation(i,-1,-1)">
+                                            {{item.Name}}
+                                        </span>
+                                        <span (click)="OpenCloseMenuLocation(i,-1)">
+                                            <img *ngIf="item.IsOpen" src="../assets/imgs/OpenLocation.png" alt="openMenu">
+                                            <img *ngIf="!item.IsOpen" src="../assets/imgs/CloseLocation.png" alt="CloseMenu">
+                                        </span>
+                                    </div>
+                                    <div *ngIf="item.IsOpen" >
+                                        <ul>
+                                            <li class="containerLocation" *ngFor="let item2 of item.Children; let j = index">
+                                                <div class="regionItem regionItem2"  [class.choiceItemLocation]="item2.IsOpen"  >
+                                                    <span (click)="choiceLocation(i,j,-1)" >
+                                                        {{item2.Name}}, 
+                                                        <p class="nameRegion" >
+                                                            {{item.Name}}
+                                                        </p>
+                                                    </span>
+                                                    <span (click)="OpenCloseMenuLocation(i,j)">
+                                                        <img *ngIf="item2.IsOpen" src="../assets/imgs/OpenLocation.png" alt="openMenu">
+                                                        <img *ngIf="!item2.IsOpen" src="../assets/imgs/CloseLocation.png" alt="CloseMenu">
+                                                    </span>                     
+                                                </div>
+                                                <div *ngIf="item2.IsOpen" >
+                                                    <ul>
+                                                        <li class="containerLocation" *ngFor="let item3 of item2.Children; let q = index">
+                                                            <div class="regionItem regionItem3" (click)="choiceLocation(i,j,q)" >
+                                                                <span >
+                                                                    {{item3.Name}}
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div id="distance">
-                        <select name="" id="">
-                            <option value="+100 км">+100 км</option>
-                            <option value="+75">+75 км</option>
-                            <option value="+50">+50 км</option>
-                            <option value="+25">+25 км</option>
-                            <option value="+0">+0 км</option>
-                        </select>
+                    <div id="distance" class="pointerCursor" (click)="CloseOpenDistanceList($event)">
+                        <span id="distanceContainer">
+                            {{distanceValue}}
+                        </span>
+                        <img src="../assets/imgs/OpenLocation.png" id="arrorwDistance" alt="CloseMenu">
+                    <div id="dropListDistance" *ngIf="showDistance" >
+                        <ul (click)="ChoiceValueDistance($event)" >
+                            <li>+ 0 км</li>
+                            <li>+ 2 км</li>
+                            <li>+ 5 км</li>
+                            <li>+ 10 км</li>
+                            <li>+ 15 км</li>
+                            <li>+ 30 км</li>
+                            <li>+ 50 км</li>
+                            <li>+ 75 км</li>
+                            <li>+ 100 км</li>
+                        </ul>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -104,5 +158,5 @@
             </div>
         </ng-container>
     </div>
-
+ 
 <router-outlet></router-outlet>

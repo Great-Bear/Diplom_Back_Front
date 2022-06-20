@@ -6,6 +6,7 @@ import { NavigationEnd } from '@angular/router';
 import { AlertMessage } from './Classes/alert-message';
 import { timer } from 'rxjs';
 import { HttpService } from './http.service';
+import { CollectionLocation } from './Classes/collection-location';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,12 @@ export class AppComponent {
   isModer = false;
   isAdmin = false;
 
+  locationValue = "Вся Украина";
+  showDropListLocations = false;
+
+  distanceValue = "+ 100 км";
+  showDistance = false;
+
   idUser = 0;
 
   searchWord = "";
@@ -30,6 +37,8 @@ export class AppComponent {
   arrAlertMessage = Array<AlertMessage>();
 
   showSearchBlock = false;
+
+  collLocation = new Array();
 
   sameWords = new Array();
   
@@ -77,7 +86,10 @@ export class AppComponent {
   })
    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
    this.globalHub.AdminUser( Boolean( this.cookieService.get("isAdmin")) )
-  
+
+
+  this.collLocation = new CollectionLocation().getDefautCollection();
+  console.log(this.collLocation);
 }
 
   UpdateFavoriteAds(){
@@ -89,7 +101,6 @@ export class AppComponent {
   }
 
   UpdateInfoPanel(){
-    console.log(this.idUser);
     if(this.idUser == 0 || this.isAnonimUser || this.idUser == NaN){
       return;
     }
@@ -240,5 +251,66 @@ ngOnInit(){
 
   }
 
+  globalClick(event : any)
+  {
+    if(event.target.id != "serachBlock")
+    {
+      return
+    }
+
+    this.sameWords = new Array();
+    this.showDistance = false;
+    this.showDropListLocations = false;
+  }
+
+  OpenCloseMenuLocation(idRegion: number, idSubPoint : number){
+    if(idSubPoint == -1){
+      this.collLocation[idRegion].IsOpen = !this.collLocation[idRegion].IsOpen;
+    }
+    else{
+      this.collLocation[idRegion].Children[idSubPoint].IsOpen =
+      !this.collLocation[idRegion].Children[idSubPoint].IsOpen;
+    }
+  }
+
+  choiceLocation(idRegion: number, idSubPoint : number, idSubSubPoint : number){
+
+    let regionValue = this.collLocation[idRegion].Name;
+    if(idSubPoint != -1){
+
+      let subvalue = this.collLocation[idRegion].Children[idSubPoint].Name ;
+      subvalue += ",";
+      subvalue += regionValue;
+      regionValue = subvalue;
+      if(idSubSubPoint != -1){
+
+        let subSubValue = this.collLocation[idRegion].Children[idSubPoint].Children[idSubSubPoint].Name ;
+        subSubValue += ",";
+        subSubValue += regionValue;
+        regionValue = subSubValue;
+      }
+    }
+    this.locationValue = regionValue;
+    this.showDropListLocations = false;
+  }
+
+  ClearLocation(){
+    this.showDropListLocations = false;
+    this.locationValue = "Вся Украина";
+  }
+
+  CloseOpenDropList(event: any){
+    this.showDropListLocations = !this.showDropListLocations;
+    event.stopPropagation();
+  }
+
+  CloseOpenDistanceList(event: any){
+    this.showDistance = !this.showDistance;
+    event.stopPropagation();
+  }
+
+  ChoiceValueDistance(event : any){
+    this.distanceValue = event?.target.innerText;
+  }
 
 }
