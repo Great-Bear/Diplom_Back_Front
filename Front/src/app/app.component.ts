@@ -201,7 +201,7 @@ ngOnInit(){
     else{
       this.cookieService.set("activeSession","no");
     }
-
+/*
  this.router.events.subscribe( event => {
   if(event instanceof NavigationEnd){
      if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
@@ -222,7 +222,7 @@ ngOnInit(){
       this.showSearchBlock = false;
     }
   }
- })
+ })*/
  
 
  window.onunload = (event) => {
