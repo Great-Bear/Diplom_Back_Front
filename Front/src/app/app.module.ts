@@ -26,6 +26,7 @@ import { AdminControllerComponent } from './components/admin-controller/admin-co
 import { ModersComponent } from './components/moders/moders.component';
 import { FiltersControllerComponent } from './components/filters-controller/filters-controller.component';
 import { AddModerComponent } from './components/add-moder/add-moder.component';
+import { CellAdComponent } from './components/cell-ad/cell-ad.component';
 
 const itemRoutesModer: Routes = [
   { path: 'add', component: AddModerComponent},
@@ -38,6 +39,7 @@ const itemRoutesAdmin: Routes = [
 
 
 
+
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'about', component: AboutComponent},
@@ -46,8 +48,9 @@ const appRoutes: Routes = [
   { path: 'emailconfirm', component: EmailconfirmComponent},
   { path: 'create-ad', component: CreateAdComponent},
   { path: 'edit-ad/:id', component: EditAdComponent},
-  { path: 'my-ads', component: MyadsComponent},
+  { path: 'my-ads', component: MyadsComponent}, 
   { path: 'myfavorite', component: MyFavoriteComponent},
+  { path: 'myfavorite/card-ad/:id', component: CardAdComponent},
   { path: 'card-ad/:id',component: CardAdComponent},
   { path: 'moderPage', component: ModerPageComponent},
   { path: 'list_ads/:idCategory/:searchQuery', component: ListAdsComponent},
@@ -86,6 +89,7 @@ const appRoutes: Routes = [
     ModersComponent,
     FiltersControllerComponent,
     AddModerComponent,
+    CellAdComponent,
   ],
   imports: [
     BrowserModule,

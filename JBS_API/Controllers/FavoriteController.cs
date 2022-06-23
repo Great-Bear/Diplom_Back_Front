@@ -1,5 +1,7 @@
 ﻿using JBS_API.DB_Models;
+using JBS_API.Request_Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,11 +46,13 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("GetFovarites")]
-        public JsonResult GetFovarites(int idUser)
+        public async Task<JsonResult> GetFovarites(int idUser)
         {
             try
             {
-                var resArray = _dbContext.FavoriteAds.Where(ad => ad.UserId == idUser);
+                var resArray = _dbContext.FavoriteAds
+                    .Where(ad => ad.UserId == idUser);
+
 
                 return Json(new { isError = false, arrFavorite = resArray });
              
@@ -78,30 +82,26 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("MyAdsFavorite")]
-        public JsonResult MyAdsFavorite(int idUser)
+        public async Task<JsonResult> MyAdsFavorite(int idUser)
         {
 
             try
             {
-                var ads = _dbContext.Ads.Join(
-                    _dbContext.FavoriteAds.Where( favAd => favAd.UserId == idUser ),
-                    ad => ad.Id,
-                    favAd => favAd.AdId,
-                    (ad, favAd) => new
-                    {
-                        ad
-                    }            
-                    );
+                var ads = _dbContext.FavoriteAds.Where(favAd => favAd.UserId == idUser);
 
+                await ads.Include(f => f.Ad).LoadAsync();
+                await ads.Include(f => f.Ad.QualityAd).LoadAsync();
+                await ads.Include(f => f.Ad.TypeOwner).LoadAsync();
 
                 return Json(new
                 {
+                    isError = false,
                     ads = ads,
                 });
             }
             catch (Exception ex)
             {
-                return Json("Ошибка сервера");
+                return Json(new Error());
             }
 
         }

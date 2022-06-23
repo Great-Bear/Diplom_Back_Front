@@ -1,5 +1,5 @@
 export class AlertMessage {
-    public Title = "Ой :(";
+    public Title = "Ой (^_~)";
     public Message = "Что-то пошло не так";
-    public TimeShow = 2000;
+    public TimeShow = 3000;
 }

@@ -1,0 +1,41 @@
+<div class="cell-ads" (click)="watchAd(ad.id)" >
+        <img *ngIf="ad.isDelivery" class="deleveryImg" src="../assets/imgs/DeliveryIcon.svg" alt="deleteryImg">
+        <img [src]="ad.mainImg" alt="imgAd">
+        <div>
+            <div class="infoAds">
+                <div class="titleAds">
+                    <span >
+                        {{ad.title | slice:0:20}} 
+                    </span>
+                </div>
+                <div class="buttomAds">
+                    <div>
+                        <span>{{ad.price}} грн.</span>
+                    </div>
+                    <div (click)="changeStateFavorite($event)">
+                        <img *ngIf="ad.isFavorite" src="../assets/imgs/Hearth_red.svg" alt="heart">     
+                        <img *ngIf="!ad.isFavorite" src="../assets/imgs/Hearth_grey.svg" alt="heart">                                     
+                    </div>
+                </div>
+            </div>
+            <div class="hoverInfoAds">
+                <div class="locationAds" >
+                    <span>Украина, Львов - {{ad.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</span>
+                </div>
+                <div class="phoneNumber">
+                    <span>{{ad.phoneNumber}}</span>
+                </div>
+                <div>
+                    <span class="addedInfo">
+                        {{ad.typeOwner.name}}
+                    </span>
+                </div>
+                <div>
+                    <span class="addedInfo">
+                        {{ad.qualityAd.name}}
+                    </span>
+                </div>
+            </div>
+        </div>
+</div>
+

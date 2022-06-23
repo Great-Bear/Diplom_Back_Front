@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpService } from 'src/app/http.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { GlobalHubService } from 'src/app/global-hub.service';
+import { AlertMessage } from 'src/app/Classes/alert-message';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,20 +12,16 @@ import { Router } from '@angular/router';
 })
 export class MyFavoriteComponent implements OnInit {
 
-  
-  private emptyImgUrl  = "../assets/imgs/emptyImg.png";
- 
-  public adsCol = Array();
+  public arrAds = new Array();
   public noAds : boolean = false
-
-  private itemInRow = 4;
+  idUser : number = 0;
 
   constructor(
     private httpService : HttpService,
     private cookie : CookieService,
-    private sanitizer: DomSanitizer,
-    private route : Router
+    private globalHub : GlobalHubService
   ) {
+    this.idUser = Number.parseInt(cookie.get("idUser"));
   }
 
   ngOnInit(): void {
@@ -32,54 +29,49 @@ export class MyFavoriteComponent implements OnInit {
   }
 
   loadAds(){
-    this.adsCol = new Array();
 
     this.httpService.getGetMyAdsFavorite(this.cookie.get("idUser"))
     .subscribe(ans => {
       let res : any  = ans;
-
-      console.log(ans);
-
-      res = res.ads;
-      if(res instanceof Array){
-        
-        if(res.length == 0){
-          this.noAds = true;
-          return;
-        }
-        else{
-          this.noAds = false;
-        }
-        let indexItem = 0;
-
-        for(let colIndex = 0; colIndex < Math.ceil( res.length / this.itemInRow ); colIndex++ ){
-          this.adsCol.push(
-            new Array()
-          )
-          for(let rowIndex = 0; rowIndex < this.itemInRow && indexItem < res.length; rowIndex++ ){           
-            res[indexItem].timeEnd = new Date(res[indexItem].timeEnd)
-            this.adsCol[colIndex].push( {
-              data : res[indexItem].ad,
-              url : this.emptyImgUrl
-            });
-            indexItem++;
-   
-            this.httpService.getMainPicture(res[indexItem - 1].ad.id, this.adsCol[colIndex][rowIndex] ).subscribe(
-              res => {         
-               const urlToBlob = window.URL.createObjectURL(res)  
-               this.adsCol[colIndex][rowIndex].url = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
-              }
-           );
-          }
-        }
+      if(res.isError){
+        this.globalHub.addAlertMessage(new AlertMessage());
+        return;
       }
-      else{
-        console.log("Ошибка сервера");
-      }
+      this.arrAds = res.ads;     
+      this.noAds = res.length == 0 ? true : false;
+    }, err => {
+      this.globalHub.addAlertMessage(new AlertMessage());
     })
   }
 
-  watchAd(event : any){
-    this.route.navigate([`/card-ad/${event.target.getAttribute("id")}`]);
+  choiceSubMenu(event : any){
+    if(event.target == event.currentTarget){
+      return;
+    }
+    let previousChoice  = document.getElementById("choicedSubMenuNav");
+    if(previousChoice != null){
+      event.target.id = previousChoice.id;
+      previousChoice.setAttribute("id","");
+    }
+  }
+
+  deleteAllFavorites(){
+    let isConfirm = confirm("Действительно удалить все товары из избранных?");
+    if(isConfirm){
+      for(let item of this.arrAds){
+        item.ad.isFavorite = false;
+        this.httpService.updateFavorite(this.idUser, item.ad.id, false)
+        .subscribe( res => {
+          let response : any = res;
+          if(response.isError){
+            this.globalHub.addAlertMessage(new AlertMessage());
+            item.ad.isFavorite = true;
+          }
+          this.globalHub.changeCountFavoriteAd(-1);
+        }, err => {
+          this.globalHub.addAlertMessage(new AlertMessage());
+        })
+      }
+    }
   }
 }
