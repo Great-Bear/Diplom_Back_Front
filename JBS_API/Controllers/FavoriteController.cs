@@ -92,6 +92,7 @@ namespace JBS_API.Controllers
                 await ads.Include(f => f.Ad).LoadAsync();
                 await ads.Include(f => f.Ad.QualityAd).LoadAsync();
                 await ads.Include(f => f.Ad.TypeOwner).LoadAsync();
+                await ads.Include(f => f.Ad.Currency).LoadAsync();
 
                 return Json(new
                 {

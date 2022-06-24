@@ -50,6 +50,14 @@ export class GlobalHubService {
     this.currentCatLayers.next(catsLay);
   }
 
+  public brends = new Subject<any>();
+  public currentbrends = new BehaviorSubject({});
+
+  public ChangeBrends(catsLay: any){
+    this.brends.next(catsLay);
+    this.currentbrends.next(catsLay);
+  }
+
   public searchWord = new Subject<any>();
   public ChangeSearchWord(searchWord: any){
     this.searchWord.next(searchWord);
@@ -83,10 +91,6 @@ export class GlobalHubService {
   constructor( private cookie : CookieService,
                private http: HttpService ) 
                {
-                 this.http.getCategoriesLayer()
-                 .subscribe(res => {
-                   this.ChangeCatLayers(res);
-                 })
                }
 
 }

@@ -70,6 +70,16 @@ export class AppComponent {
       }
      )
 
+     this.http.getCategoriesLayer()
+                 .subscribe(res => {
+                   this.globalHub.ChangeCatLayers(res);
+                 })
+    this.http.getBrands().subscribe( 
+      res => {
+        this.globalHub.ChangeBrends(res);
+      }
+    )
+
 
    this.globalHub.AlertMessage.subscribe(item =>{
      this.arrAlertMessage.push(item);
@@ -89,7 +99,7 @@ export class AppComponent {
 
 
   this.collLocation = new CollectionLocation().getDefautCollection();
-  console.log(this.collLocation);
+
 }
 
   UpdateFavoriteAds(){
@@ -200,8 +210,11 @@ ngOnInit(){
     }
     else{
       this.cookieService.set("activeSession","no");
+      console.log("session is out");
+      console.log("idUser:" + this.idUser)
+      console.log(this.cookieService.get("timeOutSession") + "|" + new Date().getTime());
     }
-/*
+
  this.router.events.subscribe( event => {
   if(event instanceof NavigationEnd){
      if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
@@ -214,15 +227,15 @@ ngOnInit(){
             this.router.navigate(["/authorization"])
         }   
     }
-    if(event.url.includes("list_ads") || event.url.includes( "/home" )
-     || event.url == "/"){
+    if(event.url.includes("list_ads") || event.url.includes( "home" )
+     || event.url == "/" || event.url.includes("card-ad")){
       this.showSearchBlock = true;
     }
     else{
       this.showSearchBlock = false;
     }
   }
- })*/
+ })
  
 
  window.onunload = (event) => {

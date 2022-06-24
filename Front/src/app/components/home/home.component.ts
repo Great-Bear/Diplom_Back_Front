@@ -54,25 +54,55 @@ export class HomeComponent implements OnInit {
     private globalHub : GlobalHubService,
     private cookie : CookieService
   ) {
-   
     this.LoadNewItem();
+    this.LoadCategoreis();
+    this.LoadBrends();
+   }
 
-    this.httpService.getCategories().subscribe(      
-      res => {
-        if(res instanceof Array){
-         this.typeAd.Categories = res;
+   private LoadCategoreis(){
+    if( !(this.globalHub.currentCatLayers.getValue() instanceof Array) ){
+      this.globalHub.categoriesLayers.subscribe(res => {
+        this.parseCatLayer(res);
+      })
+    }
+    else{
+      this.parseCatLayer(
+        this.globalHub.currentCatLayers.getValue()
+      );
+    }
+   }
+
+   private LoadBrends(){
+    if( !(this.globalHub.currentbrends.getValue() instanceof Array) ){
+      this.globalHub.brends.subscribe(res => {
+       this.typeAd.Brends = res;
+      })
+    }
+    else{
+      let brends : any = this.globalHub.currentbrends.getValue();
+      this.typeAd.Brends = brends;
+    }
+   }
+
+   private parseCatLayer(carLayer : any){
+    
+    let catsList = new Array();
+
+    for(let itemL3 of carLayer){
+      for(let itemL2 of itemL3.data){
+        let index = 0;
+        for(let cat of itemL2.cat){
+          let catItem = {
+            name : cat,
+            id : itemL2.idCat[index]
+          }
+           catsList.push(catItem);
+           index++;
         }
       }
-     )
-
-     this.httpService.getBrands().subscribe( 
-       res => {
-         if(res instanceof Array){
-          this.typeAd.Brends = res;
-         }
-       }
-      )
-   }
+    }
+    this.typeAd.Categories = catsList;
+  }
 
 
    addFavoriteAd(event : any, idAd : number){

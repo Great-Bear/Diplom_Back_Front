@@ -1,3 +1,4 @@
+<!--
 <div id="container" >
     <div class="card-body"  >
         <div class="card">
@@ -68,5 +69,51 @@
         <input class="btn btn-primary" type="button" *ngIf="!isOwner" value="Написать продавцу" (click)="openChat()"  >
         </div>
   </div>
+</div>
+-->
+
+<div id="container">
+
+      <div id="infoAdBlock">
+        
+
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <ng-container *ngFor="let img of imgs; first as isFirst">
+
+              <div class="carousel-item active" *ngIf="isFirst">
+                <img [src]="img" alt="Первый слайд">
+              </div>
+
+              <div class="carousel-item " *ngIf="!isFirst">
+                <img [src]="img" alt="Первый слайд">
+              </div>
+            </ng-container>
+ 
+          </div>
+          <ng-container *ngIf="data.countImgs > 1">
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="arrow arrow-left" aria-hidden="true"></span>
+              <span class="sr-only">Предыдущий</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="arrow arrow-right" aria-hidden="true"></span>
+              <span class="sr-only">Следующий</span>
+            </a>
+        </ng-container>
+        </div>
+
+        <div id="infoBlock">
+
+        </div>
+
+      </div>
+      <div id="authorBlock">author</div>
+      <div id="blockComment"></div>
 </div>
 

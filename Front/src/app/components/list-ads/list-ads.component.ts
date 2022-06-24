@@ -100,7 +100,7 @@ export class ListAdsComponent implements OnInit {
 
     this.globalHub.categoriesLayers.subscribe( cats => {
       this.carLayer = cats;
-      this.pardeCatLayer();
+      this.parseCatLayer();
     })   
 
     let carLayerArr =  this.globalHub.currentCatLayers.getValue();
@@ -108,14 +108,14 @@ export class ListAdsComponent implements OnInit {
       this.carLayer = carLayerArr
     }
   
-    this.pardeCatLayer();
+    this.parseCatLayer();
 
     this.loadNewAd();
     this.loadFiltes(this.catId);
     
   }
 
-  private pardeCatLayer(){
+  private parseCatLayer(){
     if(this.carLayer.length == 0){
       return;
     }

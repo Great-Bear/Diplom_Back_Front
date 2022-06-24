@@ -363,7 +363,7 @@
         </div>
 
 
-        <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="countPage.length > 0" >
+        <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="!isLoadItem" >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="isLeftDis" >
                 <a class="page-link"   id="0">Предыдущая</a>

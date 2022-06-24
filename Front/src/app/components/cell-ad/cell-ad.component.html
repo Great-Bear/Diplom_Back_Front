@@ -10,7 +10,7 @@
                 </div>
                 <div class="buttomAds">
                     <div>
-                        <span>{{ad.price}} грн.</span>
+                        <span>{{ad.price}} {{ad.currency.name}}</span>
                     </div>
                     <div (click)="changeStateFavorite($event)">
                         <img *ngIf="ad.isFavorite" src="../assets/imgs/Hearth_red.svg" alt="heart">     
