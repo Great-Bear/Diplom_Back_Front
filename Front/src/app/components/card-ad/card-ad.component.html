@@ -79,9 +79,10 @@
 
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
           <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <ng-container *ngFor="let img of imgs; first as isFirst; let i = index">
+              <li *ngIf="isFirst" data-target="#carouselExampleIndicators" data-slide-to="i" class="active"></li>
+              <li *ngIf="!isFirst" data-target="#carouselExampleIndicators" data-slide-to="i"></li>
+            </ng-container>
           </ol>
           <div class="carousel-inner">
             <ng-container *ngFor="let img of imgs; first as isFirst">
@@ -109,11 +110,130 @@
         </div>
 
         <div id="infoBlock">
+        <div>
+          <div>
+              <div class="spaceBetweenAlineCenter">
+                  <div>
+                    <span id="title">
+                      Смартфон SAMSUNG Galaxy Z Fold 
+                    </span>
+                  </div>
+                  <div>
+                    <img id="favoriteHeart" src="../assets/imgs/Hearth_red.svg" alt="heart">     
+                  </div>
+              </div>
+              <div>
+                <span class="locationAds">Украина, Львов - Сегодня 21:00</span>
+              </div>
+            </div>
 
+            <div>
+              <div id="price">
+                99 999 грн.
+              </div>
+              <div id="blockMetaItems">
+                <span >Частное лицо</span>
+                <span >Б/У</span>
+                <span >С доставкой</span>
+              </div>
+            </div>
+        </div>
+        <div>
+          <div id="describeBlock">
+            <div>
+             <span class="tilte">Описание</span> 
+            </div>
+            <div id="textDescribe">
+              Телефон sumsung galaxy Z Fold, пробыл в эксплуатации пару месяцев после покупки.
+              Диагональ - 7 дюймов, в комплекте идут наушники и чехол
+              
+            </div>
+          </div>
+
+          <div id="buttomPart">
+            <div id="partGeneralInfo">
+              <div>
+                <img src="../assets/imgs/Yey.svg" alt="yey">    
+                <span>856</span> 
+              </div>
+              <div>
+                <img src="../assets/imgs/chat.svg" alt="chat">    
+                <span>2</span> 
+              </div>
+              <div>
+                <img src="../assets/imgs/HeartGeneralCount.svg" alt="HeartGeneralCount">    
+                <span>18</span> 
+              </div>
+            </div>
+            <div>
+              <span id="textComplain">Пожаловаться</span>
+            </div>
+          </div>       
+        </div>
+</div>
+      </div>
+      <div id="rightBlock">
+        <span class="tilte">
+          Автор объявления
+        </span>
+        <div id="AuthorInfo">       
+          <div>
+            <img id="imgAvatar" src="../assets/imgs/catAvatar.jpg" alt="">
+          </div>
+          <div>
+            <div>
+              <span id="nameAuthor">Олег Закиров</span>
+            </div>
+            <div>
+              <span>На JBS с <b>марта 2020 г.</b></span>
+            </div>
+            <div>
+              <span>был онлайн <b>июнь 2022 г.</b></span>
+            </div>
+            <div  id="phoneNumber">
+              <span>+38(096)-350-38-33</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="deliveryBlock">
+            <div>
+              <span class="tilte">Способы доставки: </span>
+            </div>
+            <div id="deliveryitems">
+              <span><b>Укрпошта</b> - бесплатно</span>
+              <br/>
+              <span><b>Нова Пошта</b> - от 70 грн.</span>
+            </div>
+        </div>
+
+        <div class="btnsAuthorBlock">
+          <div class="btns btnsBlack" id="buyBtn">
+            <span>Купить</span>         
+          </div>
+          <div class="btns btnsWhite" >
+            <span>Написать сообщение</span>        
+          </div>         
         </div>
 
       </div>
-      <div id="authorBlock">author</div>
-      <div id="blockComment"></div>
+      <div id="blockComment">
+        <div>
+          <span class="tilte">
+            Оставить отзыв
+          </span>
+        </div>
+        <div id="commentInput" contenteditable></div>
+        <div id="btnsComment">
+            <div class="btnsCommentBlock">
+                <div class="btns btnsWhite" id="btnFileComment">
+                  Прикрепить файл
+                </div>
+                <div class="btns btnsBlack" id="sendComment">
+                  Отправить
+                </div>
+            </div>
+        </div>
+      </div>
 </div>
 

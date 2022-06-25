@@ -7,7 +7,7 @@
     position: fixed;
 
     top: 0;
-    z-index: 10;
+    z-index: 30;
     background: #182744;
     box-shadow: 0px 3px 20px 3px rgba(0, 0, 0, 0.25);
 
@@ -19,64 +19,51 @@
 #container
 {
     width: 90%;
+
     margin: auto;
-    height: 70px;
+    height: inherit;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    color: #F4FFF9;
 }
-
 
 #logo
 {
-    display: inline-block;
- 
-    width: 200px;
-    height: 40px;
-
     font-family: 'Roboto', sans-serif;
-    font-style: normal;
     font-weight: bold;
-    font-size: 36px;
-    line-height: 42px;
-    
-    color: #F4FFF9;
+    font-size: 36px;   
+    width: 100px;
 }
 
 #links
 {
-    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 520px;
+    min-width: 500px
 }
-
-@media only screen and (max-width: 1260px) {
-    #links {
-        right: -66% ;
-    }
-  }
-
-#links > span
+#links div
 {
     position: relative;
-    margin-left: 25px;
-    font-size: 20px;
     cursor: pointer;
-    color: white;
 }
-#langSwitch::after
+
+#langSwitch
 {
-    content: ''; 
-    position: absolute;
-    left: 30px; bottom: 2.5px;
-    border: 5px solid transparent;
-    border-top: 8px solid white;
+    position: relative;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 22px;
 }
+
 .countMsg
 {
     position: absolute;
     background: #F13B60;
 
-    top: -3px;
+    top: -5px;
     left: 25px;
     border-radius: 15px;
     font-size: 12px;
@@ -88,31 +75,29 @@
 }
 
 
-/* Dropdown Button */
-.dropbtn {
-    border: none;
-}
-
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
-    display: inline-block;
-    height: 50px;
 }
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {   
+.dropdown:hover #dropBlock
+{
+    position: absolute;
+    display: block;
+}
+#dropBlock
+{
+    position: absolute;
     display: none;
+}
+.dropdown-content {   
     position: absolute;
     background-color: #f1f1f1;
-    top: 40px;
+    top: 10px;
     left: 5px;
     width: 10.5rem;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
@@ -127,11 +112,9 @@
     display: block;
 }
 
-/* Change color of dropdown links on hover */
+
 .dropdown-content a:hover {background-color: #ddd;}
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
 
 a
 {
@@ -147,24 +130,22 @@ footer{
 
 #createAd
 {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     background: linear-gradient(180deg, #F23160 0%, #EF6B63 100%);
     border-radius: 50px;
 
-    margin-left: 40px;
-
     font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 22px;
+    font-weight: 700;
+    font-size: 20px;
     color: white;
 
-    cursor: pointer;
+    width: 260px;
 
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    cursor: pointer;
+    padding: 10px 20px 10px 20px;
 
 }
 
@@ -227,13 +208,6 @@ footer{
     cursor: not-allowed !important;
 }
 
-#createAd span
-{
-    position: relative;
-    top: 1px;
-    margin-left: 10px;  
-}
-
 #serachBlock
 {
     margin-top: 70px;
@@ -247,6 +221,7 @@ footer{
     height: 70px;
     margin: auto;
     margin-top: 135px;
+    z-index: 20;
 }
 
 #leftPart
@@ -490,4 +465,66 @@ footer{
 #dropListDistance li:hover
 {
     background: rgba(0, 0, 0, 0.05);
+}
+
+#linkContainer
+    {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+@media screen and (max-width: 420px)
+{  
+   #containerSearchBlosk
+   {
+        display: none;
+   }
+   #logo
+    {
+        font-size: 16px;   
+        width: 50px ;
+    }
+    #links
+    {
+        width: 250px;
+        min-width: 200px;
+    }
+    #links img
+    {
+        width: 20px ;
+    }
+    #navMainBlock
+    {
+        height: 50px;
+    }
+    
+    .countMsg
+    {
+        top: 2px;
+        left: 12px;
+        border-radius: 15px;
+        font-size: 9px;
+
+        width: 12px;
+        height: 12px;
+    }
+    
+    #createAd
+    {
+        border-radius: 50px;
+
+        font-size: 8px;
+
+        width: 120px;
+
+        cursor: pointer;
+        padding: 5px 10px 5px 10px;
+
+    }
+    #createAd img
+    {
+        width: 15px;
+    }
 }

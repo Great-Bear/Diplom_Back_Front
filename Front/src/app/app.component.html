@@ -3,50 +3,45 @@
                 <div id="container">
                     <div id="logo" >
                         <div><a routerLink="/home" >JBS</a></div>
-                    </div>         
-                     <div id="links" *ngIf="!isAnonimUser" >    
-                         <span id="langSwitch" >
-                             RU
-                         </span>
-                        <span routerLink="/mychats" >
-                            <img src="../assets/imgs/Message_Icon.png" >
+                    </div>   
+                    <div id="links" *ngIf="!isAnonimUser" >   
+                        <div>
+                            <img src="../assets/imgs/TriangleNavBlock.svg" alt="">
+                        </div>
+                        <div routerLink="/mychats">
+                            <img src="../assets/imgs/ChatNavBlock.svg" >
                             <span class="countMsg" (click)="showCookie()" >{{countUnreadMsg}}</span>
-                        </span>                                  
-                        <span routerLink="/myfavorite">
-                            <img src="../assets/imgs/Hearth_Icon.png" >
+                        </div>
+                        <div routerLink="/myfavorite">
+                            <img src="../assets/imgs/HeartNavBlock.svg" >
                             <span class="countMsg" >{{countFavoriteAd}}</span>
-                        </span>
-                        <span class="dropdown">
-                            <img src="../assets/imgs/Profile_Icon.png"/>
-                            <div >
-                                <span class="dropbtn"></span>                           
-                                <ng-container *ngIf="!isAnonimUser" > 
+                        </div>
+                        <div class="dropdown">
+                            <img src="../assets/imgs/ProfileNavBlock.svg" alt="">
+                            <div id="dropBlock">                          
                                     <div class="dropdown-content">
                                         <a routerLink="/my-ads" *ngIf="!isModer" > Мои обьявление</a>
                                         <a *ngIf="isModer || isAdmin" routerLink="/moderPage" >Модерировать</a>
-                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Админка</a>
-                                        
+                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Админка</a>                                  
                                         <a (click)="LogOut()" >Выйти</a>
+                                        
                                     </div>
-                                </ng-container> 
                             </div>
-                        </span>
-                        
+                        </div>
+
                         <div routerLink="create-ad" id="createAd" *ngIf="!isModer && !isAdmin" >
-                            <img src="../assets/imgs/Plus_Icon.png" >
-                             <span>Подать обьявление</span> 
+                            <img src="../assets/imgs/PlusNavBlock.svg" >
+                            <span>Подать обьявление</span> 
                         </div>   
                         
                         <div id="createAd" class="noneCreateAd" *ngIf="isModer || isAdmin" >
-                            <img src="../assets/imgs/Plus_Icon.png" >
-                             <span>Подать обьявление</span> 
+                            <img src="../assets/imgs/PlusNavBlock.svg" >
+                            <span>Подать обьявление</span> 
                         </div>
-        
-                    </div> 
-                </div>
-                         
-        </div>
 
+                    </div>                 
+                </div>         
+        </div>
     </nav>
 
     <div id="serachBlock" *ngIf="showSearchBlock" (click)="globalClick($event)" >

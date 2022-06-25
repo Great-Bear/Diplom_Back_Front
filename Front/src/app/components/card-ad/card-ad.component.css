@@ -115,21 +115,81 @@ img
 #infoAdBlock
 {
     width: 760px;
-    height: 1000px;
+  
     background-color: rgb(206, 73, 73);
    
 }
-#authorBlock
-{     
+#rightBlock
+{
     position: absolute;
     top: 30px;
     left: 790px;
     width: 480px;
-    height: 1200px;
-    background-color: rgb(73, 206, 195);
+    border-radius: 7px;
+    background-color: white;
+    padding: 20px 25px 20px 25px;
 }
+
+
+#AuthorInfo
+{
+    display: flex;
+
+    margin-top: 20px;
+
+   
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 17px;
+    color: #253947;
+}
+#nameAuthor
+{
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 22px;
+    color: #253947;
+}
+
+#AuthorInfo > div
+{
+    margin: 0 15px;
+}
+
+#phoneNumber
+{
+    display: inline-block;
+    border: 1px solid #253947;
+    padding: 2px 15px 2px 15px;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+#deliveryBlock
+{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#deliveryitems
+{
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 17px;
+    color: #253947;
+    margin-top: 10px;
+}
+
+#imgAvatar
+{
+    width: 101px;
+    height: 101px;
+    border-radius: 100px;
+}
+
 #blockComment
 {
+    margin-top: 10px;
     width: 760px;
     height: 400px;
     background-color: rgb(73, 206, 102);
@@ -174,6 +234,7 @@ img
     border-radius: 50px;
     border: none;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    z-index: -1;
 }
 .arrow {
     width: 40px;
@@ -191,13 +252,205 @@ img
 
 #infoBlock
 {
+    position: relative;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     margin-top: 10px;
-    height: 50%;
+    padding: 25px 30px 15px 30px;
+    height: auto;
     width: 100%;
     border-radius: 7px;
     background-color: white;
 }
+
+#title
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 28px;
+
+    color: #253947;
+}
+#favoriteHeart
+{
+    width: 35px;
+}
+
+#price
+{
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 40px;
+    color: #253947;
+}
+
+.locationAds
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 13px;
+
+   color: #9DA4B1;
+}
+#blockMetaItems
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 20px;
+    width: 58%;
+}
+#blockMetaItems span
+{
+
+    padding: 0px 18px 0px 18px;
+    border: 1px solid #6A7881;
+    border-radius: 40px;
+
+    font-family: 'Roboto';
+    height: 26px;
+    font-weight: 400;
+    font-size: 17px;
+
+    color: #6A7881;
+}
+
+#describeBlock
+{
+    margin-top: 30px;
+   margin-bottom: 40px;
+}
+
+.tilte
+{
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 20px;
+    color: #253947;
+}
+
+#textDescribe
+{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+
+    color: #253947;
+}
+
+#buttomPart
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#partGeneralInfo
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 35%;
+    flex-direction: row;
+
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 13px;
+    color: #9DA4B1;
+}
+#partGeneralInfo div
+{
+    display: flex;
+    align-items: center;
+}
+#partGeneralInfo div:nth-child(2) img
+{
+    padding-left: 10px;
+
+}
+#partGeneralInfo span
+{
+    margin-left: 5px;
+}
+
+#textComplain
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 13px;
+    color: #9DA4B1;
+    border-bottom: 1px solid #9DA4B1;
+}
+
+#blockComment
+{
+    padding: 25px 35px 65px 35px;
+    background: #FFFFFF;
+    border-radius: 7px;
+}
+
+#commentInput
+{
+    width: 100%;
+    height: 200px;
+
+    margin-top: 20px;
+    border: 1px solid white;
+    box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+
+}
+.btnsCommentBlock
+{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnsAuthorBlock
+{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btns
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+
+    padding: 10px 55px 10px 55px;
+    border-radius: 50px;
+    background-color: #182744;
+    border: 1px solid #182744;
+    cursor: pointer;
+}
+
+
+.btnsBlack
+{
+  color: white;
+}
+.btnsWhite
+{
+    padding: 10px 20px 10px 20px;
+    color: #182744;
+    background-color: white;
+}
+
+#buyBtn
+{
+    padding: 10px 70px 10px 70px;
+}
+
+
+
 
 
 @media screen and (max-width: 420px) {    
@@ -205,6 +458,7 @@ img
     {
         margin: auto;
         padding-top: 0;
+        margin-bottom: 100px;
         width: 98%;
   
         background-color: rgb(224, 212, 212);
@@ -215,24 +469,94 @@ img
     #infoAdBlock
     {
         width: 100%;
-        height: 40%;
+        height: auto;
         background-color: rgb(206, 73, 73);
     }
 
-    #authorBlock
+    #rightBlock
     {
         position: relative;
         top: 0;
         left: 0;
         width: 100%;
         height: 30%;
+        margin-top: 10px;
         background-color: rgb(73, 206, 195);
     }
     #blockComment
     {
         width: 100%;
         height: 30%;
-        background-color: rgb(73, 93, 206);
+    }
+    #carouselExampleIndicators
+    {
+        height: 280px;
+    }
+    #blockMetaItems
+    {
+        height: 80px;
+        width: 220px;
+    }
+    #title
+    {
+        font-size: 18px;
+    }
+    .locationAds
+    {
+        font-size: 13px;
+    }
+    #price
+    {
+        font-size: 25px;
+    }
+    #textDescribe
+    {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    #describeBlock
+    {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    #partGeneralInfo
+    {
+        width: 55%;
+    }
+    #favoriteHeart
+    {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+    }
+    #btnFileComment
+    {
+        display: none;
+    }
+    #sendComment
+    {
+        margin: auto;
+    }
+    #imgAvatar
+    {
+        width: 90px;
+        height: 90px;
+    }
+    #phoneNumber
+    {
+        font-size: 14px;
+    }
+    #AuthorInfo
+    {
+        font-size: 14px;
+    }
+    .btnsAuthorBlock
+    {
+        flex-direction: column;
+    }
+    .btnsAuthorBlock div:nth-child(1)
+    {
+        margin-bottom: 10px;
     }
 }
 
