@@ -128,7 +128,7 @@
 {
     position: relative;
     left: 40%;
-    top: 5px;
+    top: 0px;
 
     display: inline-block;
     height: 20px;
@@ -140,7 +140,7 @@
 
     font-family: Roboto;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 400;
     font-size: 15px;
     
     color: #3A4569;
@@ -154,7 +154,7 @@
 
 #formUser
 {
-    margin: 5px 47px 10px 47px ;
+    margin: 5px 47px 0px 47px ;
     height: 55%;
 }
 
@@ -201,7 +201,7 @@
 {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 #formUser input[type=checkbox]:checked
@@ -222,6 +222,11 @@
     height: 100%;
     display: table-cell;
     line-height: 0.4;
+}
+
+#checkboxRememberMe
+{
+    margin-right: 5px;
 }
 
 #rememberMe

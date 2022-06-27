@@ -174,55 +174,55 @@ export class CreateAdComponent implements OnInit {
     let isError = false;
 
     if(this.requData.Title.length == 0){
-      this.errMsg.Title = "Заголовок не может быть пустым";
+      this.errMsg.Title = "Заголовок не може бути порожнім";
     }
     else{
       this.errMsg.Title = "";
     }
 
     if(this.requData.Describe.length == 0){
-      this.errMsg.Describe = "Описание не может быть пустым";
+      this.errMsg.Describe = "Опис не може бути порожнім";
     }
     else{
       this.errMsg.Describe = "";
     }
 
     if(this.requData.Phone.length <= 0){
-      this.errMsg.Phone = "Номер телефона не может быть пустым";
+      this.errMsg.Phone = "Номер телефону не може бути порожнім";
     }
     else if(this.phoneRegExp.test(this.requData.Phone)){
-      this.errMsg.Phone = "Некорректный номер телефона";
+      this.errMsg.Phone = "Некоректний номер телефону";
     }
     else{
       this.errMsg.Phone = "";
     }
 
     if(this.requData.Price.length <= 0){
-      this.errMsg.Price = "Цена не может быть пустой";
+      this.errMsg.Price = "Ціна не може бути порожньою";
     }
     else if (this.priceRegExp.test(this.requData.Price)){
-      this.errMsg.Price = "Цена может состоять только из цифр"
+      this.errMsg.Price = "Ціна може складатися лише з цифр"
     }
     else{
       this.errMsg.Price = "";
     }
 
    if(this.requData.Category == ""){
-    this.errMsg.Category = "Выберете категорию";
+    this.errMsg.Category = "Виберіть категорію";
    }
    else{
     this.errMsg.Category = "";
    }
 
    if(this.requData.TypeAd == ""){
-     this.errMsg.TypeAd = "Выберете тип объявления";
+     this.errMsg.TypeAd = "Виберіть тип оголошення";
    }
    else{
      this.errMsg.TypeAd = "";
    }
 
    if(this.requData.Quality == ""){
-    this.errMsg.Quality = "Выберете состояние объявления";
+    this.errMsg.Quality = "Виберіть стан оголошення";
   }
   else{
     this.errMsg.Quality = "";
@@ -233,7 +233,7 @@ export class CreateAdComponent implements OnInit {
   if(this.filterList.length != 0){
     for(let i = 0; i < this.requData.FiltersValue.length; i++){
       if(this.requData.FiltersValue[i] == null){
-        this.errMsg.Filters[i] = `Веберети ${this.filterList[i].filterName}`;
+        this.errMsg.Filters[i] = `Виберіть ${this.filterList[i].filterName}`;
         isFilterEmpty = true;
       }
       else{
@@ -261,8 +261,8 @@ export class CreateAdComponent implements OnInit {
     if(this.findErrorForm() == true){
 
       let aMessage = new AlertMessage();
-      aMessage.Title = "Некорректные данные :(";
-      aMessage.Message = "Введите коректные данные для создания товара;"
+      aMessage.Title = "Некоректні дані :(";
+      aMessage.Message = "Введіть правильні дані для створення товару"
       aMessage.TimeShow = 3000;
 
       this.globalHub.addAlertMessage(aMessage);
@@ -290,8 +290,8 @@ export class CreateAdComponent implements OnInit {
         let response : any = res;
         if(response.isError){
           let aMessage = new AlertMessage();
-          aMessage.Title = "Ошибка создания :(";
-          aMessage.Message = "Сервер не смог создать объявление"
+          aMessage.Title = "Помилка створення :(";
+          aMessage.Message = "Сервер не зміг створити оголошення"
           aMessage.TimeShow = 3000;
           this.globalHub.addAlertMessage(aMessage);
           return;
@@ -299,8 +299,8 @@ export class CreateAdComponent implements OnInit {
           this.route.navigate([`/card-ad/${response.idAd}`]);
       }, err => {
         let aMessage = new AlertMessage();
-        aMessage.Title = "Ой что-то пошло не так :(";
-        aMessage.Message = "В этом нет вашей вины, попробуйте повторить попытку позже";
+        aMessage.Title = "Ой щось пішло не так :(";
+        aMessage.Message = "У цьому немає вашої провини, спробуйте повторити спробу пізніше";
         aMessage.TimeShow = 3000;
         this.globalHub.addAlertMessage(aMessage);
       });

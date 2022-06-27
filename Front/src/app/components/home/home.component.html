@@ -15,14 +15,14 @@
                 <span></span>
             </div>
          </div>
-           <span class="txtTitle-filters">Категории</span> 
+           <span class="txtTitle-filters">Категорії</span> 
         </div>
             <div id="filtersList" (click)="ChoiceCategoty($event)" >    
                 <ul>          
                   <li>
                     <label for="0" (click)="ChangeCheckBoxCat($event)" >
                       <input type="checkbox" id="0">
-                       <span> Все категории</span>
+                       <span> Всі категорії</span>
                   </label>
                   </li>    
                     <li *ngFor="let cat of typeAd.Categories; let i = index;" >
@@ -48,7 +48,7 @@
                    <span></span>
                </div>
             </div>
-              <span class="txtTitle-filters">Популярные бренды</span> 
+              <span class="txtTitle-filters">Популярні бренди</span> 
            </div>
            <div id="filtersList" >    
             <ul>
@@ -95,7 +95,7 @@
     </div>
    
 <div id="VipBlock">
-    <span id="VipTitle">VIP-обьявления</span>
+    <span id="VipTitle">VIP-Оголошення</span>
     <div id="containerVipAds">
         <ng-container *ngFor="let ad of VipAds; let i = index" >
             <div class="AbsItem" id="{{ad.id}}" (click)="watchAd(ad.id)"  >
@@ -110,15 +110,17 @@
 </div>
 <div id="GeneralAdsBlock">
     <div id="titles" (click)="changePartPage($event)" >
-        <span [class.ActivePartPage]="acrivePartPage == 0" >Все товары</span>
-        <span [class.ActivePartPage]="acrivePartPage == 1" >Популярные</span>
-        <span [class.ActivePartPage]="acrivePartPage == 2" >Рекомендованные</span>
+        <span [class.ActivePartPage]="acrivePartPage == 0" >Всі товари</span>
+        <span [class.ActivePartPage]="acrivePartPage == 1" >Популярні</span>
+        <span [class.ActivePartPage]="acrivePartPage == 2" >Рекомендовані</span>
     </div>
         <div id="containerGeneralAds">
 
             <div class="alert alert-success" role="alert" *ngIf="countPage.length == 0" >
-                <h4 class="alert-heading"> Объявлений по вашему запросу не найдено :(</h4>
-                <p>Проверьте правильность написания запроса или измените параметры фильтрации</p>
+                <h4 class="alert-heading"> Оголошень по вашому запиту не знайдено :(</h4>
+                <p>
+                  Перевірте правильність написання запитів або змініть значення фільтрів
+                </p>
               </div>
 
             <div class="ItemsLine">
@@ -135,7 +137,7 @@
     <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="countPage.length > 0" >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="isLeftDis" >
-                <a class="page-link" href="/home#ads"  id="0">Previous</a>
+                <a class="page-link" href="/home#ads"  id="0">Попередня</a>
               </li>
 
             <ng-container *ngFor="let numPage of linePagin;let i = index">
@@ -149,7 +151,7 @@
             </ng-container>
 
               <li class="page-item" [class.disabled]="isRightDis" >               
-                <a class="page-link" href="/home#ads" id="{{countPage.length+2}}" >Next</a>
+                <a class="page-link" href="/home#ads" id="{{countPage.length+2}}" >Наступна</a>
               </li>
             </ul>
     </div>   

@@ -24,29 +24,29 @@
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <label class="input-group-text" for="TypeAd">Тип объявления</label>
+                <label class="input-group-text" for="TypeAd">Тип оголошення</label>
               </div>
               <select class="custom-select" id="TypeAd" [(ngModel)]="requData.TypeAd" >
-                <option value="Бизнес">Бизнес</option>
-                <option value="Частное">Частное</option>
+                <option value="Бизнес">Бізнес</option>
+                <option value="Частное">Приватне</option>
               </select>
             </div>
             <span class="errorMsgOffset" >{{errMsg.TypeAd}}</span>
 
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text" for="QualityAd">Состояние</label>
+                  <label class="input-group-text" for="QualityAd">Стан</label>
                 </div>
                 <select class="custom-select" id="QualityAd" [(ngModel)]="requData.Quality" >
-                  <option value="Новое">Новое</option>
-                  <option value="Б/У">Б/У</option>
+                  <option value="Новое">Нове</option>
+                  <option value="Б/У">Б/В</option>
                 </select>
               </div>
               <span class="errorMsgOffset" >{{errMsg.Quality}}</span>
 
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">Категория</label>
+                  <label class="input-group-text" for="inputGroupSelect01">Категорія</label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Category" (change)="changeCat($event)" >
                   <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{i+1}}" >{{cat.name}}</option>
@@ -77,7 +77,7 @@
 
               <div class="input-group mb-3 is-invalid ">
                 <div class="input-group-prepend">
-                  <label class="input-group-text" for="Describe" >Описание</label>
+                  <label class="input-group-text" for="Describe" >Опис</label>
                 </div>
                   <textarea name="" id="Describe" [(ngModel)]="requData.Describe" class="form-control" cols="30" rows="10"></textarea>                    
               </div>
@@ -88,20 +88,20 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="IsDelivery"  [(ngModel)]="requData.IsDelivery" >
                 <label class="form-check-label" for="IsDelivery">
-                  С доставкой
+                  З доставкою
                 </label>
               </div>
 
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="isNegotiatedPrice"  [(ngModel)]="requData.isNegotiatedPrice" >
                 <label class="form-check-label" for="isNegotiatedPrice">
-                  Договорная цена
+                  Договірна ціна
                 </label>
               </div>
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                      <label class="input-group-text" for="price">Цена</label>
+                      <label class="input-group-text" for="price">Ціна</label>
                   </div>
                   <input type="number" class="form-control" id="price" [(ngModel)]="requData.Price"  >
                   <span class="errorMsg" >{{errMsg.Price}}</span>

@@ -56,7 +56,7 @@ export class MyFavoriteComponent implements OnInit {
   }
 
   deleteAllFavorites(){
-    let isConfirm = confirm("Действительно удалить все товары из избранных?");
+    let isConfirm = confirm("Дійсно видалити всі товари з вибраних?");
     if(isConfirm){
       for(let item of this.arrAds){
         item.ad.isFavorite = false;

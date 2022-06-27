@@ -1,24 +1,24 @@
 
 <div id="containerAds">
-  <h1>Мои объявления</h1>
+  <h1>Мої оголошення</h1>
   <div class="navbar navbar-dark bg-dark">
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         
         <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,3)" id="0" >Опубликованные ({{arrCountsItem[0]}})</a>
+          <a class="navbar-brand" (click)="loadAds($event,3)" id="0" >Опубліковані ({{arrCountsItem[0]}})</a>
         </div>
 
         <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,2)" id="1"  >Ожидающие ({{arrCountsItem[1]}}) </a>
+          <a class="navbar-brand" (click)="loadAds($event,2)" id="1"  >Перевіряються ({{arrCountsItem[1]}}) </a>
         </div>
 
         <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,4)" id="2">Отклонённые ({{arrCountsItem[2]}}) </a>
+          <a class="navbar-brand" (click)="loadAds($event,4)" id="2">Відхилені ({{arrCountsItem[2]}}) </a>
         </div>
 
         <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,1)" id="3">Неактивны ({{arrCountsItem[3]}}) </a>
+          <a class="navbar-brand" (click)="loadAds($event,1)" id="3">Неактивні ({{arrCountsItem[3]}}) </a>
         </div>
 
       </nav>
@@ -27,10 +27,10 @@
 
   
   <div class="alert alert-success" role="alert" *ngIf="noAds" >
-    <h4 class="alert-heading"> У вас ещё нет опубликованных объявлений :(</h4>
-    <p>На этой странице вы сможете отслеживать свои публикации когда добавите их</p>
+    <h4 class="alert-heading"> У вас ще немає опублікованих оголошень :(</h4>
+    <p>На цій сторінці ви зможете відстежувати свої публікації, коли додасте їх</p>
     <hr>
-    <p class="mb-0">Для создания объявления нажмите на "Подать объявление"</p>
+    <p class="mb-0">Для створення оголошення натисніть на "Подати оголошення"</p>
   </div>
 
   <div class="card-deck" *ngFor="let col of adsCol; let i = index;" >
@@ -39,12 +39,12 @@
       <div class="card-body">
         <h5 class="card-title">{{row.data.title}}</h5>
         <p class="card-text"></p>
-        <p class="card-text"><small class="text-muted">Опубликовано до: {{row.data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
+        <p class="card-text"><small class="text-muted">Опубліковано до: {{row.data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
        
         <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
-          <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Просмотреть</button>
-          <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="editAd($event)" >Изменить</button>
-          <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="deleteAd($event)"  >Удалить</button>
+          <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Переглянути</button>
+          <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="editAd($event)" >Змінити</button>
+          <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="deleteAd($event)"  >Видалити</button>
         </div>
       </div>
     </div>

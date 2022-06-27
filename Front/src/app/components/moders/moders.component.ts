@@ -50,7 +50,7 @@ export class ModersComponent implements OnInit {
 
   deleteModer(id : number){
 
-  let isConfirmDelite = confirm(`Вы действительно хотите удалить модератора 
+  let isConfirmDelite = confirm(`Ви дійсно хочете видалити модератора? 
     ${this.modersCollect.find( m => m.id == id ).email}`);
 
     if(isConfirmDelite == false){
@@ -67,8 +67,8 @@ export class ModersComponent implements OnInit {
         this.globalHub.addAlertMessage(aMessage);
       }
       else{
-        aMessage.Title = "Успешно";
-        aMessage.Message = "Модератор удалён";
+        aMessage.Title = "Успішно";
+        aMessage.Message = "Модератор вилучено";
         this.loadModers();
       }
       this.globalHub.addAlertMessage(aMessage);

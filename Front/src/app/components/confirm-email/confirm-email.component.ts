@@ -41,8 +41,8 @@ export class ConfirmEmailComponent implements OnInit {
           this.router.navigate(['/authorization']);
 
           let aMessage = new AlertMessage();
-          aMessage.Title = "Успешно";
-          aMessage.Message = "Ваша почта была успешно подтверждена"
+          aMessage.Title = "Успішно";
+          aMessage.Message = "Вашу пошту було успішно підтверджено"
           this.globalHub.addAlertMessage(aMessage);
 
         },

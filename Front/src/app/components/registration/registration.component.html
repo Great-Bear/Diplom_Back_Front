@@ -2,14 +2,14 @@
 <div id="regForm">
     <div id="regOrLog" >
         <div>
-             <a routerLink="/registration" routerLinkActive="active" > Регистрация </a>
+             <a routerLink="/registration" routerLinkActive="active" > Реєстрація </a>
         </div>
         <div>
-            <a routerLink="/authorization" class="disLink" >  Войти </a>
+            <a routerLink="/authorization" class="disLink" >  Увійти </a>
         </div>
     </div>
     <div id="socialLogIn" >
-        <span id="titleSocLogIn" >Вход с помощью</span>
+        <span id="titleSocLogIn" >Вхід за допомогою</span>
         <div id="socLinks">
             <figure>
                 <img src="../assets/imgs/Facebook_icon_2013 1.png" >            
@@ -24,22 +24,22 @@
                 <figcaption>Telegram</figcaption>    
             </figure>
         </div>
-        <div id="borderWord"> <span>или</span>  </div>
+        <div id="borderWord"> <span>або</span>  </div>
     </div>
     <div id="formUser">
         <form  >
             <div class="blockField" >
-                <label for="login" class="labelText" >Укажите ваш email</label>
+                <label for="login" class="labelText" >Вкажіть ваш email</label>
                 <input type="text" name="login" id="login" [(ngModel)]="login" >  
                 <span class="errorMessage">{{loginErrMsg}}</span>       
             </div>
             <div class="blockField">
-                <label for="password" class="labelText" >Введите свой пароль</label>
+                <label for="password" class="labelText" >Введіть свій пароль</label>
                 <input type="password" name="password"  [(ngModel)]="passwd" >
                 <span class="errorMessage" >{{passwdErrMsg}}</span>   
             </div>
             <div class="blockField">
-                <label for="password2" class="labelText" >Повторите пароль</label>
+                <label for="password2" class="labelText" >Повторіть пароль</label>
                 <input type="password" name="password2" [(ngModel)]="passwd2" >
                 <span class="errorMessage" >{{passwd2ErrMsg}}</span>   
             </div>
@@ -49,14 +49,14 @@
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                 </div>
                 <div>
-                    <span id="policyText">Я соглашаюсь с правилами использования сервиса,
-                    и с передачей и обработкой моих данных в JBS.com,
-                    а также я подтверждаю своё совершеннолетие и отвецтвенность
-                    за размещение объявлений</span>
+                    <span id="policyText">Я погоджуюсь із правилами використання сервісу,
+                        та з передачею та обробкою моїх даних у JBS.com,
+                        а також я підтверджую своє повноліття та відповідальність
+                        за розміщення оголошень</span>
                     </div>
             </div>
         
-            <button type="button" id="regButt" (click)="sendData()" >Регистрация</button>
+            <button type="button" id="regButt" (click)="sendData()" >Реєстрація</button>
 
         </form>
        

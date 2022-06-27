@@ -50,8 +50,8 @@ export class AddModerComponent implements OnInit {
       else{
         this.newModer.email = "";
         this.newModer.password = "";
-        aMessage.Title = "Успешно";
-        aMessage.Message = "Модер добавлен";     
+        aMessage.Title = "Успішно";
+        aMessage.Message = "Модер створенний";     
 
         this.globalHub.UpdateListModers();
 
@@ -68,7 +68,7 @@ export class AddModerComponent implements OnInit {
     this.err.password = this.checkPassword(this.newModer.password);
 
     if( !this.loginRegExp.test(this.newModer.email) ){
-      this.err.email = "Некорректная почта";
+      this.err.email = "Некоректна пошта";
     }
     else{
       this.err.email = "";
@@ -83,16 +83,16 @@ export class AddModerComponent implements OnInit {
   checkPassword( passwd : string){
     let err;
     if( passwd.length < 8 ){
-      err = "Пароль должен быть минимум из 8 символов" ;
+      err = "Пароль має бути мінімум із 8 символів" ;
     }    
     else if( !this.upCaseRegExp.test( passwd ) ) {
-      err = "В пароле должа быть хотя бы одна большая буква" ;
+      err = "У паролі має бути хоча б одна велика літера" ;
     }
     else if( !this.lowCaseRgExp.test( passwd ) ){
-      err = "В пароле должа быть хотя бы одна маленькая буква" ;
+      err = "У паролі має бути хоча б одна маленька буква" ;
     }
     else if( !this.specSymRegExp.test( passwd ) ){
-      err = "В пароле должен быть хотя бы один спец. символ" ;
+      err = "У паролі має бути хоча б один спец. символ" ;
     }
     else{
       err = "";

@@ -275,44 +275,61 @@ namespace JBS_API.Controllers
 
         [HttpGet]
         [Route("GetOneAd")]
-        public JsonResult GetAd(int idAd)
+        public async Task<JsonResult> GetAd(int idAd)
         {
-            var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
-            var countImgs = _dbContext.Imgs.Count(i => i.AdId == idAd);
-
-           
-            _dbContext.Entry(ad).Collection("Filter_Ads").Load();
-            int[] filters = new int[ad.Filter_Ads.Count()];
-
-            for (int i = 0; i < ad.Filter_Ads.Count(); i++) 
+            try
             {
-                filters[i] = ad.Filter_Ads.ElementAt(i).FilterValueId;
+                var ad = _dbContext.Ads.FirstOrDefault(a => a.Id == idAd);
+                var countImgs = _dbContext.Imgs.Count(i => i.AdId == idAd);
+
+
+                _dbContext.Entry(ad).Collection("Filter_Ads").Load();
+                int[] filters = new int[ad.Filter_Ads.Count()];
+
+                for (int i = 0; i < ad.Filter_Ads.Count(); i++)
+                {
+                    filters[i] = ad.Filter_Ads.ElementAt(i).FilterValueId;
+                }
+
+
+                var resp = new Resp_One_Ad();
+
+                if (ad == null)
+                {
+                    resp.Error = "Несуществующий товар";
+                    resp.IsError = true;
+                    return Json(resp);
+                }
+
+                await _dbContext.Entry(ad).Reference(ad => ad.QualityAd).LoadAsync();
+                await _dbContext.Entry(ad).Reference(ad => ad.TypeOwner).LoadAsync();
+
+                resp.Title = ad.Title;
+                resp.Describe = ad.Describe;
+                resp.Price = ad.Price.ToString();
+                resp.CountImgs = countImgs;
+                resp.idOwner = ad.UserId;
+                resp.idCategory = ad.CategoryId;
+                resp.idBrend = ad.BrendId;
+                resp.phoneNumber = ad.PhoneNumber;
+                resp.isNegotiatedPrice = ad.isNegotiatedPrice;
+                resp.isDelivery = ad.isDelivery;
+                resp.Filter_Ads = filters;
+                resp.idCurrency = ad.CurrencyId;
+                resp.Quality = ad.QualityAd.Name;
+                resp.typeOwner = ad.TypeOwner.Name;
+                resp.timeEnd = ad.TimeEnd;
+
+                return Json(new
+                {
+                    isError = false,
+                    data = resp
+                }); ;
             }
-
-            
-            var resp = new Resp_One_Ad();
-
-            if (ad == null)
+            catch(Exception ex) 
             {
-                resp.Error = "Несуществующий товар";
-                resp.IsError = true;
-                return Json(resp);
+                return Json(new Error());
             }
-            
-            resp.Title = ad.Title;
-            resp.Describe = ad.Describe;
-            resp.Price = ad.Price.ToString();
-            resp.CountImgs = countImgs;
-            resp.idOwner = ad.UserId;
-            resp.idCategory = ad.CategoryId;
-            resp.idBrend = ad.BrendId;
-            resp.phoneNumber = ad.PhoneNumber;
-            resp.isNegotiatedPrice = ad.isNegotiatedPrice;
-            resp.isDelivery = ad.isDelivery;
-            resp.Filter_Ads = filters;
-            resp.idCurrency = ad.CurrencyId;
-            
-            return Json(resp);
         }
         [HttpPost]
         [Route("EditAd")]

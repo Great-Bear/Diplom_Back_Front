@@ -16,6 +16,29 @@
 
     white-space: nowrap;
 }
+
+#trianglLanguag
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 22px;
+    color: #FFFFFF;
+}
+
+#trianglLanguag::after
+{
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: 110%;
+    width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 10px solid white;
+}
+
+
 #container
 {
     width: 90%;
@@ -526,5 +549,32 @@ footer{
     #createAd img
     {
         width: 15px;
+    }
+
+    
+    #trianglLanguag
+    {
+        font-family: 'Roboto';
+        font-weight: 400;
+        font-size: 14px;
+        color: #FFFFFF;
+    }
+
+    #trianglLanguag::after
+    {
+        content: "";
+        position: absolute;
+        top: 40%;
+        left: 110%;
+        width: 0;
+        height: 0;
+        margin-right: 5px;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        border-top: 6px solid white;
+    }
+    #iconProfile
+    {
+      width: 28px !important;  
     }
 }

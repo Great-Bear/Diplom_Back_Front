@@ -4,10 +4,10 @@
 
         <div class="blockContent">
             <span class="leftPart" id="titleBlockFilter">
-                Фильтры
+                Фільтри
             </span>
             <span class="rightPart" id="rightPartTilte" (click)="resetFilters()" >
-                сбросить
+                Скинути 
                 <img src="../assets/imgs/LittleCancel.png" alt="resetFilter">
             </span>
         </div>
@@ -15,7 +15,7 @@
         <div id="catBlockList">
             <div class="blockContent"  (click)="openCloseTaggle($event)" >
                 <span class="leftPart">
-                    Категории
+                    Категорії
                 </span>
                 <span class="rightPart" >
                     <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
@@ -32,7 +32,7 @@
                     <ul>
                         <li class="filterItems" id="0" (click)="choiceAllCat()" >
                             <span >
-                               Все категории
+                               Всі категорії
                             </span>
                             <span >
                                 <img style="opacity: 0;" src="../assets/imgs/RightTriangle.png" alt="openCat">
@@ -84,7 +84,7 @@
         <div>
             <div class="blockContent" (click)="openCloseTaggle($event)"  >
                 <span class="leftPart">
-                    Состояние
+                    Стан
                 </span>
                 <span class="rightPart" >
                     <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
@@ -94,19 +94,19 @@
                 <label for="stateAll" id="0" (click)="choiceQualityAd($event)" >             
                     <div>      
                         <input class="custom-radio" type="radio" name="state" id="stateAll" checked>                 
-                        <label for="stateAll">Все</label>
+                        <label for="stateAll">Всі</label>
                     </div>
                 </label>
                 <label for="stateNew" id="1" (click)="choiceQualityAd($event)" > 
                     <div>
                         <input class="custom-radio" type="radio" name="state" id="stateNew">
-                        <label for="stateNew">Новые</label>
+                        <label for="stateNew">Нові</label>
                     </div>
                 </label>
                     <label for="S/H" id="2" (click)="choiceQualityAd($event)" > 
                     <div>
                         <input class="custom-radio" type="radio" name="state" id="S/H">
-                        <label for="S/H">Б/у</label>
+                        <label for="S/H">Б/в</label>
                     </div>
                 </label>
               </div>
@@ -125,7 +125,7 @@
                     <label for="isDelivery" (click)="changeIsDelivery()"  > 
                         <div class="checkbox" id="containerCheboxDeliv"   >
                             <input class="custom-checkbox" type="checkbox" id="isDelivery"   name="color-1" value="Только с доставкой">
-                            <label for="isDelivery" id="isDeliveryText" >Только с доставкой</label>
+                            <label for="isDelivery" id="isDeliveryText" >Тільки з доставкой</label>
                         </div>
                     </label>
                 </div>
@@ -134,7 +134,7 @@
             <div>
                 <div class="blockContent" (click)="openCloseTaggle($event)"  >
                     <span class="leftPart">
-                        Цена
+                        Ціна
                     </span>
                     <span class="rightPart" >
                         <img src="../assets/imgs/Triangle_Filter.png" alt="openCat">
@@ -230,14 +230,14 @@
                         <svg class=" arrowUp"  width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
                         </svg>
-                        дате
+                        даті
                     </span>
 
                     <span>
                         <svg class="arrowUp" width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
                         </svg>
-                        цене
+                        ціні
                     </span>
                     <span id="random">
                         <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,7 +248,7 @@
 
                 <div (click)="pickedCurrency($event)" id="blockCurrency" >
                     <span>Валюта:</span>
-                    <span class="isPickedItemCurrency" id="0">все</span>
+                    <span class="isPickedItemCurrency" id="0">всі</span>
                     <span id="1" >грн.</span>
                     <span id="2" >$</span>
                     <span id="3">€</span>
@@ -259,14 +259,14 @@
         <div id="blockAds2" >
 
             <div class="alert alert-primary" *ngIf="isLoadItem" role="alert">
-               Загрузка товаров
+                Завантаження товарів
               </div>
 
               <div class="alert alert-success" role="alert" *ngIf="isNoAds" >
-                <h4 class="alert-heading">По вашему запросу ничего не найдено ¯\_(ツ)_/¯</h4>
-                <p>Попробуйте поменять настройки фильтрации</p>
+                <h4 class="alert-heading">За вашим запитом нічого не знайдено ¯\_(ツ)_/¯</h4>
+                <p>Спробуйте змінити налаштування фільтрації</p>
                 <hr>
-                <p class="mb-0">Также можете поискать другие товары</p>
+                <p class="mb-0">Також можете пошукати інші товари</p>
               </div>
 
             <div *ngIf="!isPlitcaShow">
@@ -283,7 +283,7 @@
                                 <div>{{i.title}}</div>
                                 <div class="infoAd">
                                     <div class="locationAd">
-                                        Украина, Львов - Сегодня 21:00
+                                        Україна, Львів - Опубліковано до: {{i.timeEnd | date: 'dd.MM.yyyy:h:mm'}}
                                     </div>
                                     <div class="phoneNumberAd">
                                     {{i.phoneNumber}}
@@ -297,7 +297,7 @@
                             <div>
                                 <div class="pricePart" >
                                     <div class="pricaAd">{{i.price}} {{i.currency.name}}</div>
-                                    <div class="casePrice" *ngIf="i.isNegotiatedPrice" >Договорная</div>
+                                    <div class="casePrice" *ngIf="i.isNegotiatedPrice" >Договірна</div>
                                 </div>
 
                                 <div (click)="changeFavoriteState($event,i.id)" >
@@ -345,7 +345,7 @@
                             </div>
                             <div class="extraInfoAd">
                                 <div class="locationAd">
-                                    Украина, Львов - Сегодня 21:00
+                                    Україна, Львів - Опубліковано до: {{i.timeEnd | date: 'dd.MM.yyyy:h:mm'}}
                                 </div>
                                 <div class="phoneNumberAd">
                                     {{i.phoneNumber}}
@@ -366,7 +366,7 @@
         <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="!isLoadItem" >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="isLeftDis" >
-                <a class="page-link"   id="0">Предыдущая</a>
+                <a class="page-link"   id="0">Попередня</a>
               </li>
 
             <ng-container *ngFor="let numPage of linePagin;let i = index">
@@ -380,7 +380,7 @@
             </ng-container>
 
               <li class="page-item" [class.disabled]="isRightDis" >               
-                <a class="page-link"  id="{{countPage.length+2}}" >Следующая</a>
+                <a class="page-link"  id="{{countPage.length+2}}" >Наступна</a>
               </li>
             </ul>
     </div>   

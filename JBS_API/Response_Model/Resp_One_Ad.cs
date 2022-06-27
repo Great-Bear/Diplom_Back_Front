@@ -1,4 +1,5 @@
 ﻿using JBS_API.DB_Models;
+using System;
 using System.Collections.Generic;
 
 namespace JBS_API.Response_Model
@@ -18,6 +19,10 @@ namespace JBS_API.Response_Model
         public string phoneNumber { get; set; }
         public bool isNegotiatedPrice { get; set; }
         public bool isDelivery { get; set; }
+        public string Quality { get; set; }
+        public string typeOwner { get; set; }
+        public DateTime timeEnd { get; set; }
+
         public int[] Filter_Ads { get; set; }
     }
 }

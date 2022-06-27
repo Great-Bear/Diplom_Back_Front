@@ -76,17 +76,21 @@ export class EditAdComponent implements OnInit {
 
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
-                    this.requData = res;
+                    let response : any = res;
+              
+                    if(response.IsError == true){
+                      this.globalHub.addAlertMessage(new AlertMessage());
+                      return;
+                    }
+
+                    this.requData = response.data;
                     let filteList_Db : any = res;
 
                     this.requData.FiltersValue = new Array();
-                    for(let itemFilter of filteList_Db.filter_Ads){
+                    for(let itemFilter of filteList_Db.data.filter_Ads){
                       this.requData.FiltersValue.push(itemFilter);
                     }
 
-                    if(this.requData.IsError == true){
-                      console.log("error");
-                    }
 
                     this.httpService.getFilters(Number.parseInt(this.requData.idCategory))
                     .subscribe(res => {
@@ -118,26 +122,45 @@ export class EditAdComponent implements OnInit {
                         }
                       )
                     }  
-                    this.httpService.getCategories().subscribe( 
-                      res => {
-                        if(res instanceof Array){
-                         this.typeAd.Categories = res;
-                         this.Category = res[this.requData.idCategory - 1].name;                        
-                        }
-                      }
-                     )    
-                     this.httpService.getBrands().subscribe( 
-                       res => {
-                         if(res instanceof Array){
-                          this.typeAd.Brends = res;
-                          this.requData.Brend = this.requData.idBrend-1;
-                         }
-                       }
-                      )
-
+                     this.LoadCategoreis();
                   }
                 )
               }
+
+  private LoadCategoreis(){
+    if( !(this.globalHub.currentCatLayers.getValue() instanceof Array) ){
+      this.globalHub.categoriesLayers.subscribe(res => {
+        this.parseCatLayer(res);
+      })
+    }
+    else{
+      this.parseCatLayer(
+        this.globalHub.currentCatLayers.getValue()
+      );
+    }
+    }
+
+    private parseCatLayer(carLayer : any){
+    
+      let catsList = new Array();
+  
+      for(let itemL3 of carLayer){
+        for(let itemL2 of itemL3.data){
+          let index = 0;
+          for(let cat of itemL2.cat){
+            let catItem = {
+              name : cat,
+              id : itemL2.idCat[index]
+            }
+             catsList.push(catItem);
+             index++;
+          }
+        }
+      }
+      this.Category = catsList[this.requData.idCategory - 1].name; 
+      console.log(this.Category);
+      console.log(catsList[this.requData.idCategory - 1].name);
+    }
 
   ngOnInit(): void {
   }
@@ -200,55 +223,55 @@ export class EditAdComponent implements OnInit {
     let isError = false;
 
     if(this.requData.title.length == 0){
-      this.errMsg.Title = "Заголовок не может быть пустым";
+      this.errMsg.Title = "Заголовок не може бути порожнім";
     }
     else{
       this.errMsg.Title = "";
     }
 
     if(this.requData.describe.length == 0){
-      this.errMsg.Describe = "Описание не может быть пустым";
+      this.errMsg.Describe = "Опис не може бути порожнім";
     }
     else{
       this.errMsg.Describe = "";
     }
 
     if(this.requData.phoneNumber.length <= 0){
-      this.errMsg.Phone = "Номер телефона не может быть пустым";
+      this.errMsg.Phone = "Номер телефону не може бути порожнім";
     }
     else if(this.phoneRegExp.test(this.requData.phoneNumber)){
-      this.errMsg.Phone = "Некорректный номер телефона";
+      this.errMsg.Phone = "Некоректний номер телефону";
     }
     else{
       this.errMsg.Phone = "";
     }
 
     if(this.requData.price.length <= 0){
-      this.errMsg.Price = "Цена не может быть пустой";
+      this.errMsg.Price = "Ціна не може бути порожньою";
     }
     else if (this.priceRegExp.test(this.requData.price)){
-      this.errMsg.Price = "Цена может состоять только из цифр"
+      this.errMsg.Price = "Ціна може складатися лише з цифр"
     }
     else{
       this.errMsg.Price = "";
     }
 
    if(this.requData.category == ""){
-    this.errMsg.Category = "Выберете категорию";
+    this.errMsg.Category = "Виберіть категорію";
    }
    else{
     this.errMsg.Category = "";
    }
 
    if(this.requData.typeAd == ""){
-     this.errMsg.TypeAd = "Выберете тип объявления";
+     this.errMsg.TypeAd = "Виберіть тип оголошення";
    }
    else{
      this.errMsg.TypeAd = "";
    }
 
    if(this.requData.quality == ""){
-    this.errMsg.Quality = "Выберете состояние объявления";
+    this.errMsg.Quality = "Виберіть стан оголошення";
   }
   else{
     this.errMsg.Quality = "";
@@ -259,7 +282,7 @@ export class EditAdComponent implements OnInit {
   if(this.filterList.length != 0){
     for(let i = 0; i < this.requData.FiltersValue.length; i++){
       if(this.requData.FiltersValue[i] == null){
-        this.errMsg.Filters[i] = `Веберети ${this.filterList[i].filterName}`;
+        this.errMsg.Filters[i] = `Виберіть ${this.filterList[i].filterName}`;
         isFilterEmpty = true;
       }
       else{
@@ -290,8 +313,8 @@ export class EditAdComponent implements OnInit {
     if(this.findErrorForm() == true){
 
       let aMessage = new AlertMessage();
-      aMessage.Title = "Некорректные данные :(";
-      aMessage.Message = "Введите коректные данные для создания товара;"
+      aMessage.Title = "Некоректні дані :(";
+      aMessage.Message = "Введіть коректні дані для створення товару;"
       aMessage.TimeShow = 3000;
 
       this.globalHub.addAlertMessage(aMessage);
@@ -299,11 +322,6 @@ export class EditAdComponent implements OnInit {
       return;
     }
 
-
-    let aMessage = new AlertMessage();
-      aMessage.Title = "нет ошибок";
-      aMessage.Message = "Введите коректные данные для создания товара;"
-      aMessage.TimeShow = 3000;
 
 
     this.requData.idUser = this.cookieService.get("idUser");

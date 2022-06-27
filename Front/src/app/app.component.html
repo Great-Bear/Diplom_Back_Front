@@ -6,7 +6,9 @@
                     </div>   
                     <div id="links" *ngIf="!isAnonimUser" >   
                         <div>
-                            <img src="../assets/imgs/TriangleNavBlock.svg" alt="">
+                            <span id="trianglLanguag" >
+                                UA
+                            </span>
                         </div>
                         <div routerLink="/mychats">
                             <img src="../assets/imgs/ChatNavBlock.svg" >
@@ -17,13 +19,13 @@
                             <span class="countMsg" >{{countFavoriteAd}}</span>
                         </div>
                         <div class="dropdown">
-                            <img src="../assets/imgs/ProfileNavBlock.svg" alt="">
+                            <img id="iconProfile" src="../assets/imgs/ProfileNavBlock.svg" alt="">
                             <div id="dropBlock">                          
                                     <div class="dropdown-content">
-                                        <a routerLink="/my-ads" *ngIf="!isModer" > Мои обьявление</a>
-                                        <a *ngIf="isModer || isAdmin" routerLink="/moderPage" >Модерировать</a>
-                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Админка</a>                                  
-                                        <a (click)="LogOut()" >Выйти</a>
+                                        <a routerLink="/my-ads" *ngIf="!isModer" > Мої оголошення</a>
+                                        <a *ngIf="isModer || isAdmin" routerLink="/moderPage" >Модерувати</a>
+                                        <a *ngIf="isAdmin" routerLink="/admin_controller">Адмінка</a>                                  
+                                        <a (click)="LogOut()" >Вийти</a>
                                         
                                     </div>
                             </div>
@@ -31,12 +33,12 @@
 
                         <div routerLink="create-ad" id="createAd" *ngIf="!isModer && !isAdmin" >
                             <img src="../assets/imgs/PlusNavBlock.svg" >
-                            <span>Подать обьявление</span> 
+                            <span>Подати оголошення</span> 
                         </div>   
                         
                         <div id="createAd" class="noneCreateAd" *ngIf="isModer || isAdmin" >
                             <img src="../assets/imgs/PlusNavBlock.svg" >
-                            <span>Подать обьявление</span> 
+                            <span>Подати оголошення</span> 
                         </div>
 
                     </div>                 
@@ -49,7 +51,7 @@
             <div id="leftPart">
                 <div id="leftPartContainer">
                     <div id="searchInpit">
-                        <input type="text" [(ngModel)]="searchWord" (input)="inputSearchWord()" placeholder="14 2343 Обьявлений рядом" >
+                        <input type="text" [(ngModel)]="searchWord" (input)="inputSearchWord()" placeholder="14 2343 Оголошень поряд" >
                         <img class="pointerCursor" src="../assets/imgs/Cancle_Icon.png" alt="clearSearchLine" (click)="clearSearchLine()" >
                         <div id="dropSearchWord" *ngIf="sameWords.length > 0" >
                             <ul>
@@ -71,7 +73,7 @@
                                         <span (click)="choiceLocation(i,-1,-1)">
                                             {{item.Name}}
                                         </span>
-                                        <span (click)="OpenCloseMenuLocation(i,-1)">
+                                        <span (click)="OpenCloseMenuLocation(i,-1)" *ngIf="item.Children.length != 0">
                                             <img *ngIf="item.IsOpen" src="../assets/imgs/OpenLocation.png" alt="openMenu">
                                             <img *ngIf="!item.IsOpen" src="../assets/imgs/CloseLocation.png" alt="CloseMenu">
                                         </span>
@@ -86,7 +88,7 @@
                                                             {{item.Name}}
                                                         </p>
                                                     </span>
-                                                    <span (click)="OpenCloseMenuLocation(i,j)">
+                                                    <span (click)="OpenCloseMenuLocation(i,j)" *ngIf="item2.Children.length != 0" >
                                                         <img *ngIf="item2.IsOpen" src="../assets/imgs/OpenLocation.png" alt="openMenu">
                                                         <img *ngIf="!item2.IsOpen" src="../assets/imgs/CloseLocation.png" alt="CloseMenu">
                                                     </span>                     

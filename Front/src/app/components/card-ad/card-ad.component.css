@@ -108,15 +108,12 @@ img
     margin: 50px 40px 0 40px;
     margin: auto;
     padding-top: 30px;
-    background-color: rgb(224, 212, 212);
     width: 1270px;
 }
 
 #infoAdBlock
 {
     width: 760px;
-  
-    background-color: rgb(206, 73, 73);
    
 }
 #rightBlock
@@ -125,11 +122,83 @@ img
     top: 30px;
     left: 790px;
     width: 480px;
+
+}
+
+#authorBlock
+{
     border-radius: 7px;
     background-color: white;
     padding: 20px 25px 20px 25px;
 }
 
+#extraAdsAuthorBlock
+{
+    margin-top: 55px;
+}
+
+.extraAds
+{
+    height: 220px;
+    width: 100%;
+    display: flex;
+    margin-top: 15px;
+
+}
+
+.infoExtraAds
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    padding: 15px;
+}
+
+.titleExtraAds
+{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 18px;
+    color: #394C59;
+}
+
+.buttomExtraAds
+{
+    display: flex;
+    justify-content: space-between;
+
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 20px;
+
+    color: #394C59;
+}
+
+.imgExtraAds
+{
+    width: 230px;
+    height: 216px;
+    
+}
+
+#titleExtraAds
+{
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 26px;
+    color: #253947;
+}
+
+.arrowExtraAds {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-top: 3px solid #253947;
+    border-right: 3px solid #253947;
+    border-radius: 3px;
+    margin-right: 5px;
+}    
 
 #AuthorInfo
 {
@@ -192,8 +261,12 @@ img
     margin-top: 10px;
     width: 760px;
     height: 400px;
-    background-color: rgb(73, 206, 102);
+    padding: 25px 35px 65px 35px;
+    background: #FFFFFF;
+    border-radius: 7px;
 }
+
+
 #sliderBlock
 {
     height: 50%;
@@ -296,11 +369,11 @@ img
 #blockMetaItems
 {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     min-width: 20px;
-    width: 58%;
+  
 }
 #blockMetaItems span
 {
@@ -308,6 +381,7 @@ img
     padding: 0px 18px 0px 18px;
     border: 1px solid #6A7881;
     border-radius: 40px;
+    margin: 0 15px 0 15px;
 
     font-family: 'Roboto';
     height: 26px;
@@ -315,6 +389,10 @@ img
     font-size: 17px;
 
     color: #6A7881;
+}
+#blockMetaItems span:nth-child(1)
+{
+    margin: 0 15px 0 0px;
 }
 
 #describeBlock
@@ -385,12 +463,7 @@ img
     border-bottom: 1px solid #9DA4B1;
 }
 
-#blockComment
-{
-    padding: 25px 35px 65px 35px;
-    background: #FFFFFF;
-    border-radius: 7px;
-}
+
 
 #commentInput
 {
@@ -461,7 +534,6 @@ img
         margin-bottom: 100px;
         width: 98%;
   
-        background-color: rgb(224, 212, 212);
         display: flex;
         flex-direction: column;
     }
@@ -470,7 +542,6 @@ img
     {
         width: 100%;
         height: auto;
-        background-color: rgb(206, 73, 73);
     }
 
     #rightBlock
@@ -481,7 +552,6 @@ img
         width: 100%;
         height: 30%;
         margin-top: 10px;
-        background-color: rgb(73, 206, 195);
     }
     #blockComment
     {
@@ -557,6 +627,10 @@ img
     .btnsAuthorBlock div:nth-child(1)
     {
         margin-bottom: 10px;
+    }
+    #extraAdsAuthorBlock
+    {
+        display: none;
     }
 }
 

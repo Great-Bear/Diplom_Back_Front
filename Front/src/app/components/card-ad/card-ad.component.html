@@ -115,7 +115,7 @@
               <div class="spaceBetweenAlineCenter">
                   <div>
                     <span id="title">
-                      Смартфон SAMSUNG Galaxy Z Fold 
+                      {{data.title}}
                     </span>
                   </div>
                   <div>
@@ -123,18 +123,18 @@
                   </div>
               </div>
               <div>
-                <span class="locationAds">Украина, Львов - Сегодня 21:00</span>
+                <span class="locationAds">Украина, Львов - {{data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</span>
               </div>
             </div>
 
             <div>
               <div id="price">
-                99 999 грн.
+                {{data.price}} {{currencies[data.idCurrency]}}
               </div>
               <div id="blockMetaItems">
-                <span >Частное лицо</span>
-                <span >Б/У</span>
-                <span >С доставкой</span>
+                <span> {{data.typeOwner}} </span>
+                <span> {{data.quality}} </span>
+                <span *ngIf="data.isDelivery" >С доставкой</span>
               </div>
             </div>
         </div>
@@ -144,9 +144,7 @@
              <span class="tilte">Описание</span> 
             </div>
             <div id="textDescribe">
-              Телефон sumsung galaxy Z Fold, пробыл в эксплуатации пару месяцев после покупки.
-              Диагональ - 7 дюймов, в комплекте идут наушники и чехол
-              
+              {{data.describe}}           
             </div>
           </div>
 
@@ -173,48 +171,84 @@
 </div>
       </div>
       <div id="rightBlock">
-        <span class="tilte">
-          Автор объявления
-        </span>
-        <div id="AuthorInfo">       
-          <div>
-            <img id="imgAvatar" src="../assets/imgs/catAvatar.jpg" alt="">
+        <div id="authorBlock">
+          <span class="tilte">
+            Автор объявления
+          </span>
+          <div id="AuthorInfo">    
+            <div>
+              <img id="imgAvatar" src="../assets/imgs/catAvatar.jpg" alt="">
+            </div>
+            <div>
+              <div>
+                <span id="nameAuthor">Олег Закиров</span>
+              </div>
+              <div>
+                <span>На JBS с <b>марта 2020 г.</b></span>
+              </div>
+              <div>
+                <span>был онлайн <b>июнь 2022 г.</b></span>
+              </div>
+              <div  id="phoneNumber">
+                <span>+38(096)-350-38-33</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <div>
-              <span id="nameAuthor">Олег Закиров</span>
+
+          <div id="deliveryBlock">
+              <div>
+                <span class="tilte">Способы доставки: </span>
+              </div>
+              <div id="deliveryitems">
+                <span><b>Укрпошта</b> - бесплатно</span>
+                <br/>
+                <span><b>Нова Пошта</b> - от 70 грн.</span>
+              </div>
+          </div>
+
+          <div class="btnsAuthorBlock">
+            <div class="btns btnsBlack" id="buyBtn">
+              <span>Купить</span>         
             </div>
+            <div class="btns btnsWhite" (click)="openChat()" >
+              <span>Написать сообщение</span>        
+            </div>         
+          </div>
+      </div>
+     
+      <div id="extraAdsAuthorBlock" >
+        <div id="titleExtraAds">      
+          <span>Все объявления Автора</span>
+          <div class="arrowExtraAds arrow-right" ></div>
+        </div>
+
+        <div >
+          <div class="extraAds" *ngFor="let i of extraAds">
             <div>
-              <span>На JBS с <b>марта 2020 г.</b></span>
+              <img class="imgExtraAds" src="../assets/imgs/Template_Img.png" alt="">
             </div>
-            <div>
-              <span>был онлайн <b>июнь 2022 г.</b></span>
-            </div>
-            <div  id="phoneNumber">
-              <span>+38(096)-350-38-33</span>
+            <div class="infoExtraAds">
+
+              <div class="titleExtraAds">
+                <span>Кресло COUGAR Armor PRO Black</span>
+              </div>
+
+              <div class="buttomExtraAds">
+                <div>
+                  <span>
+                    99 999 грн
+                  </span>
+                </div>
+                <div>
+                  <img src="../assets/imgs/Hearth_red.svg" alt="HeartGeneralCount">    
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
 
-        <div id="deliveryBlock">
-            <div>
-              <span class="tilte">Способы доставки: </span>
-            </div>
-            <div id="deliveryitems">
-              <span><b>Укрпошта</b> - бесплатно</span>
-              <br/>
-              <span><b>Нова Пошта</b> - от 70 грн.</span>
-            </div>
-        </div>
-
-        <div class="btnsAuthorBlock">
-          <div class="btns btnsBlack" id="buyBtn">
-            <span>Купить</span>         
-          </div>
-          <div class="btns btnsWhite" >
-            <span>Написать сообщение</span>        
-          </div>         
-        </div>
+      </div>
 
       </div>
       <div id="blockComment">

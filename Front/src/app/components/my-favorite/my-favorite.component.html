@@ -1,24 +1,24 @@
 <div id="container">
   <div id="navFavorite">
     <div id="topNavFavorite">
-      <span>Избранное</span>
+      <span>Вибране</span>
       <img class="pointerCursor" routerLink="/home" src="../assets/imgs/FavoriteCancel.png" alt="CloseFavoritePage">
     </div>
     <div id="butomNavFavorite">
       <div id="navContainer" (click)="choiceSubMenu($event)">
-        <span id="choicedSubMenuNav">Избранные объявлений ({{arrAds.length}})</span>
-        <span>Избранные результаты поиска (2)</span>
-        <span>Недавние просмотренные</span>
+        <span id="choicedSubMenuNav">Вибрані оголошень ({{arrAds.length}})</span>
+        <span>Вибрані результати пошуку (2)</span>
+        <span>Останні переглянуті</span>
       </div>
       <div id="clearFavorite" class="pointerCursor">
-        <span (click)="deleteAllFavorites()">очистить</span>
+        <span (click)="deleteAllFavorites()">очистити</span>
         <img class="pointerCursor" src="../assets/imgs/LittleCancel.png" alt="CloseFavoritePage">
       </div>
     </div>
   </div>
 
   <div *ngIf="arrAds.length == 0" class="alert alert-success" >
-    <h4 class="alert-heading"> У вас ещё избранных товаров ¯\_(ツ)_/¯</h4>    
+    <h4 class="alert-heading"> У вас ще вибраних товарів ¯\_(ツ)_/¯</h4>    
   </div>
 
   <div id="containerAds" *ngIf="arrAds.length != 0" >   

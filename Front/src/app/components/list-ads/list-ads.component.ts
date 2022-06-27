@@ -47,7 +47,7 @@ export class ListAdsComponent implements OnInit {
   isPlitcaShow = false;
   isNoAds = false;
 
-  choiceCatValue : string = "Все категории";
+  choiceCatValue : string = "Всі категорії";
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
 
   isDropListCat = true;
@@ -240,14 +240,14 @@ export class ListAdsComponent implements OnInit {
       this.filters[indexFilter].counts.length;
 
       event.target.innerText = 
-      "Скрыть часть";
+      "Приховати частину";
     }
     else{
       this.countItemFilter[indexFilter] = 
       this.countItemFilterStandart;
 
       event.target.innerText = 
-      "Показать все";
+      "Показати все";
 
     }
   }
@@ -279,13 +279,13 @@ export class ListAdsComponent implements OnInit {
       event.stopPropagation();
      
       let aMessage = new AlertMessage();
-      aMessage.Title = "Успешпо";
+      aMessage.Title = "Успішно";
   
       let item = this.adsCollect.find( ad => ad.id == idAd );
   
           let idUser = Number.parseInt( this.cookie.get("idUser"));
           let addToFavorite = !item.isFavorit;
-  
+          item.isFavorit = !item.isFavorit;
       
           this.http.updateFavorite(idUser, item.id,addToFavorite)
           .subscribe( res  => {
@@ -299,27 +299,19 @@ export class ListAdsComponent implements OnInit {
               let valueCount = 0;
   
               if(item.isFavorit){   
-                aMessage.Message = "Товар добавлен в избранные";
                 valueCount++;
               }
               else{     
-                aMessage.Message = "Товар удалён из избранных";
                 valueCount--;
               }
   
               this.globalHub.changeCountFavoriteAd(valueCount);
-  
-              this.globalHub.addAlertMessage(aMessage);
             }
             else{
-              aMessage.Title = "Ошибка :(";
-              aMessage.Message = "Ой что-то пошло не так";
               this.globalHub.addAlertMessage(aMessage);
             }
           },
           err => {
-            aMessage.Title = "Ошибка :(";
-            aMessage.Message = "Сервер пока отдыхает";
             this.globalHub.addAlertMessage(aMessage);
           }); 
   }
@@ -488,7 +480,7 @@ export class ListAdsComponent implements OnInit {
   choiceAllCat(){
     this.filters = new Array();
     this.catId = 0;
-    this.choiceCatValue = "Все категории";
+    this.choiceCatValue = "Всі категорії";
     this.filters = new Array();
     this.arrfiltersValueContainer = new Array();
     this.loadNewAd();

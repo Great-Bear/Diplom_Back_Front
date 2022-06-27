@@ -23,6 +23,8 @@ export class CardAdComponent implements OnInit {
   idUser = 0;
   idAd = 0;
 
+  extraAds = new Array(3);
+
   currencies = [
     "грн",
     "$",
@@ -52,17 +54,19 @@ export class CardAdComponent implements OnInit {
           }
       } )
       this.http.getOneAd(idAd).subscribe(
-        res => {
+        res => {         
+          let response : any = res;
 
-          if(this.data.isError){
+          if(response.isError){
             let aMessage = new AlertMessage();
-            aMessage.Message = "Не удалось открыть товар";
+            aMessage.Message = "Неможливо відкрити товар";
             aMessage.TimeShow = 2000;
             this.globalHub.addAlertMessage(aMessage);
             this.route.navigate([`home`]);
           }
 
-          this.data = res;
+          this.data = response.data;
+          console.log(this.data);
 
           if(this.cookie.get("idUser") == this.data.idOwner){
             this.isOwner = true;
@@ -70,9 +74,11 @@ export class CardAdComponent implements OnInit {
 
           if(this.data.countImgs == 0){
               this.firstImg = "../assets/imgs/emptyImg.png";
+              this.imgs = new Array(1);
+              this.imgs[0] = "../assets/imgs/emptyImg.png";
             return;
           }
-          this.imgs = new Array(this.data.countImgs - 1)
+          this.imgs = new Array(this.data.countImgs)
           
           for(let i = 0; i < this.data.countImgs; i++){
           this.http.GetImgOfAd(idAd, i).subscribe(
@@ -91,6 +97,9 @@ export class CardAdComponent implements OnInit {
   }
 
   openChat(){
+    if(this.isOwner){
+      return;
+    }
     if(this.idChat == 0){
       this.http.createChat(this.idUser,this.idAd)
       .subscribe( res => {
@@ -98,7 +107,7 @@ export class CardAdComponent implements OnInit {
         if(response.isError){
           let aMessage = new AlertMessage();
           aMessage.Title = "Ой :(",
-          aMessage.Message = "Сервер не смог открыть чат";
+          aMessage.Message = "Сервер не зміг відкрити чат";
           this.globalHub.addAlertMessage(aMessage);
         }
         this.idChat = response.idChat;
@@ -107,7 +116,7 @@ export class CardAdComponent implements OnInit {
       err => {
         let aMessage = new AlertMessage();
           aMessage.Title = "Ой :(",
-          aMessage.Message = "Сервер пока отдыхает";
+          aMessage.Message = "Сервер поки що відпочиває";
           this.globalHub.addAlertMessage(aMessage);
       })
     }

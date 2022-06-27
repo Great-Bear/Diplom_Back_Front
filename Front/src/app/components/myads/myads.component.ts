@@ -108,7 +108,7 @@ export class MyadsComponent implements OnInit {
   }
 
   deleteAd(event : any){
-    let isDelete = confirm("Вы хотите удалить объявление?");
+    let isDelete = confirm("Ви бажаєте видалити оголошення?");
     if(isDelete){
       
       this.httpService.deleteAd(event.target.getAttribute("id"))

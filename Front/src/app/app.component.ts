@@ -21,7 +21,7 @@ export class AppComponent {
   isModer = false;
   isAdmin = false;
 
-  locationValue = "Вся Украина";
+  locationValue = "Вся Україна";
   showDropListLocations = false;
 
   distanceValue = "+ 100 км";
@@ -51,11 +51,14 @@ export class AppComponent {
     state => {
       this.isAnonimUser = state;
       if(state == false){
-        this.idUser = Number.parseInt( this.cookieService.get("idUser") );
         this.UpdateInfoPanel();
       }
     }
    )
+    this.idUser = Number.parseInt( this.cookieService.get("idUser") );
+    if( !isNaN(this.idUser) ){
+      this.globalHub.AnonimUser(false);
+    }
 
 
    this.globalHub.isModer.subscribe(
@@ -99,6 +102,43 @@ export class AppComponent {
 
 
   this.collLocation = new CollectionLocation().getDefautCollection();
+
+
+  if(this.cookieService.get("idUser").length > 0 &&
+  Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
+    this.globalHub.AnonimUser(false);
+    this.cookieService.set("activeSession","yes");
+    this.cookieService.set("timeOutSession", "0");
+  }
+  else{
+    this.cookieService.set("activeSession","no");
+    console.log("session is out");
+    console.log("idUser:" + this.idUser)
+    console.log(this.cookieService.get("timeOutSession") + "|" + new Date().getTime());
+  }
+
+this.router.events.subscribe( event => {
+if(event instanceof NavigationEnd){
+   if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
+      if( this.cookieService.get("idUser").length == 0){
+          this.router.navigate(['/registration'])
+      }
+      if(this.cookieService.get("rememberMe") != "yes" && 
+         this.cookieService.get("activeSession") != "yes" ){
+          this.cookieService.set("idUser","");
+          this.router.navigate(["/authorization"])
+      }   
+  }
+  if(event.url.includes("list_ads") || event.url.includes( "home" )
+   || event.url == "/" || event.url.includes("card-ad")){
+    this.showSearchBlock = true;
+  }
+  else{
+    this.showSearchBlock = false;
+  }
+}
+})
+
 
 }
 
@@ -203,39 +243,7 @@ startSearch(){
 ngOnInit(){
 
 
-  if(this.cookieService.get("idUser").length > 0 &&
-    Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
-      this.globalHub.AnonimUser(false);
-      this.cookieService.set("activeSession","yes");
-    }
-    else{
-      this.cookieService.set("activeSession","no");
-      console.log("session is out");
-      console.log("idUser:" + this.idUser)
-      console.log(this.cookieService.get("timeOutSession") + "|" + new Date().getTime());
-    }
-
- this.router.events.subscribe( event => {
-  if(event instanceof NavigationEnd){
-     if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
-        if( this.cookieService.get("idUser").length == 0){
-            this.router.navigate(['/registration'])
-        }
-        if(this.cookieService.get("rememberMe") != "yes" && 
-           this.cookieService.get("activeSession") != "yes" ){
-            this.cookieService.set("idUser","");
-            this.router.navigate(["/authorization"])
-        }   
-    }
-    if(event.url.includes("list_ads") || event.url.includes( "home" )
-     || event.url == "/" || event.url.includes("card-ad")){
-      this.showSearchBlock = true;
-    }
-    else{
-      this.showSearchBlock = false;
-    }
-  }
- })
+ 
  
 
  window.onunload = (event) => {
@@ -309,7 +317,7 @@ ngOnInit(){
 
   ClearLocation(){
     this.showDropListLocations = false;
-    this.locationValue = "Вся Украина";
+    this.locationValue = "Вся Україна";
   }
 
   CloseOpenDropList(event: any){

@@ -91,7 +91,7 @@ export class AuthorizationComponent implements OnInit {
                 }
                 else{
                   let aMessage = new AlertMessage();
-                  aMessage.Title = "Предупреждение"
+                  aMessage.Title = "Попередження"
                   aMessage.Message = authData.error;
                   aMessage.TimeShow = 20000;
                   this.globalHub.addAlertMessage(aMessage);
@@ -110,20 +110,20 @@ export class AuthorizationComponent implements OnInit {
         ValidetData() : boolean
         {
           this.loginErrMsg = !this.loginRegExp.test( this.login )
-          ? "Некорректный логин" 
+          ? "Некоректний логін" 
           : "";
 
           if( this.passwd.length < 8 ){
-            this.passwdErrMsg = "Пароль должен быть минимум из 8 символов" ;
+            this.passwdErrMsg = "Пароль має бути мінімум із 8 символів" ;
           }    
           else if( !this.upCaseRegExp.test( this.passwd ) ) {
-            this.passwdErrMsg = "В пароле должа быть хотя бы одна большая буква" ;
+            this.passwdErrMsg = "У паролі має бути хоча б одна велика літера" ;
           }
           else if( !this.lowCaseRgExp.test( this.passwd ) ){
-            this.passwdErrMsg = "В пароле должа быть хотя бы одна маленькая буква" ;
+            this.passwdErrMsg = "У паролі має бути хоча б одна маленька буква" ;
           }
           else if( !this.specSymRegExp.test(this.passwd) ){
-            this.passwdErrMsg = "В пароле должен быть хотя бы один спец. символ" ;
+            this.passwdErrMsg = "У паролі має бути хоча б один спец. символ" ;
           }
           else{
             this.passwdErrMsg = "";
@@ -136,16 +136,16 @@ export class AuthorizationComponent implements OnInit {
         checkPassword( passwd : string){
           let err;
           if( passwd.length < 8 ){
-            err = "Пароль должен быть минимум из 8 символов" ;
+            err = "Пароль має бути мінімум із 8 символів" ;
           }    
           else if( !this.upCaseRegExp.test( passwd ) ) {
-            err = "В пароле должа быть хотя бы одна большая буква" ;
+            err = "У паролі має бути хоча б одна велика літера" ;
           }
           else if( !this.lowCaseRgExp.test( passwd ) ){
-            err = "В пароле должа быть хотя бы одна маленькая буква" ;
+            err = "У паролі має бути хоча б одна маленька буква" ;
           }
           else if( !this.specSymRegExp.test( passwd ) ){
-            err = "В пароле должен быть хотя бы один спец. символ" ;
+            err = "У паролі має бути хоча б один спец. символ" ;
           }
           else{
             err = "";
@@ -156,7 +156,7 @@ export class AuthorizationComponent implements OnInit {
 
       ResertPassword(){
         if(this.loginRegExp.test( this.login )){
-          let msg = 'Введите новый пароль';
+          let msg = 'Введіть новий пароль';
           let isResetPwd = false;
           let oldPsd = "";
 
@@ -190,8 +190,8 @@ export class AuthorizationComponent implements OnInit {
               aMessage.Message = response.message;
             }
             else{
-              aMessage.Title = "Успешно";
-              aMessage.Message = "Пароль изменён";
+              aMessage.Title = "Успішно";
+              aMessage.Message = "Пароль змінений";
             }            
             this.globalHub.addAlertMessage(aMessage);
           }, err => {
@@ -199,7 +199,7 @@ export class AuthorizationComponent implements OnInit {
           })
         }
         else{
-          alert("Введите коректную почту");
+          alert("Введіть правильну пошту");
         }
       }
       showCookie(){

@@ -128,7 +128,7 @@
 {
     position: relative;
     left: 40%;
-    top: 5px;
+    top: 0px;
 
     display: inline-block;
     height: 20px;
@@ -140,7 +140,7 @@
 
     font-family: Roboto;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 400;
     font-size: 15px;
     
     color: #3A4569;

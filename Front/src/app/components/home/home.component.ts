@@ -115,6 +115,9 @@ export class HomeComponent implements OnInit {
 
     let vipAd = this.VipAds.find( ad => ad.id == idAd );
 
+
+
+
         let idUser = Number.parseInt( this.cookie.get("idUser"));
         let addToFavorite : boolean;
         let targetItem : any;
@@ -125,6 +128,13 @@ export class HomeComponent implements OnInit {
         else{
           addToFavorite = !vipAd.isFavorit;
           targetItem = vipAd
+        }
+
+        if(vipAd != undefined){
+          item.isFavorit = !item.isFavorit;
+        }
+        if(vipAd != undefined){
+          vipAd.isFavorit = !vipAd.isFavorit;
         }
 
     
@@ -143,29 +153,24 @@ export class HomeComponent implements OnInit {
             let valueCount = 0;
 
             if(targetItem.isFavorit){   
-              aMessage.Message = "Товар добавлен в избранные";
               valueCount++;
             }
             else{     
-              aMessage.Message = "Товар удалён из избранных";
               valueCount--;
             }
 
             this.globalHub.changeCountFavoriteAd(valueCount);
-
-            this.globalHub.addAlertMessage(aMessage);
           }
           else{
-            aMessage.Title = "Ошибка :(";
-            aMessage.Message = "Ой что-то пошло не так";
+            console.log("error server")
             this.globalHub.addAlertMessage(aMessage);
           }
         },
         err => {
-          aMessage.Title = "Ошибка :(";
-          aMessage.Message = "Сервер пока отдыхает";
+          console.log("error server")
           this.globalHub.addAlertMessage(aMessage);
         }); 
+        
    }
 
 
@@ -243,8 +248,6 @@ export class HomeComponent implements OnInit {
        let resData : any  = res ;
        if(resData.isError){
         let aMessage = new AlertMessage();
-        aMessage.Title = "Ошибка :(";
-        aMessage.Message = "Ой что-то пошло не так";
         this.globalHub.addAlertMessage(aMessage);
        }
        else{
@@ -266,8 +269,8 @@ export class HomeComponent implements OnInit {
       },
       err => {
         let aMessage = new AlertMessage();
-        aMessage.Title = "Ошибка :(";
-        aMessage.Message = "Сервер пока отдыхает";
+        aMessage.Title = "Помилка :(";
+        aMessage.Message = "Сервер поки що відпочиває";
         this.globalHub.addAlertMessage(aMessage);
       }
     )
@@ -398,7 +401,7 @@ public ChangeCheckBoxBrend(event : any){
         },
         err => {
           let aMessage = new AlertMessage();
-          aMessage.Message ="Не удалось загрузить товары";
+          aMessage.Message ="Неможливо завантажити товари";
           this.globalHub.addAlertMessage(aMessage);
         } 
       )
@@ -409,7 +412,7 @@ public ChangeCheckBoxBrend(event : any){
         this.parseAnswer(res);
       }, err => {
         let aMessage = new AlertMessage();
-        aMessage.Message ="Не удалось загрузить популярные товары товары";
+        aMessage.Message ="Не вдалося завантажити популярні товари";
         this.globalHub.addAlertMessage(aMessage);
       });
     }
@@ -420,7 +423,7 @@ public ChangeCheckBoxBrend(event : any){
         this.parseAnswer(res);
       }, err => {
         let aMessage = new AlertMessage();
-        aMessage.Message ="Не удалось загрузить популярные товары товары";
+        aMessage.Message ="Не вдалося завантажити рекомендовані товари";
         this.globalHub.addAlertMessage(aMessage);
       });
     }

@@ -65,8 +65,8 @@ export class RegistrationComponent implements OnInit {
 
                   let aMessage = new AlertMessage();
 
-                  aMessage.Title = "Подтвердите почту";
-                  aMessage.Message = "На вашу указанную почту пришла ссылка для подтверждения регистрации";
+                  aMessage.Title = "Підтвердьте пошту";
+                  aMessage.Message = "На вашу вказану пошту надійшло посилання для підтвердження реєстрації";
                   aMessage.TimeShow = 20000;
 
                   this.globalHub.addAlertMessage(aMessage);
@@ -88,23 +88,23 @@ export class RegistrationComponent implements OnInit {
         : "";
 
     if( this.passwd.length < 8 ){
-      this.passwdErrMsg = "Пароль должен быть минимум из 8 символов" ;
+      this.passwdErrMsg = "Пароль має бути мінімум із 8 символів" ;
     }    
     else if( !this.upCaseRegExp.test( this.passwd ) ) {
-      this.passwdErrMsg = "В пароле должа быть хотя бы одна большая буква" ;
+      this.passwdErrMsg = "У паролі має бути хоча б одна велика літера" ;
     }
     else if( !this.lowCaseRgExp.test( this.passwd ) ){
-      this.passwdErrMsg = "В пароле должа быть хотя бы одна маленькая буква" ;
+      this.passwdErrMsg = "У паролі має бути хоча б одна маленька буква" ;
     }
     else if( !this.specSymRegExp.test(this.passwd) ){
-      this.passwdErrMsg = "В пароле должен быть хотя бы один спец. символ" ;
+      this.passwdErrMsg = "У паролі має бути хоча б один спец. символ" ;
     }
     else{
       this.passwdErrMsg = "";
     }
 
     this.passwd2ErrMsg = this.passwd != this.passwd2 
-    ? "пароли должны совпадать" 
+    ? "паролі повинні збігатися" 
       : "";
 
     return ( this.loginErrMsg + this.passwdErrMsg + this.passwd2ErrMsg ) != ""

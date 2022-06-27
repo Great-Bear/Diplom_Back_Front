@@ -1,12 +1,12 @@
 
 <div id="containerAds">
-    <h1>Мои объявления</h1>
+    <h1>Мої оголошення</h1>
     <div class="navbar navbar-dark bg-dark">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           
           <div class="container-fluid">
-            <a class="navbar-brand" >Ожидающие ({{countAds}}) </a>
+            <a class="navbar-brand" >Очікуючі ({{countAds}}) </a>
           </div>
         </nav>
       </div>
@@ -14,7 +14,7 @@
   
     
     <div class="alert alert-success" role="alert" *ngIf="noAds" >
-      <h4 class="alert-heading"> Нет объявлений на проверку</h4>
+      <h4 class="alert-heading"> Нема оголошень на перевірку</h4>
     </div>
   
     <div class="card-deck" *ngFor="let col of adsCol; let i = index;" >
@@ -26,9 +26,9 @@
           <p class="card-text"><small class="text-muted">Опубликовано до: {{row.data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
          
           <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
-            <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Просмотреть</button>
-            <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="confirmAd($event)" >Одобрить</button>
-            <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="cencelAd($event)">Отклонить</button>
+            <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Переглянути</button>
+            <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="confirmAd($event)" >Схвалити</button>
+            <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="cencelAd($event)">Відхилити</button>
           </div>
         </div>
       </div>
