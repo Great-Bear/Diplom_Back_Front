@@ -244,14 +244,14 @@ namespace JBS_API.Controllers
                 }
 
                 string[] Layer2_Category = {
-                   "Група1",
-                   "Група2",
-                   "Група3",
-                   "Група4",
-                   "Група5",
-                   "Група6",
-                   "Група7",
-                   "Група8",
+                   "Електроніка",
+                   "Мода і стиль",
+                   "Авто",
+                   "Тварини",
+                   "Робота",          
+                   "Дитячий світ",
+                   "Дім і сад",
+                   "Дитячий світ",
                };
 
                 if (_dbContext.Layer2_Category.Count() == 0)
@@ -263,49 +263,119 @@ namespace JBS_API.Controllers
                     }
                 }
 
-                string[] Layer1_Category = {
-                   "Подгрупа1",
-                   "Подгрупа2",
-                   "Подгрупа3",
-                   "Подгрупа4",
-                   "Подгрупа5",
-                   "Подгрупа6",
-                   "Подгрупа7",
-                   "Подгрупа8",
+                string[] Layer1_CategoryForELectr = {
+                   "Телефони та аксесуари",
+                   "Комп'ютери та комплектуючі",
+                   "Техніка для дому",
+                   "Інша електроніка",
                };
 
-                var catLayer2 = _dbContext.Layer2_Category.FirstOrDefault(l => l.Name == "Група1");
+                string[] Layer1_CategoryModa = {
+                   "Жіночий одяг",
+                   "Жіноче взуття",
+                   "Чоловіче взуття",
+                   "Мода різне",
+               };
+
+                string[] Layer1_CategoryAuto = {
+                    "Легкові автомобілі",
+                    "Водний транспорт",
+                    "Автобуси",                       
+                    "Інший транспорт",
+               };
+
 
                 if (_dbContext.Layer1_Category.Count() == 0)
                 {
-                    foreach (var category in Layer1_Category)
+                    var catLayer2Electr = _dbContext.Layer2_Category.FirstOrDefault(l => l.Name == "Електроніка");
+                    foreach (var category in Layer1_CategoryForELectr)
                     {
-                        _dbContext.Layer1_Category.Add(new Layer1_Category { Name = category, Layer2_Category = catLayer2 });
+                        _dbContext.Layer1_Category.Add(new Layer1_Category { Name = category, Layer2_Category = catLayer2Electr });
+                        _dbContext.SaveChanges();
+                    };
+                       
+
+                    var catLayer2Moda = _dbContext.Layer2_Category.FirstOrDefault(l => l.Name == "Мода і стиль");
+                    foreach (var category in Layer1_CategoryModa)
+                    {
+                        _dbContext.Layer1_Category.Add(new Layer1_Category { Name = category, Layer2_Category = catLayer2Moda });
                         _dbContext.SaveChanges();
                     }
+
+                    var catLayer2Auto = _dbContext.Layer2_Category.FirstOrDefault(l => l.Name == "Авто");
+                    foreach (var category in Layer1_CategoryAuto)
+                    {
+                        _dbContext.Layer1_Category.Add(new Layer1_Category { Name = category, Layer2_Category = catLayer2Auto });
+                        _dbContext.SaveChanges();
+                    }
+
+
                 }
 
-
                 string[] Categories = {
-                   "Ноутбуки и компьютеры",
-                   "Смартфоны",
-                   "Зоотовары",
-                   "Категория 1",
-                   "Категория 2",
-                   "Категория 3",
-                   "Категория 4",
-                   "Категория 5",
-                   "Категория 6",
-                   "Категория 7",
+                   "Телефони для роботи",
+                   "Телефони для ігор",
+                   "Чохли на телефони",
+                   "Комп'ютери для роботи",
+                   "Комп'ютери для ігор",
+                   "Комп'ютери для монтажу",
                };
 
-                var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Подгрупа1");
+                string[] CategoriesTelAndacce = {
+                   "Телефони для роботи",
+                   "Телефони для ігор",
+                   "Чохли на телефони",
+                   "Інше"
+               };
+
+                string[] CategoriesPC = {
+                   "Комп'ютери для роботи",
+                   "Комп'ютери для ігор",
+                   "Комп'ютери для монтажу",
+                   "Інше",
+               };
+
+                string[] CategoriesAuto = {
+                   "Авто з відкритим кузовом",
+                   "Авто з закритим кузовом",
+                   "електромобіль",
+                   "Інше",
+               };
+
+                string[] CategoriesClotj = {
+                   "Сукня",
+                   "Сапожки",
+                   "Інше",
+               };
+
+
+
+                var carLayer1 = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Телефони та аксесуари");
+                var carLayer1PC = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Комп'ютери та комплектуючі");
+                var carLayer1Auto = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Легкові автомобілі");
+                var carLayer1WomenCloth = _dbContext.Layer1_Category.FirstOrDefault(l => l.Name == "Жіночий одяг");
 
                 if (_dbContext.Categories.Count() == 0)
                 {
-                    foreach (var category in Categories)
+                    foreach (var category in CategoriesTelAndacce)
                     {
                         _dbContext.Categories.Add(new Category { Name = category,Layer1_Category = carLayer1 });
+                        _dbContext.SaveChanges();
+                    }
+
+                    foreach (var category in CategoriesPC)
+                    {
+                        _dbContext.Categories.Add(new Category { Name = category, Layer1_Category = carLayer1PC });
+                        _dbContext.SaveChanges();
+                    }
+                    foreach (var category in CategoriesAuto)
+                    {
+                        _dbContext.Categories.Add(new Category { Name = category, Layer1_Category = carLayer1Auto });
+                        _dbContext.SaveChanges();
+                    }
+                    foreach (var category in CategoriesClotj)
+                    {
+                        _dbContext.Categories.Add(new Category { Name = category, Layer1_Category = carLayer1WomenCloth });
                         _dbContext.SaveChanges();
                     }
                 }
@@ -343,8 +413,8 @@ namespace JBS_API.Controllers
 
                 string[] qualityAd =
                 {
-                    "Новое",
-                    "Б/У",
+                    "Нове",
+                    "Б/В",
                 };
 
                 foreach (var item in qualityAd)
@@ -358,8 +428,8 @@ namespace JBS_API.Controllers
 
                 string[] typeOwners =
                 {
-                    "Бизнес",
-                    "Частное",
+                    "Бізнес",
+                    "Приватне",
                 };
 
                 foreach (var item in typeOwners)
@@ -496,9 +566,9 @@ namespace JBS_API.Controllers
             {
                 return;
             }
-            var CatPhone = _dbContext.Categories.FirstOrDefault( c => c.Name == "Смартфоны");
-            var CatPC = _dbContext.Categories.FirstOrDefault( c => c.Name == "Ноутбуки и компьютеры");
-            var CatZoo = _dbContext.Categories.FirstOrDefault( c => c.Name == "Зоотовары");
+            var CatPhone = _dbContext.Categories.FirstOrDefault( c => c.Name == "Телефони для роботи");
+            var CatPC = _dbContext.Categories.FirstOrDefault( c => c.Name == "Комп'ютери для роботи");
+
 
             string[] typeFilters =
             {
@@ -529,7 +599,7 @@ namespace JBS_API.Controllers
 
             _dbContext.Filters.Add(new Filter
             {
-                FilterName = "Диагональ",
+                FilterName = "Діагональ",
                 Category = CatPhone,
                 TypeFilter = FTypeCombo,
             });
@@ -619,7 +689,7 @@ namespace JBS_API.Controllers
             };
             _dbContext.Filters.Add(new Filter
             {
-                FilterName = "Количество ядер",
+                FilterName = "Кількість ядер",
                 Category = CatPC,
                 TypeFilter = FTypeItems,
             });

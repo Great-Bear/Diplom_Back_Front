@@ -14,6 +14,7 @@ export class MyFavoriteComponent implements OnInit {
 
   public arrAds = new Array();
   public noAds : boolean = false
+  public isLoadItem = true;
   idUser : number = 0;
 
   constructor(
@@ -29,10 +30,11 @@ export class MyFavoriteComponent implements OnInit {
   }
 
   loadAds(){
-
+    this.isLoadItem = true;
     this.httpService.getGetMyAdsFavorite(this.cookie.get("idUser"))
     .subscribe(ans => {
       let res : any  = ans;
+      this.isLoadItem = false;
       if(res.isError){
         this.globalHub.addAlertMessage(new AlertMessage());
         return;

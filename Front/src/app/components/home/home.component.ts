@@ -88,20 +88,20 @@ export class HomeComponent implements OnInit {
     
     let catsList = new Array();
 
+
     for(let itemL3 of carLayer){
-      for(let itemL2 of itemL3.data){
-        let index = 0;
-        for(let cat of itemL2.cat){
-          let catItem = {
-            name : cat,
-            id : itemL2.idCat[index]
-          }
-           catsList.push(catItem);
-           index++;
+
+      let index = 0;
+
+        let catItem = {
+          name : itemL3.layer2,
+          id : itemL3.layer2Id
         }
-      }
+         catsList.push(catItem);
+         index++;
     }
     this.typeAd.Categories = catsList;
+    
   }
 
 

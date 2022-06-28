@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class MyChatsComponent implements OnInit {
 
   chats = new Array();
+  isLoadItem = true;
 
   idUser = 0;
 
@@ -31,9 +32,11 @@ export class MyChatsComponent implements OnInit {
 
 
   loadChats(){
+    this.isLoadItem = true;
     this.http.getMyChats(this.idUser)
     .subscribe( res => {
       let response : any = res;
+      this.isLoadItem = false;
       if(response.isError){
         let aMessage = new AlertMessage();
         this.globalHub.addAlertMessage(aMessage);

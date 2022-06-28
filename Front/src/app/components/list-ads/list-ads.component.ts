@@ -21,6 +21,8 @@ export class ListAdsComponent implements OnInit {
   catsListMarker = new Array();
 
   catId = 0;
+  catIdL2 = 0;
+  catidL3 = 0;
   QualityId = 0;
   isDelivery = false;
 
@@ -74,14 +76,14 @@ export class ListAdsComponent implements OnInit {
     }
     this.UpdatePagination();
 
-   this.catId = activateRoute.snapshot.params['idCategory'];
+   this.catidL3 = activateRoute.snapshot.params['idCategory'];
    let queryStr = activateRoute.snapshot.params['searchQuery'];
 
    if(queryStr != undefined){
      this.searchWord = queryStr;
    }
-   if(this.catId == undefined){
-     this.catId = 0;
+   if(this.catidL3 == undefined){
+     this.catidL3 = 0;
    }
 
 
@@ -105,21 +107,24 @@ export class ListAdsComponent implements OnInit {
 
     let carLayerArr =  this.globalHub.currentCatLayers.getValue();
     if(carLayerArr instanceof Array){
-      this.carLayer = carLayerArr
+      this.carLayer = carLayerArr;
     }
   
     this.parseCatLayer();
 
-    this.loadNewAd();
-    this.loadFiltes(this.catId);
-    
+    this.loadNewAd();  
   }
 
   private parseCatLayer(){
     if(this.carLayer.length == 0){
       return;
     }
+
+    console.log(this.carLayer);
     for(let itemL3 of this.carLayer){
+      if(itemL3.layer2Id == this.catidL3){
+        this.choiceCatValue = itemL3.layer2;
+      }
       for(let itemL2 of itemL3.data){
         let index = 0;
         for(let cat of itemL2.cat){
@@ -128,9 +133,6 @@ export class ListAdsComponent implements OnInit {
             id : itemL2.idCat[index]
           }
            this.catsList.push(catItem);
-          if(catItem.id == this.catId){
-            this.choiceCatValue = catItem.name;
-          }
            index++;
         }
       }
@@ -150,12 +152,14 @@ export class ListAdsComponent implements OnInit {
     if(this.issortByPrice == true){
       priceMax = this.priceMax;
     }
-    this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catId, this.QualityId,this.isDelivery,
+    this.adsCollect = new Array();
+    this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catidL3, this.catIdL2, this.catId, this.QualityId,this.isDelivery,
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
     .subscribe(
       res => {
         this.searchWord = "";
         let response : any = res;
+
         if(response.isError == true){
           alert(response.error);
           return;
@@ -418,6 +422,35 @@ export class ListAdsComponent implements OnInit {
     this.isScrollListCat = true;
     this.loadFiltes(event.currentTarget.id);
     this.loadNewAd();
+  }
+
+  choiceCatL2(idCat : number, value : string){
+    this.catId = 0;
+    this.catIdL2 = idCat;
+    this.choiceCatValue = value;
+    this.loadNewAd();
+
+    this.isDropListCat = false;
+
+    this.isScrollListCat = true;
+
+    this.filters = new Array();
+    this.arrfiltersValueContainer = new Array();
+  }
+
+  choiceCatL3(idCat : number, value : string){
+    this.catId = 0;
+    this.catIdL2 = 0;
+    this.catidL3 = idCat;
+    this.choiceCatValue = value;
+    this.loadNewAd();
+
+    this.isDropListCat = false;
+
+    this.isScrollListCat = true;
+
+    this.filters = new Array();
+    this.arrfiltersValueContainer = new Array();
   }
 
   resetFilters(){

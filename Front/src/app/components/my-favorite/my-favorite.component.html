@@ -17,7 +17,11 @@
     </div>
   </div>
 
-  <div *ngIf="arrAds.length == 0" class="alert alert-success" >
+  <div class="alert alert-primary" *ngIf="isLoadItem" role="alert">
+    Завантаження товарів
+  </div>
+
+  <div *ngIf="arrAds.length == 0 && !isLoadItem" class="alert alert-success" >
     <h4 class="alert-heading"> У вас ще вибраних товарів ¯\_(ツ)_/¯</h4>    
   </div>
 

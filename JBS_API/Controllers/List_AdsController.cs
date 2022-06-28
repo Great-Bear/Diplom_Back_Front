@@ -22,8 +22,8 @@ namespace JBS_API.Controllers
         private int paginationStep = 10;
         [HttpPost]
         [Route("GetAdsPagination")]
-        public JsonResult GetAdsPagination(int pagePagination,int stepPagin, int idCategory, int idQuality, bool idDel,
-            int priceFrom, int priceBefore,int idCurrency, string orderBy, string searchWord, FiltersValue[] filtersValue)
+        public JsonResult GetAdsPagination(int pagePagination,int stepPagin, int idCategoryL3, int idCategoryL2, int idCategory, int idQuality, bool idDel,
+            int priceFrom, int priceBefore,  int idCurrency, string orderBy, string searchWord, FiltersValue[] filtersValue)
         {
             pagePagination--;
             paginationStep = stepPagin;
@@ -37,6 +37,14 @@ namespace JBS_API.Controllers
                 if (idCategory != 0)
                 {
                     res = res.Where(a => a.CategoryId == idCategory);
+                }
+                else if (idCategoryL2 != 0)
+                {
+                    res = res.Where(a => a.Category.Layer1_CategoryId == idCategoryL2);
+                }
+                else if (idCategoryL3 != 0)
+                {
+                    res = res.Where(a => a.Category.Layer1_Category.Layer2_CategoryId == idCategoryL3);
                 }
 
                 if (searchWord != null )

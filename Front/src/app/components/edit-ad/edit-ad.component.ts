@@ -26,6 +26,8 @@ export class EditAdComponent implements OnInit {
   public Category : any;
   public idBrend : number = 0;
 
+  public catList = new Array();
+
   public requData : any;
 
   public typeAd : TypeAd = new TypeAd();
@@ -68,6 +70,7 @@ export class EditAdComponent implements OnInit {
               private globalHub : GlobalHubService) {
 
                 let idAd = this.activateRoute.snapshot.params['id'];
+                this.LoadCategoreis();
 
                 for(let i = 0; i < this.countImgs; i++){
                   this.urlImgs[i] = this.emptyImgUrl;
@@ -77,11 +80,14 @@ export class EditAdComponent implements OnInit {
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
                     let response : any = res;
+                    console.log(res);
               
                     if(response.IsError == true){
                       this.globalHub.addAlertMessage(new AlertMessage());
                       return;
                     }
+
+                    this.Category = this.catList.find( c => c.id == response.data.idCategory ).name; 
 
                     this.requData = response.data;
                     let filteList_Db : any = res;
@@ -122,7 +128,6 @@ export class EditAdComponent implements OnInit {
                         }
                       )
                     }  
-                     this.LoadCategoreis();
                   }
                 )
               }
@@ -157,9 +162,7 @@ export class EditAdComponent implements OnInit {
           }
         }
       }
-      this.Category = catsList[this.requData.idCategory - 1].name; 
-      console.log(this.Category);
-      console.log(catsList[this.requData.idCategory - 1].name);
+      this.catList = catsList;
     }
 
   ngOnInit(): void {

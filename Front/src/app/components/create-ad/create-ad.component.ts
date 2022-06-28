@@ -23,6 +23,14 @@ export class CreateAdComponent implements OnInit {
   public requData : RequCreateAd = new RequCreateAd();
   public typeAd : TypeAd = new TypeAd();
 
+  public catListL2 = new Array();
+  public catListL3 = new Array();
+
+  public choiceCatList3 = new Array();
+
+  valueL3  = "";
+  valueL2  = "";
+
   urlImgs : string[] = new Array(this.countImgs);
   cancelBts : boolean[] = new Array(this.countImgs);
 
@@ -66,7 +74,6 @@ export class CreateAdComponent implements OnInit {
                this.LoadCategoreis();
               }
 
-
   private LoadCategoreis(){
     if( !(this.globalHub.currentCatLayers.getValue() instanceof Array) ){
       this.globalHub.categoriesLayers.subscribe(res => {
@@ -80,11 +87,53 @@ export class CreateAdComponent implements OnInit {
     }
     }
 
+    choiceCatL3(event : any){
+      this.catListL2 =  new Array();
+
+      let index = 0;
+      for(let cat of this.catListL3[event.target.value].data){
+        if(cat.cat.length > 0 ){
+          this.catListL2.push(cat)
+        }
+        index++;
+      }
+
+      this.typeAd.Categories =  new Array();
+      this.filterList = new Array();
+      this.requData.Category = "";
+      this.valueL2 = "";
+
+    }
+    choiceCatL2(event : any){
+      this.typeAd.Categories = new Array();
+
+      let index = 0;
+      for(let cat of this.catListL2[event.target.value].cat){
+        let catItem = {
+          name : cat,
+          id : this.catListL2[event.target.value].idCat[index]
+        }
+        this.typeAd.Categories.push(catItem);
+        index++;
+      }
+
+      this.filterList = new Array();
+      this.requData.Category = "";
+
+    }
+
     private parseCatLayer(carLayer : any){
     
       let catsList = new Array();
+      console.log(carLayer);
+      this.catListL3 ;
   
       for(let itemL3 of carLayer){
+
+        if(itemL3.data.length > 0){
+          this.catListL3.push(itemL3);
+        }
+
         for(let itemL2 of itemL3.data){
           let index = 0;
           for(let cat of itemL2.cat){

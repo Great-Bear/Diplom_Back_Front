@@ -27,8 +27,8 @@
                 <label class="input-group-text" for="TypeAd">Тип оголошення</label>
               </div>
               <select class="custom-select" id="TypeAd" [(ngModel)]="requData.TypeAd" >
-                <option value="Бизнес">Бізнес</option>
-                <option value="Частное">Приватне</option>
+                <option value="Бізнес">Бізнес</option>
+                <option value="Приватне">Приватне</option>
               </select>
             </div>
             <span class="errorMsgOffset" >{{errMsg.TypeAd}}</span>
@@ -38,18 +38,37 @@
                   <label class="input-group-text" for="QualityAd">Стан</label>
                 </div>
                 <select class="custom-select" id="QualityAd" [(ngModel)]="requData.Quality" >
-                  <option value="Новое">Нове</option>
-                  <option value="Б/У">Б/В</option>
+                  <option value="Нове">Нове</option>
+                  <option value="Б/В">Б/В</option>
                 </select>
               </div>
               <span class="errorMsgOffset" >{{errMsg.Quality}}</span>
 
+
               <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Загальна Категорія</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="valueL3" (change)="choiceCatL3($event)" >
+                  <option *ngFor="let cat of catListL3; let i = index" value="{{i}}"  >{{cat.layer2}}</option>
+                </select>        
+              </div>
+
+              <div class="input-group mb-3" *ngIf="valueL3.length != 0">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Підкатегорія</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="valueL2" (change)="choiceCatL2($event)" >
+                  <option *ngFor="let cat of catListL2; let i = index" value="{{i}}" >{{cat.layer1}}</option>
+                </select>        
+              </div>
+
+              <div class="input-group mb-3" *ngIf="valueL2.length != 0">
                 <div class="input-group-prepend">
                   <label class="input-group-text" for="inputGroupSelect01">Категорія</label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.Category" (change)="changeCat($event)" >
-                  <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{i+1}}" >{{cat.name}}</option>
+                  <option *ngFor="let cat of typeAd.Categories; let i = index" value="{{cat.id}}" >{{cat.name}}</option>
                 </select>        
               </div>
               <span class="errorMsgOffset" >{{errMsg.Category}}</span>

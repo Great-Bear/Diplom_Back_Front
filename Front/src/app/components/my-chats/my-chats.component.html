@@ -3,9 +3,12 @@
     <div class="chat" *ngFor="let chat of chats" (click)="showChat(chat.idChat)" >
         <p [class.unredMsg]="chat.idOwner != idUser && chat.isRead == false"  >{{chat.lastMsgChat}}</p>
     </div>
-    <div *ngIf="chats.length == 0" class="alert alert-success" >
-        <h4 class="alert-heading"> У вас ще немає чатів¯\_(ツ)_/¯</h4>    
-      </div>
+        <div *ngIf="chats.length == 0 && !isLoadItem" class="alert alert-success" >
+            <h4 class="alert-heading"> У вас ще немає чатів¯\_(ツ)_/¯</h4>    
+        </div>
+        <div class="alert alert-primary" *ngIf="isLoadItem" role="alert">
+            Завантаження чатів
+        </div>
    </div>
 </div>
 

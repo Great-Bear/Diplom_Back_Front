@@ -30,18 +30,7 @@
     background-color: white;
 }
 
-.filterItems
-{
-  display: flex;
-    justify-content: space-between;
-    align-items: center;
-    vertical-align: middle;
 
-    margin-top: 2px;
-    border-radius: 5px 5px 0px 0px;
-    padding: 10px 20px 10px 20px;
-    background-color: white;
-}
 
 li {
   list-style-type: none; 
@@ -236,7 +225,20 @@ ul {
 
   margin-top: 2px;
   padding: 0px 15px 0px 15px;
+  border-radius: 5px 5px 0px 0px;
   background-color: white;
+}
+
+.filterItems span:nth-child(1)
+{
+
+  width: 100%;
+}
+
+
+.isNotVisible
+{
+  opacity: 0;
 }
 
 .filterItems:hover

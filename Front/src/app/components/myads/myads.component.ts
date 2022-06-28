@@ -18,6 +18,7 @@ export class MyadsComponent implements OnInit {
  
   public adsCol = Array();
   public noAds : boolean = false
+  isLoadItem = true;
 
   countPublishItem : any;
   countNoPublish : any;
@@ -51,11 +52,13 @@ export class MyadsComponent implements OnInit {
     }
 
     this.adsCol = new Array();
+    this.isLoadItem = true;
 
     this.httpService.getGetMyAds(this.cookie.get("idUser"), statusAd)
     .subscribe(ans => {
       let res : any  = ans;
-
+      this.isLoadItem = false;
+      
       for(let i = 0; i < this.arrCountsItem.length; i++){
         this.arrCountsItem[i] = res.countsItem[i];
       }

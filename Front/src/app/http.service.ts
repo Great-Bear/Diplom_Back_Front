@@ -165,7 +165,7 @@ export class HttpService {
                 .pipe( res => { return res; }, err => {return err} );
   }
 
-  list_adsGetByPagin(pagePagin:number, stepPagin : number, idCat : number ,idQuality : number,isDel : boolean, priceMin : number, priceMax : number
+  list_adsGetByPagin(pagePagin:number, stepPagin : number,idcatL3 : number, idcatL2:number,  idCat : number ,idQuality : number,isDel : boolean, priceMin : number, priceMax : number
     ,searchWord : any,idCurrency : number,arrOrderByValue : Array<number>, arrFilters : any){
 
     let filtersValueContainer = {
@@ -189,7 +189,7 @@ export class HttpService {
     }
 
     return this.http.post( this.URL +
-       `/List_Ads/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategory=${idCat}&idQuality=${idQuality}&idDel=${isDel}&priceFrom=${priceMin}&searchWord=${searchWord}&idCurrency=${idCurrency}&priceBefore=${priceMax}&orderBy=${orderByValue}`
+       `/List_Ads/GetAdsPagination?pagePagination=${pagePagin}&stepPagin=${stepPagin}&idCategoryL2=${idcatL2}&idCategoryL3=${idcatL3}&idCategory=${idCat}&idQuality=${idQuality}&idDel=${isDel}&priceFrom=${priceMin}&searchWord=${searchWord}&idCurrency=${idCurrency}&priceBefore=${priceMax}&orderBy=${orderByValue}`
        , arrFilters)
        .pipe( res => {
          return res;

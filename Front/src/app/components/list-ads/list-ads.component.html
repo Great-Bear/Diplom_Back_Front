@@ -40,19 +40,19 @@
                         </li>
                     <ng-container *ngFor="let item of carLayer">
                         <li class="filterItems" id="{{item.layer2Id}}" >
-                            <span >
-                                {{item.layer2}}
-                            </span>
-                            <span >
-                                <img src="../assets/imgs/RightTriangle.png" alt="openCat">
-                            </span>
+                                <span (click)="choiceCatL3(item.layer2Id,item.layer2)">
+                                    {{item.layer2}}
+                                </span>
+                                <span >
+                                    <img src="../assets/imgs/RightTriangle.png" alt="openCat">
+                                </span>
 
                             <div class="MenuLayer2">
-                                <li class="filterItems" class="filterItems" *ngFor="let itemL2 of item.data" >
-                                    <span>
+                                <li class="filterItems" *ngFor="let itemL2 of item.data" >
+                                    <span (click)="choiceCatL2(itemL2.layer1Id,itemL2.layer1)">
                                         {{itemL2.layer1}}
                                     </span>
-                                    <span >
+                                    <span>
                                         <img src="../assets/imgs/RightTriangle.png" alt="openCat">
                                     </span>
                                     <div class="MenuLayer1">
@@ -225,7 +225,7 @@
 
             <div id="choiceFilterBlock">
                 <div (click)="pickedSort($event)" >
-                    <span>Сортировка по:</span>
+                    <span>Сортування по:</span>
                     <span class="isPickedItem" >
                         <svg class=" arrowUp"  width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
