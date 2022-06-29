@@ -29,7 +29,6 @@ export class CellAdComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMainImg();
-    this.ad.isFavorite = true;
     this.ad.mainImg = "../assets/imgs/emptyImg.png";
   }
 
@@ -43,19 +42,20 @@ export class CellAdComponent implements OnInit {
 
   changeStateFavorite(event : any){
     event.stopPropagation();
-    this.ad.isFavorite = !this.ad.isFavorite;
+    this.ad.isFavorit = !this.ad.isFavorit;
 
 
-    this.http.updateFavorite(this.idUser, this.ad.id, this.ad.isFavorite)
+    this.http.updateFavorite(this.idUser, this.ad.id, this.ad.isFavorit)
     .subscribe(res => {
       let response : any = res;
       if(response.isError){
-        this.ad.isFavorite = !this.ad.isFavorite;       
+        this.ad.isFavorit = !this.ad.isFavorit;     
+        return;  
       }
-      let valueCountFavorite = this.ad.isFavorite ? 1 : -1;
+      let valueCountFavorite = this.ad.isFavorit ? 1 : -1;
       this.globalHub.changeCountFavoriteAd(valueCountFavorite);
     }, err => {
-      this.ad.isFavorite = !this.ad.isFavorite;
+      this.ad.isFavorit = !this.ad.isFavorit;
     })
   }
 

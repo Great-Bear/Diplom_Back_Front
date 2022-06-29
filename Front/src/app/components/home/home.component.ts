@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
   public countLinePagin = 10;
   public activePage : number = 1 ;
 
+  public isLoadItem = true;
+
   public Ads = Array();
   public imgs = Array();
 
@@ -90,17 +92,15 @@ export class HomeComponent implements OnInit {
 
 
     for(let itemL3 of carLayer){
-
-      let index = 0;
-
         let catItem = {
           name : itemL3.layer2,
           id : itemL3.layer2Id
         }
          catsList.push(catItem);
-         index++;
     }
     this.typeAd.Categories = catsList;
+
+    console.log(this.typeAd.Categories);
     
   }
 
@@ -277,9 +277,7 @@ export class HomeComponent implements OnInit {
   }
 
   ChoiceCategoty(event : any){  
-    if(event.target.tagName == "INPUT"){
-      this.route.navigate([`/list_ads/${event.target.id}`]);
-    }
+    this.route.navigate([`/list_ads/${event.target.id}`]);
   }
 
   UpdatePagination(){
@@ -367,6 +365,11 @@ public ChangeCheckBoxBrend(event : any){
   let idBrend =  event.target.getAttribute("id");
 
   if(idBrend != null){
+
+    if(this.acrivePartPage != 0){
+      this.acrivePartPage = 0;
+    }
+
     idBrend %= 100;
     idBrend++;
     if(idBrend == this.activeBrend.id){
@@ -390,6 +393,7 @@ public ChangeCheckBoxBrend(event : any){
 }
 
   public LoadNewItem(){
+    this.isLoadItem = true;
     this.LoadVipAds();
     if(this.acrivePartPage == 0){
       this.httpService.GetAdsPagination(
@@ -398,6 +402,7 @@ public ChangeCheckBoxBrend(event : any){
         this.activeBrend.id ).subscribe(
         res => {
           this.parseAnswer(res);
+          this.isLoadItem = false;
         },
         err => {
           let aMessage = new AlertMessage();
@@ -439,6 +444,7 @@ public ChangeCheckBoxBrend(event : any){
         }
 
         this.Ads = response.data;
+        console.log(this.Ads);
 
         for(let i = 0; i < this.Ads.length; i++ ){
           this.Ads[i].isFavorit = false;

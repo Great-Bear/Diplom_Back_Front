@@ -34,12 +34,18 @@ export class MyFavoriteComponent implements OnInit {
     this.httpService.getGetMyAdsFavorite(this.cookie.get("idUser"))
     .subscribe(ans => {
       let res : any  = ans;
+
       this.isLoadItem = false;
       if(res.isError){
         this.globalHub.addAlertMessage(new AlertMessage());
         return;
       }
+
       this.arrAds = res.ads;     
+      for(let i = 0; i < res.ads.length; i++){
+        this.arrAds[i].ad.isFavorit = true;
+      }
+
       this.noAds = res.length == 0 ? true : false;
     }, err => {
       this.globalHub.addAlertMessage(new AlertMessage());
@@ -61,13 +67,13 @@ export class MyFavoriteComponent implements OnInit {
     let isConfirm = confirm("Дійсно видалити всі товари з вибраних?");
     if(isConfirm){
       for(let item of this.arrAds){
-        item.ad.isFavorite = false;
+        item.ad.isFavorit = false;
         this.httpService.updateFavorite(this.idUser, item.ad.id, false)
         .subscribe( res => {
           let response : any = res;
           if(response.isError){
             this.globalHub.addAlertMessage(new AlertMessage());
-            item.ad.isFavorite = true;
+            item.ad.isFavorit = true;
           }
           this.globalHub.changeCountFavoriteAd(-1);
         }, err => {

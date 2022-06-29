@@ -119,7 +119,7 @@ img
 #rightBlock
 {
     position: absolute;
-    top: 30px;
+    top: 93px;
     left: 790px;
     width: 480px;
 
@@ -358,6 +358,23 @@ img
     color: #253947;
 }
 
+#returnTxt
+{
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 32px;
+    color: #253947;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+#returnTxt img
+{
+ margin-right: 15px;
+}
+
 .locationAds
 {
     font-family: 'Roboto';
@@ -570,6 +587,10 @@ img
     #title
     {
         font-size: 18px;
+    }
+    #returnTxt
+    {
+        display: none;
     }
     .locationAds
     {

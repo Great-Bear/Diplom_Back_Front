@@ -96,6 +96,7 @@ export class AppComponent {
 
    this.globalHub.countFavoriteAd.subscribe(count => {
     this.countFavoriteAd = count;
+    console.log("count is cahnge");
   })
    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
    this.globalHub.AdminUser( Boolean( this.cookieService.get("isAdmin")) )
@@ -146,12 +147,14 @@ if(event instanceof NavigationEnd){
     this.http.getCountFavoriteAd(this.idUser)
     .subscribe( res => {
      let response : any = res;     
-      this.globalHub.changeCountFavoriteAd(response.count);   
+      this.globalHub.SetCoutFavoriteAd(response.count);  
+      this.countFavoriteAd = response.count;
     });
   }
 
   UpdateInfoPanel(){
-    if(this.idUser == 0 || this.isAnonimUser || this.idUser == NaN){
+
+    if(this.isAnonimUser){
       return;
     }
 

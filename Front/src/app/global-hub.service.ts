@@ -82,9 +82,14 @@ export class GlobalHubService {
 
   public countFavoriteAd = new BehaviorSubject(0)
   public changeCountFavoriteAd(value : number){
-    this.countFavoriteAd.next(
+    console.log("From favorite value" + value);
+    this.countFavoriteAd.next(    
        this.countFavoriteAd.getValue() + value
     )
+  }
+
+  public SetCoutFavoriteAd(value : number){
+    this.countFavoriteAd.next(value)
   }
 
 

@@ -73,10 +73,12 @@
 -->
 
 <div id="container">
-
+  <div id="returnTxt" (click)="returnPage()">  
+    <img id="favoriteHeart" src="../assets/imgs/ReturnBtn.svg" alt="heart">
+      {{currentCategory}}
+    </div>
       <div id="infoAdBlock">
-        
-
+      
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
           <ol class="carousel-indicators">
             <ng-container *ngFor="let img of imgs; first as isFirst; let i = index">

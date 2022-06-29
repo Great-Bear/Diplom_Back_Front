@@ -67,6 +67,7 @@ export class CardAdComponent implements OnInit {
 
           this.data = response.data;
           console.log(this.data);
+          this.LoadCategoreis();
 
           if(this.cookie.get("idUser") == this.data.idOwner){
             this.isOwner = true;
@@ -94,7 +95,49 @@ export class CardAdComponent implements OnInit {
     } catch (error) {
       console.log("Ошибка загрузки товара")
     }
+   
   }
+
+  private LoadCategoreis(){
+    if( !(this.globalHub.currentCatLayers.getValue() instanceof Array) ){
+      this.globalHub.categoriesLayers.subscribe(res => {
+        this.parseCatLayer(res);
+      })
+    }
+    else{
+      this.parseCatLayer(
+        this.globalHub.currentCatLayers.getValue()
+      );
+    }
+    }
+
+    currentCategory = "";
+
+    private parseCatLayer(carLayer : any){
+    
+      let catsList = new Array();
+  
+      for(let itemL3 of carLayer){
+        for(let itemL2 of itemL3.data){
+          let index = 0;
+          for(let cat of itemL2.cat){
+            let catItem = {
+              name : cat,
+              id : itemL2.idCat[index]
+            }
+
+             if(catItem.id == this.data.idCategory){
+              this.currentCategory = cat
+             }
+             index++;
+          }
+        }
+      }
+    }
+
+    returnPage(){
+      this.route.navigate([`home/`]);
+    }
 
   openChat(){
     if(this.isOwner){

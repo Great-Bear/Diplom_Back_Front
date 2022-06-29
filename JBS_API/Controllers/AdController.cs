@@ -427,7 +427,7 @@ namespace JBS_API.Controllers
         private int paginationStep = 16;
         [HttpGet]
         [Route("GetAdsPagination")]
-        public JsonResult GetAdsPagination(int pagePagination, int idCategory,int idBrend )
+        public async Task<JsonResult> GetAdsPagination(int pagePagination, int idCategory,int idBrend )
         {
             pagePagination--;
             int countItems = 0;
@@ -458,6 +458,11 @@ namespace JBS_API.Controllers
                 countItems = res.Count();
                 res = res.Skip(paginationStep * (pagePagination)).Take(paginationStep);
 
+                await res.Include(f => f.QualityAd).LoadAsync();
+                await res.Include(f => f.TypeOwner).LoadAsync();
+                await res.Include(f => f.Currency).LoadAsync();
+
+
             }
             catch (Exception ex)
             {
@@ -472,7 +477,7 @@ namespace JBS_API.Controllers
         }
         [HttpGet]
         [Route("PopularAds")]
-        public JsonResult PopularAds(int pagePagination)
+        public async Task<JsonResult> PopularAds(int pagePagination)
         {
             try
             {
@@ -486,6 +491,10 @@ namespace JBS_API.Controllers
                     .Take(paginationStep);
 
                 int countItems = resList.Count();
+
+                await resList.Include(f => f.QualityAd).LoadAsync();
+                await resList.Include(f => f.TypeOwner).LoadAsync();
+                await resList.Include(f => f.Currency).LoadAsync();
 
                 return Json(new 
                 {
@@ -522,16 +531,21 @@ namespace JBS_API.Controllers
 
                 foreach (var item in FavOfUser)
                 {
-                    resList.AddRange( 
-                        _dbContext.Ads
-                        .Where( a => a.CategoryId == item
-                        .First().Ad.CategoryId )
-                        );
+                    var range = _dbContext.Ads
+                        .Where(a => a.CategoryId == item
+                        .First().Ad.CategoryId);
+
+                    await range.Include(f => f.QualityAd).LoadAsync();
+                    await range.Include(f => f.TypeOwner).LoadAsync();
+                    await range.Include(f => f.Currency).LoadAsync();
+
+                    resList.AddRange(range);
                 }
 
                 int countItems = resList.Count();
                 resList = resList.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
 
+              
                 return Json(new 
                 {
                     IsError = false,
