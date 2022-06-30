@@ -99,8 +99,6 @@ export class HomeComponent implements OnInit {
          catsList.push(catItem);
     }
     this.typeAd.Categories = catsList;
-
-    console.log(this.typeAd.Categories);
     
   }
 
@@ -394,7 +392,7 @@ public ChangeCheckBoxBrend(event : any){
 
   public LoadNewItem(){
     this.isLoadItem = true;
-    this.LoadVipAds();
+    this.Ads = new Array();
     if(this.acrivePartPage == 0){
       this.httpService.GetAdsPagination(
         this.activePage,
@@ -415,6 +413,7 @@ public ChangeCheckBoxBrend(event : any){
       this.httpService.getPopularAds(this.activePage)
       .subscribe( res => {
         this.parseAnswer(res);
+        this.isLoadItem = false;
       }, err => {
         let aMessage = new AlertMessage();
         aMessage.Message ="Не вдалося завантажити популярні товари";
@@ -426,6 +425,7 @@ public ChangeCheckBoxBrend(event : any){
       this.httpService.getRecommendedAds(this.activePage,idUser)
       .subscribe( res => {
         this.parseAnswer(res);
+        this.isLoadItem = false;
       }, err => {
         let aMessage = new AlertMessage();
         aMessage.Message ="Не вдалося завантажити рекомендовані товари";
@@ -444,7 +444,7 @@ public ChangeCheckBoxBrend(event : any){
         }
 
         this.Ads = response.data;
-        console.log(this.Ads);
+
 
         for(let i = 0; i < this.Ads.length; i++ ){
           this.Ads[i].isFavorit = false;
@@ -456,7 +456,7 @@ public ChangeCheckBoxBrend(event : any){
         this.LoadFavorite();   
   }
 
-  LoadVipAds(){
+ /* LoadVipAds(){
     this.httpService.GetVipAds()
     .subscribe( res => {
      
@@ -471,7 +471,7 @@ public ChangeCheckBoxBrend(event : any){
       console.log("error server");
     }
     )
-  }
+  }*/
 
   watchAd(event : any){
     this.route.navigate([`/card-ad/${event}`]);

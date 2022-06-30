@@ -28,7 +28,7 @@ export class HttpService {
 
   // https://apijbs.azurewebsites.net
 //   https://localhost:44398
-  private URL : string = "https://localhost:44398";
+  private URL : string = "https://apijbs.azurewebsites.net";
 
   registerUser( data : object ){
         return this.http.post(this.URL + "/User/register", JSON.stringify( data ), httpOptions )
@@ -334,6 +334,19 @@ export class HttpService {
       }
     )
   }
+
+  isFavoriteAd(idAd : number, idUser : number){
+    return this.http.get( this.URL + `/Favorite/IsFavoriteAds?idUser=${idUser}&idAd=${idAd}`)
+    .pipe(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
 
   getCategoriesLayer()
   {

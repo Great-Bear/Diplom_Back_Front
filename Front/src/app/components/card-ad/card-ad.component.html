@@ -1,76 +1,3 @@
-<!--
-<div id="container" >
-    <div class="card-body"  >
-        <div class="card">
-            
-    <div id="sliderBlock">
-      <div id="carouselExampleControls" class="carousel slide" data-ride="false" data-interval="false">
-        <div class="carousel-inner"> 
-
-          <div class="carousel-item active">
-            <img [src]="firstImg" alt="Первый слайд">
-          </div>
-
-          <div class="carousel-item " *ngFor="let img of imgs;" >
-            <img [src]="img" alt="Первый слайд">
-          </div>
-
-        </div>
-          <ng-container *ngIf="data.countImgs > 1" >
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-        </ng-container>
-      </div> 
-    </div>
-
-    <div class="input-group input-group-lg">
-      <div class="input-group-prepend">
-       <h3>{{data.title}}</h3> 
-      </div>
-    </div>
-
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-            </div>
-            <textarea disabled name="" id="Describe" class="form-control" cols="30" rows="10">{{data.describe}}</textarea>
-          </div>
-
-          <div *ngIf="data.isNegotiatedPrice" >
-            Договорная
-          </div>
-
-         <div id="miniBlock">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <label class="input-group-text" for="price">Цена</label>
-              </div>
-              <span class="form-control" id="price">{{data.price}}</span>
-              <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2">{{currencies[data.idCurrency - 1]}}</span>
-              </div>
-            </div>    
-        </div>
-
-        <div id="blockPhone" >
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="phone">Телефон</label>
-            </div>
-            <span class="form-control" id="phone">{{data.phoneNumber}}</span>
-            </div>  
-        </div>
-
-        <input class="btn btn-primary" type="button" *ngIf="!isOwner" value="Написать продавцу" (click)="openChat()"  >
-        </div>
-  </div>
-</div>
--->
 
 <div id="container">
   <div id="returnTxt" (click)="returnPage()">  
@@ -90,11 +17,11 @@
             <ng-container *ngFor="let img of imgs; first as isFirst">
 
               <div class="carousel-item active" *ngIf="isFirst">
-                <img [src]="img" alt="Первый слайд">
+                <img [src]="img" alt="фото товара">
               </div>
 
               <div class="carousel-item " *ngIf="!isFirst">
-                <img [src]="img" alt="Первый слайд">
+                <img [src]="img" alt="фото товара">
               </div>
             </ng-container>
  
@@ -120,12 +47,13 @@
                       {{data.title}}
                     </span>
                   </div>
-                  <div>
-                    <img id="favoriteHeart" src="../assets/imgs/Hearth_red.svg" alt="heart">     
+                  <div class="FavoriteHeart" (click)="changeStateFavorite($event)" >
+                    <img *ngIf="data.isFavorit" id="favoriteHeart" src="../assets/imgs/Hearth_red.svg" alt="heart"> 
+                    <img *ngIf="!data.isFavorit" id="favoriteHeart" src="../assets/imgs/Hearth_grey.svg" alt="heart">    
                   </div>
               </div>
               <div>
-                <span class="locationAds">Украина, Львов - {{data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</span>
+                <span class="locationAds">Україна, Львів - {{data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</span>
               </div>
             </div>
 
@@ -136,14 +64,14 @@
               <div id="blockMetaItems">
                 <span> {{data.typeOwner}} </span>
                 <span> {{data.quality}} </span>
-                <span *ngIf="data.isDelivery" >С доставкой</span>
+                <span *ngIf="data.isDelivery" >З доставкою</span>
               </div>
             </div>
         </div>
         <div>
           <div id="describeBlock">
             <div>
-             <span class="tilte">Описание</span> 
+             <span class="tilte">Опис</span> 
             </div>
             <div id="textDescribe">
               {{data.describe}}           
@@ -166,7 +94,7 @@
               </div>
             </div>
             <div>
-              <span id="textComplain">Пожаловаться</span>
+              <span id="textComplain">Поскаржитись</span>
             </div>
           </div>       
         </div>
@@ -175,7 +103,7 @@
       <div id="rightBlock">
         <div id="authorBlock">
           <span class="tilte">
-            Автор объявления
+            Автор оголошення
           </span>
           <div id="AuthorInfo">    
             <div>
@@ -183,13 +111,13 @@
             </div>
             <div>
               <div>
-                <span id="nameAuthor">Олег Закиров</span>
+                <span id="nameAuthor">Олег Закіров</span>
               </div>
               <div>
-                <span>На JBS с <b>марта 2020 г.</b></span>
+                <span>На JBS с <b>березня 2020 г.</b></span>
               </div>
               <div>
-                <span>был онлайн <b>июнь 2022 г.</b></span>
+                <span>був онлайн <b>червень 2022 г.</b></span>
               </div>
               <div  id="phoneNumber">
                 <span>+38(096)-350-38-33</span>
@@ -199,28 +127,28 @@
 
           <div id="deliveryBlock">
               <div>
-                <span class="tilte">Способы доставки: </span>
+                <span class="tilte">способи доставки: </span>
               </div>
               <div id="deliveryitems">
-                <span><b>Укрпошта</b> - бесплатно</span>
+                <span><b>Укрпошта</b> - безкоштовно</span>
                 <br/>
-                <span><b>Нова Пошта</b> - от 70 грн.</span>
+                <span><b>Нова Пошта</b> - від 70 грн.</span>
               </div>
           </div>
 
           <div class="btnsAuthorBlock">
             <div class="btns btnsBlack" id="buyBtn">
-              <span>Купить</span>         
+              <span>Придбати</span>         
             </div>
             <div class="btns btnsWhite" (click)="openChat()" >
-              <span>Написать сообщение</span>        
+              <span>Написати повідомлення</span>        
             </div>         
           </div>
       </div>
      
       <div id="extraAdsAuthorBlock" >
         <div id="titleExtraAds">      
-          <span>Все объявления Автора</span>
+          <span>Всі оголошення Автора</span>
           <div class="arrowExtraAds arrow-right" ></div>
         </div>
 
@@ -232,7 +160,7 @@
             <div class="infoExtraAds">
 
               <div class="titleExtraAds">
-                <span>Кресло COUGAR Armor PRO Black</span>
+                <span>Крісло COUGAR Armor PRO Black</span>
               </div>
 
               <div class="buttomExtraAds">
@@ -256,17 +184,17 @@
       <div id="blockComment">
         <div>
           <span class="tilte">
-            Оставить отзыв
+            Залишити відгук
           </span>
         </div>
         <div id="commentInput" contenteditable></div>
         <div id="btnsComment">
             <div class="btnsCommentBlock">
                 <div class="btns btnsWhite" id="btnFileComment">
-                  Прикрепить файл
+                  Прикріпити файл
                 </div>
                 <div class="btns btnsBlack" id="sendComment">
-                  Отправить
+                  Надіслати
                 </div>
             </div>
         </div>

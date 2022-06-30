@@ -38,6 +38,7 @@ export class CardAdComponent implements OnInit {
     private cookie : CookieService,
     private globalHub : GlobalHubService,
     private route : Router) {  
+      this.idUser = Number.parseInt( this.cookie.get("idUser"));
   }
 
   ngOnInit(): void {
@@ -46,13 +47,15 @@ export class CardAdComponent implements OnInit {
       this.idUser = Number.parseInt(this.cookie.get("idUser"));
       this.idAd = idAd;
 
-      this.http.getIdChat(this.idUser, idAd)
-      .subscribe( res => {
-          let response : any = res;
-          if(!response.isError){
-            this.idChat = response.idChat;            
-          }
-      } )
+      if( !isNaN(this.idUser) ){
+        this.http.getIdChat(this.idUser, idAd)
+        .subscribe( res => {
+            let response : any = res;
+            if(!response.isError){
+              this.idChat = response.idChat;            
+            }
+        } )
+    }
       this.http.getOneAd(idAd).subscribe(
         res => {         
           let response : any = res;
@@ -66,10 +69,23 @@ export class CardAdComponent implements OnInit {
           }
 
           this.data = response.data;
-          console.log(this.data);
-          this.LoadCategoreis();
+          this.data.isFavorit = false;
 
-          if(this.cookie.get("idUser") == this.data.idOwner){
+          let idUser = Number.parseInt( this.cookie.get("idUser"));
+
+          this.LoadCategoreis();
+          
+          if( !isNaN(this.idUser) ){
+            this.http.isFavoriteAd(this.idAd, idUser)
+            .subscribe(
+              res => {
+                let response : any = res;
+                this.data.isFavorit = response.isFavorite;
+              }
+            )
+          }
+
+          if(idUser == this.data.idOwner){
             this.isOwner = true;
           }
 
@@ -97,6 +113,33 @@ export class CardAdComponent implements OnInit {
     }
    
   }
+
+  changeStateFavorite(event : any){
+
+    if( isNaN(this.idUser) ){
+      this.route.navigate(["/registration"])
+      return;
+    }
+
+
+    event.stopPropagation();
+    this.data.isFavorit = !this.data.isFavorit;
+
+
+    this.http.updateFavorite(this.idUser, this.idAd, this.data.isFavorit)
+    .subscribe(res => {
+      let response : any = res;
+      if(response.isError){
+        this.data.isFavorit = !this.data.isFavorit;     
+        return;  
+      }
+      let valueCountFavorite = this.data.isFavorit ? 1 : -1;
+      this.globalHub.changeCountFavoriteAd(valueCountFavorite);
+    }, err => {
+      this.data.isFavorit = !this.data.isFavorit;
+    })
+  }
+
 
   private LoadCategoreis(){
     if( !(this.globalHub.currentCatLayers.getValue() instanceof Array) ){
@@ -127,7 +170,7 @@ export class CardAdComponent implements OnInit {
             }
 
              if(catItem.id == this.data.idCategory){
-              this.currentCategory = cat
+              this.currentCategory =`${itemL3.layer2}/${itemL2.layer1}/${cat}`;
              }
              index++;
           }
@@ -140,9 +183,17 @@ export class CardAdComponent implements OnInit {
     }
 
   openChat(){
+
     if(this.isOwner){
       return;
     }
+
+    if( isNaN(this.idUser) ){
+      this.route.navigate(["/registration"])
+      return;
+    }
+
+
     if(this.idChat == 0){
       this.http.createChat(this.idUser,this.idAd)
       .subscribe( res => {

@@ -96,7 +96,6 @@ export class AppComponent {
 
    this.globalHub.countFavoriteAd.subscribe(count => {
     this.countFavoriteAd = count;
-    console.log("count is cahnge");
   })
    this.globalHub.ModerUser( Boolean( this.cookieService.get("isModer")) )
    this.globalHub.AdminUser( Boolean( this.cookieService.get("isAdmin")) )
@@ -113,14 +112,18 @@ export class AppComponent {
   }
   else{
     this.cookieService.set("activeSession","no");
-    console.log("session is out");
-    console.log("idUser:" + this.idUser)
-    console.log(this.cookieService.get("timeOutSession") + "|" + new Date().getTime());
   }
 
 this.router.events.subscribe( event => {
 if(event instanceof NavigationEnd){
-   if(event.url != "/registration" && event.url != "/authorization" && !event.url.includes("confirm_Email")){
+
+   if(event.url != "/registration" 
+      && event.url != "/authorization" 
+      && !event.url.includes("confirm_Email")
+      && !event.url.includes("home")
+      && !event.url.includes("list_ads")
+      && !event.url.includes("card-ad")
+      ){
       if( this.cookieService.get("idUser").length == 0){
           this.router.navigate(['/registration'])
       }
@@ -139,8 +142,6 @@ if(event instanceof NavigationEnd){
   }
 }
 })
-
-
 }
 
   UpdateFavoriteAds(){

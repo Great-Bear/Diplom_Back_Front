@@ -280,6 +280,14 @@ export class ListAdsComponent implements OnInit {
 
   changeFavoriteState(event : any,idAd : number){
 
+    let idUser = Number.parseInt( this.cookie.get("idUser"));
+    console.log(idUser);
+    console.log(isNaN(idUser));
+    if( isNaN(idUser) ){
+      this.route.navigate(["/registration"])
+      return;
+    }
+
       event.stopPropagation();
      
       let aMessage = new AlertMessage();
@@ -287,7 +295,7 @@ export class ListAdsComponent implements OnInit {
   
       let item = this.adsCollect.find( ad => ad.id == idAd );
   
-          let idUser = Number.parseInt( this.cookie.get("idUser"));
+
           let addToFavorite = !item.isFavorit;
           item.isFavorit = !item.isFavorit;
       

@@ -64,6 +64,27 @@ namespace JBS_API.Controllers
         }
 
         [HttpGet]
+        [Route("IsFavoriteAds")]
+        public async Task<JsonResult> IsFavoriteAds(int idUser, int idAd)
+        {
+            try
+            {
+                var ad = await _dbContext.FavoriteAds.Where(f => f.UserId == idUser && f.AdId == idAd).FirstOrDefaultAsync();
+
+
+                bool isFavoriteAd = ad != null ? true : false;
+
+
+                return Json(new { isError = false, isFavorite = isFavoriteAd });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isError = true, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
         [Route("GetCountFovarites")]
         public JsonResult GetCountFovarites(int idUser)
         {

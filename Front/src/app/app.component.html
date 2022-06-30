@@ -4,6 +4,10 @@
                     <div id="logo" >
                         <div><a routerLink="/home" >JBS</a></div>
                     </div>   
+                   <div *ngIf="isAnonimUser">
+                    <div class="pointerCursor" routerLink="/registation">Реєстрація</div>   
+                    <div class="pointerCursor" routerLink="/authorization">Вхід</div>   
+                   </div>
                     <div id="links" *ngIf="!isAnonimUser" >   
                         <div>
                             <span id="trianglLanguag" >
@@ -42,7 +46,8 @@
                         </div>
 
                     </div>                 
-                </div>         
+                </div>
+      
         </div>
     </nav>
 

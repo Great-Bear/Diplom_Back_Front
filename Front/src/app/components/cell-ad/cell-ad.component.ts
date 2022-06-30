@@ -41,6 +41,12 @@ export class CellAdComponent implements OnInit {
   }
 
   changeStateFavorite(event : any){
+
+    if( isNaN(this.idUser) ){
+      this.route.navigate(["/registration"])
+      return;
+    }
+
     event.stopPropagation();
     this.ad.isFavorit = !this.ad.isFavorit;
 

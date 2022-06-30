@@ -354,6 +354,7 @@ export class EditAdComponent implements OnInit {
           }
       }
       this.httpService.editAds(form,filterStringValue, reqData).subscribe(res => {
+        console.log(res);
        if(res == true){
         this.route.navigate([`/card-ad/${reqData.idAd}`]);
        }

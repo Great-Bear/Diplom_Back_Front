@@ -512,7 +512,7 @@ img
 {
     font-family: 'Roboto';
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
     display: inline-block;
 
     padding: 10px 55px 10px 55px;
@@ -539,6 +539,10 @@ img
     padding: 10px 70px 10px 70px;
 }
 
+.FavoriteHeart
+{
+    cursor: pointer;
+}
 
 
 

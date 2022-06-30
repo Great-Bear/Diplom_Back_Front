@@ -356,7 +356,7 @@ namespace JBS_API.Controllers
                 _dbContext.Entry(ad).Collection("Filter_Ads").Load();
 
                 string[] valueFilters;
-                if (filtersValue.Length > 0)
+                if (filtersValue != null)
                 {
                     valueFilters = filtersValue.Split('|');
 
