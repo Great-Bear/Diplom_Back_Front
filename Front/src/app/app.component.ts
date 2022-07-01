@@ -47,6 +47,8 @@ export class AppComponent {
               private globalHub : GlobalHubService,
               private http : HttpService) {
 
+                console.log(this.cookieService.getAll())
+
   this.globalHub.isAnonim.subscribe( 
     state => {
       this.isAnonimUser = state;
@@ -105,7 +107,7 @@ export class AppComponent {
 
 
   if(this.cookieService.get("idUser").length > 0 &&
-  Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
+    Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
     this.globalHub.AnonimUser(false);
     this.cookieService.set("activeSession","yes");
     this.cookieService.set("timeOutSession", "0");

@@ -20,6 +20,8 @@ export class MyadsComponent implements OnInit {
   public noAds : boolean = false
   isLoadItem = true;
 
+  adsLineTest = new Array();
+
   countPublishItem : any;
   countNoPublish : any;
   countReject : any;
@@ -65,7 +67,7 @@ export class MyadsComponent implements OnInit {
 
       res = res.ads;
       if(res instanceof Array){
-        
+
         if(res.length == 0){
           this.noAds = true;
           return;
@@ -103,15 +105,23 @@ export class MyadsComponent implements OnInit {
   }
 
   watchAd(event : any){
-    this.route.navigate([`/card-ad/${event.target.getAttribute("id")}`]);
+    this.route.navigate([`/my-ads/card-ad/${event.target.getAttribute("id")}`]);
   }
 
   editAd(event : any){
-    this.route.navigate([`/edit-ad/${event.target.getAttribute("id")}`]);
+    this.route.navigate([`/my-ads/edit-ad/${event.target.getAttribute("id")}`]);
   }
 
   deleteAd(event : any){
-    let isDelete = confirm("Ви бажаєте видалити оголошення?");
+    let isDelete = false;
+
+    if(this.nowActivePage == 3){
+      isDelete = confirm("Ви бажаєте видалити оголошення?");
+    }
+    else{
+      isDelete = confirm("Ви бажаєте сховати оголошення?");
+    }
+
     if(isDelete){
       
       this.httpService.deleteAd(event.target.getAttribute("id"))
@@ -127,48 +137,70 @@ export class MyadsComponent implements OnInit {
 
       })
 
-      let idAd_db = Number.parseInt(event.target.getAttribute("id") );
-      let index = 0; 
-      let isBreak = false;
-      for(let i = 0; i < this.adsCol.length; i++){
-        for(let j = 0; j < this.adsCol[i].length; j++){ 
-          if(this.adsCol[i][j].data.id == idAd_db){
-            isBreak = true;
-            break;
-          }
-          if(isBreak){
-            break;
-          }
-          index++;
-        }
-      }
-
-      let idCol = Math.floor( index / this.itemInRow );
-      let idRow = index - idCol * this.itemInRow;
-
-      let first = true;
-      for(let i = idCol; i < this.adsCol.length; i++){
-        for(let j = 0; j < this.adsCol[i].length; j++){ 
-          if( j < idRow && first == true){
-            continue;
-          }
-          first = false;
-          
-          if(j == this.itemInRow - 1 && i != this.adsCol.length - 1){
-            this.adsCol[i][j] = this.adsCol[i + 1][0];
-          }
-          else{
-            this.adsCol[i][j] = this.adsCol[i][j + 1];
-          }        
-        }
-      }
-
-      this.arrCountsItem[this.nowActivePage]--;
-      if(this.arrCountsItem[this.nowActivePage] == 0){
-        this.noAds = true;
-      }
-      let lastColIndes = Math.floor( this.arrCountsItem[this.nowActivePage] / this.itemInRow );
-      this.adsCol[lastColIndes].pop();         
+      this.deleteItemFromCollecton(event.target.getAttribute("id"));     
     }
   }
+
+  deleteItemFromCollecton(idAd : number){
+    let idAd_db = idAd;
+    let index = 0; 
+    let isBreak = false;
+    for(let i = 0; i < this.adsCol.length; i++){
+      for(let j = 0; j < this.adsCol[i].length; j++){ 
+        if(this.adsCol[i][j].data.id == idAd_db){
+          isBreak = true;
+          break;
+        }
+        if(isBreak){
+          break;
+        }
+        index++;
+      }
+    }
+
+    let idCol = Math.floor( index / this.itemInRow );
+    let idRow = index - idCol * this.itemInRow;
+
+    let first = true;
+    for(let i = idCol; i < this.adsCol.length; i++){
+      for(let j = 0; j < this.adsCol[i].length; j++){ 
+        if( j < idRow && first == true){
+          continue;
+        }
+        first = false;
+        
+        if(j == this.itemInRow - 1 && i != this.adsCol.length - 1){
+          this.adsCol[i][j] = this.adsCol[i + 1][0];
+        }
+        else{
+          this.adsCol[i][j] = this.adsCol[i][j + 1];
+        }        
+      }
+    }
+
+    this.arrCountsItem[this.nowActivePage]--;
+    if(this.arrCountsItem[this.nowActivePage] == 0){
+      this.noAds = true;
+    }
+
+    let lastColIndes = Math.floor( this.arrCountsItem[this.nowActivePage] / this.itemInRow );
+    this.adsCol[lastColIndes].pop();       
+  }
+
+  PublishAd(idAd : number){
+    this.httpService.changeStateAd(idAd, 2)
+    .subscribe(res => {
+      let answer : any = res;
+      if(answer.isError == false){
+        this.arrCountsItem[1]++;
+        this.deleteItemFromCollecton(idAd);
+      }
+      else
+      {
+        alert("error");
+      }
+    }
+  )
+}
+
 }

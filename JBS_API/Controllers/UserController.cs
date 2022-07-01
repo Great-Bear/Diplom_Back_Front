@@ -191,7 +191,7 @@ namespace JBS_API.Controllers
 
                 user.Password = data.NewPasswd;
                 _dbContext.Users.Update(user);
-                _dbContext.SaveChangesAsync();
+                _dbContext.SaveChanges();
 
                 return new JsonResult(new
                 {

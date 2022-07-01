@@ -125,7 +125,6 @@ export class CreateAdComponent implements OnInit {
     private parseCatLayer(carLayer : any){
     
       let catsList = new Array();
-      console.log(carLayer);
       this.catListL3 ;
   
       for(let itemL3 of carLayer){
@@ -152,16 +151,41 @@ export class CreateAdComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getCountLoadedImgs() : number {
+    let countImgs = 0;
+    for(let img of this.urlImgs){
+      if(img != this.emptyImgUrl){
+        countImgs++;
+      }
+    }
+    return countImgs;
+  }
+
   FileSelected(event : any){
    
     let target = event.target;
-    let nowLoadedFile = target.files;
+    let nowLoadedFile = target.files as FileList;
+    
+    if(this.getCountLoadedImgs() + nowLoadedFile.length > this.countImgs){
+      let aMessage = new AlertMessage();
+          aMessage.Title = "Попередження";
+          aMessage.Message = `Максимальна кількість зображень ${this.countImgs}`;
+          aMessage.TimeShow = 4000;
+          this.globalHub.addAlertMessage(aMessage);
+    }
 
-     //  if ( !this.Imgs.type.startsWith("image/") ) {
-    //    alert("Image only please....");
-        //}
+      for(let i = 0; i < nowLoadedFile.length; i++){
+        if( !nowLoadedFile[i].type.startsWith("image/") ){
+          let aMessage = new AlertMessage();
+          aMessage.Title = "Попередження";
+          aMessage.Message = "Можна завантажити лише зображення";
+          aMessage.TimeShow = 4000;
+          this.globalHub.addAlertMessage(aMessage);
+          return;
+        }
+      }
 
-      let idLoadedImg = 0;
+    let idLoadedImg = 0;
      for(let i = 0; i < this.urlImgs.length; i++){
 
       if(this.urlImgs[i] == this.emptyImgUrl){

@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertMessage } from 'src/app/Classes/alert-message';
 
 @Component({
   selector: 'app-cell-ad',
@@ -42,10 +43,18 @@ export class CellAdComponent implements OnInit {
 
   changeStateFavorite(event : any){
 
+    let aMessage = new AlertMessage();
+
     if( isNaN(this.idUser) ){
-      this.route.navigate(["/registration"])
+        
+      aMessage.Title = "Попередження"
+      aMessage.Message ="Щоб додати оголошення в вибране будь ласка авторизуйтеся";
+      aMessage.TimeShow = 4000;
+
+      this.globalHub.addAlertMessage(aMessage);
       return;
     }
+
 
     event.stopPropagation();
     this.ad.isFavorit = !this.ad.isFavorit;
@@ -66,6 +75,6 @@ export class CellAdComponent implements OnInit {
   }
 
   watchAd(idAd : number){
-    this.route.navigate([`/myfavorite/card-ad/${idAd}`]);
+    this.route.navigate([`/${this.route.url}/card-ad/${idAd}`]);
   }
 }

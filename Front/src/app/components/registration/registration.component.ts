@@ -40,6 +40,7 @@ export class RegistrationComponent implements OnInit {
   passwd2 : string = "";
   passwd2ErrMsg : string = "";
 
+  confirmPolicy : any = false;
 
   ngOnInit(): void {
   }
@@ -47,10 +48,13 @@ export class RegistrationComponent implements OnInit {
 
   sendData(){
 
-  /*  if(this.ValidetData() == false){
+   if(this.ValidetData() == false){
       console.log("err Validate");
       return;
-    } */
+    } 
+    if(this.confirmPolicy == false){
+      return;
+     }
 
     const body = { login : this.login, password : this.passwd }
     

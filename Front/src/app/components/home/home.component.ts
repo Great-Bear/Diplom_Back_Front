@@ -181,8 +181,6 @@ export class HomeComponent implements OnInit {
       numberPart++;
     }
 
-    console.log(this.acrivePartPage);
-
     this.activePage = 1;
     this.LoadNewItem();
    }
@@ -318,7 +316,7 @@ export class HomeComponent implements OnInit {
   }
   }
 
-  
+  /*
   public LoadVipMainImgs(){
 
     for(let i = 0; i < this.VipAds.length; i++){
@@ -333,6 +331,7 @@ export class HomeComponent implements OnInit {
     );
   }
   }
+  */
 
   public ChangeCheckBoxCat(event : any){
     let idCat = event.target.getAttribute("id");
@@ -422,12 +421,24 @@ public ChangeCheckBoxBrend(event : any){
     }
     else{
       let idUser = Number.parseInt( this.cookie.get("idUser") );
+      let aMessage = new AlertMessage();
+
+      if( isNaN(idUser) ){
+        
+        aMessage.Title = "Попередження"
+        aMessage.Message ="Для завантаження рекомендованих оголошень будь ласка авторизуйтеся";
+        aMessage.TimeShow = 4000;
+        this.isLoadItem = false;
+
+        this.globalHub.addAlertMessage(aMessage);
+        return;
+      }
+
       this.httpService.getRecommendedAds(this.activePage,idUser)
       .subscribe( res => {
         this.parseAnswer(res);
         this.isLoadItem = false;
       }, err => {
-        let aMessage = new AlertMessage();
         aMessage.Message ="Не вдалося завантажити рекомендовані товари";
         this.globalHub.addAlertMessage(aMessage);
       });
@@ -473,10 +484,11 @@ public ChangeCheckBoxBrend(event : any){
     )
   }*/
 
-  watchAd(event : any){
-    this.route.navigate([`/card-ad/${event}`]);
-  }
-
+  /*
+    watchAd(event : any){
+      this.route.navigate([`/card-ad/${event}`]);
+    }
+*/
   ngOnInit(): void {
   }
 

@@ -46,7 +46,7 @@ export class AuthorizationComponent implements OnInit {
   sendDataAuth(){
 
     if(this.ValidetData() == false){
-     // return ;
+      return ;
     }
 
   const body = { login : this.login, password : this.passwd }
@@ -100,10 +100,8 @@ export class AuthorizationComponent implements OnInit {
                 return;
               }      
               subRegUsr.unsubscribe();
-              console.log("Show message error server");
-
           }, err => {
-            alert("error http");
+            this.globalHub.addAlertMessage(new AlertMessage());
           });
         }  
 

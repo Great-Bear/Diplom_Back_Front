@@ -11,6 +11,22 @@ html
     width: 80rem;
 }
 
+.container-fluid
+{
+    cursor: pointer;
+}
+
+.container-fluid a
+{
+   margin: auto;
+}
+
+
+.container-fluid:hover
+{
+   background-color: rgb(224, 213, 213);
+}
+
 .card
 {
     margin-bottom: 10px;
@@ -54,3 +70,18 @@ html
     width: 100%;
     height: 250px;
 }
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+
+

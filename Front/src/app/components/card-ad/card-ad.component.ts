@@ -117,7 +117,12 @@ export class CardAdComponent implements OnInit {
   changeStateFavorite(event : any){
 
     if( isNaN(this.idUser) ){
-      this.route.navigate(["/registration"])
+      let aMessage =  new AlertMessage();
+      aMessage.Title = "Попередження"
+      aMessage.Message ="Щоб додати оголошення в вибране будь ласка авторизуйтеся";
+      aMessage.TimeShow = 4000;
+
+      this.globalHub.addAlertMessage(aMessage);
       return;
     }
 
@@ -179,7 +184,13 @@ export class CardAdComponent implements OnInit {
     }
 
     returnPage(){
-      this.route.navigate([`home/`]);
+      
+
+ 
+      let indexChildPar : number = this.route.url.indexOf("/card-ad/")
+      let parentURL = this.route.url.substring(0,indexChildPar) ;
+
+      this.route.navigate([parentURL]);
     }
 
   openChat(){

@@ -40,22 +40,38 @@ const itemRoutesAdmin: Routes = [
 
 
 
+
 const appRoutes: Routes = [
+  { path: 'home/card-ad/:id',component: CardAdComponent},
   { path: 'home', component: HomeComponent},
+
   { path: 'about', component: AboutComponent},
   { path: 'registration', component: RegistrationComponent},
   { path: 'authorization', component: AuthorizationComponent},
   { path: 'emailconfirm', component: EmailconfirmComponent},
   { path: 'create-ad', component: CreateAdComponent},
   { path: 'edit-ad/:id', component: EditAdComponent},
+  { path: 'moderPage', component: ModerPageComponent},
+
+
+  { path: 'card-ad/:id', component: CardAdComponent},
+  { path: 'my-ads/edit-ad/:id', component: EditAdComponent},
+  { path: 'my-ads/card-ad/:id', component: CardAdComponent},
   { path: 'my-ads', component: MyadsComponent}, 
+
   { path: 'myfavorite', component: MyFavoriteComponent},
   { path: 'myfavorite/card-ad/:id', component: CardAdComponent},
-  { path: 'card-ad/:id',component: CardAdComponent},
-  { path: 'moderPage', component: ModerPageComponent},
+
+  { path: 'list_ads/:idCategory/:searchQuery/card-ad/:id', component: CardAdComponent},
+  { path: 'list_ads/:idCategory/card-ad/:id', component: CardAdComponent},
+  { path: 'list_ads/card-ad/:id', component: CardAdComponent},
+
+
   { path: 'list_ads/:idCategory/:searchQuery', component: ListAdsComponent},
   { path: 'list_ads/:idCategory', component: ListAdsComponent},
   { path: 'list_ads', component: ListAdsComponent},
+
+
   { path: 'ModersComponent', component: AdminControllerComponent},
   { path: 'ModersComponent', component: AdminControllerComponent, children: itemRoutesAdmin},
   { path: 'admin_controller', component: AdminControllerComponent},

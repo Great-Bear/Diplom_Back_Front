@@ -82,10 +82,10 @@ export class ListAdsComponent implements OnInit {
    if(queryStr != undefined){
      this.searchWord = queryStr;
    }
+
    if(this.catidL3 == undefined){
      this.catidL3 = 0;
    }
-
 
    this.carLayer = new Array();
    this.arrOrderByValue.push(this.orderByDate);
@@ -120,7 +120,6 @@ export class ListAdsComponent implements OnInit {
       return;
     }
 
-    console.log(this.carLayer);
     for(let itemL3 of this.carLayer){
       if(itemL3.layer2Id == this.catidL3){
         this.choiceCatValue = itemL3.layer2;
@@ -265,16 +264,18 @@ export class ListAdsComponent implements OnInit {
   LoadFavorite(){
     let idUser = Number.parseInt(this.cookie.get("idUser"));
 
-    this.http.getFavoriteAd(idUser)
-    .subscribe(res => {
-      let respArr : any = res;
-      for(let itemFavAd of respArr.arrFavorite){
-        let adFav = this.adsCollect.find( ad => ad.id == itemFavAd.adId );
-        if(adFav != undefined){
-          adFav.isFavorit = true;
+    if( !isNaN(idUser) ){
+      this.http.getFavoriteAd(idUser)
+      .subscribe(res => {
+        let respArr : any = res;
+        for(let itemFavAd of respArr.arrFavorite){
+          let adFav = this.adsCollect.find( ad => ad.id == itemFavAd.adId );
+          if(adFav != undefined){
+            adFav.isFavorit = true;
+          }
         }
-      }
-    })
+      })
+    }
   }
 
 
@@ -627,8 +628,7 @@ export class ListAdsComponent implements OnInit {
   }
 
   watchAd(id : any){
-    console.log(id);
-    this.route.navigate([`/card-ad/${id}`]);
+    this.route.navigate([`/${this.route.url}/card-ad/${id}`]);
   }
 
   pickedSort(event:any){
