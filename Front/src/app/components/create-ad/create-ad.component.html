@@ -27,8 +27,10 @@
                 <label class="input-group-text" for="TypeAd">Тип оголошення</label>
               </div>
               <select class="custom-select" id="TypeAd" [(ngModel)]="requData.TypeAd" >
-                <option value="Бізнес">Бізнес</option>
-                <option value="Приватне">Приватне</option>
+                <ng-container *ngFor="let item of metaController.TypeOwners; let i = index" >
+                  <option value="{{i + 1}}">{{item}}</option>
+                </ng-container>
+
               </select>
             </div>
             <span class="errorMsgOffset" >{{errMsg.TypeAd}}</span>
@@ -38,8 +40,9 @@
                   <label class="input-group-text" for="QualityAd">Стан</label>
                 </div>
                 <select class="custom-select" id="QualityAd" [(ngModel)]="requData.Quality" >
-                  <option value="Нове">Нове</option>
-                  <option value="Б/В">Б/В</option>
+                  <ng-container *ngFor="let item of metaController.QualityAds; let i = index">
+                    <option value="{{i + 1}}">{{item}}</option>
+                  </ng-container>
                 </select>
               </div>
               <span class="errorMsgOffset" >{{errMsg.Quality}}</span>

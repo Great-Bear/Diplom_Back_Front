@@ -5,7 +5,7 @@
     margin-bottom: 18px;
     cursor: pointer;
 }
-.cell-ads > img
+.imgAdCell
 {
     width: inherit;
     height: 216px;
@@ -112,3 +112,33 @@
     border-radius: 50px;
     color: #6A7881;
 }
+
+
+.rotateImg {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    animation: moving 1.5s infinite linear;
+    animation-name: slidein;
+  
+    width: inherit;
+    height: 216px;
+  }
+  
+  @keyframes slidein {
+    from {
+        transform: rotate(0deg);
+    }
+  
+    to {
+        transform: rotate(360deg);
+    }
+  }
+
+  .imgBlock
+  {
+    position: relative;
+    height: 216px;
+    width: inherit;
+  }

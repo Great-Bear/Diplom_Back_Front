@@ -45,12 +45,19 @@ export class MyadsComponent implements OnInit {
    this.loadAds(null,3);
   }
 
+  choiceActivePage : any;
+
   loadAds(event : any,statusAd : number){
     if(event == null){
       this.nowActivePage = 0;
+      this.choiceActivePage = document.getElementsByClassName("choice-fluid")[0];
     }
     else{
-      this.nowActivePage  = event.target.id;
+      this.nowActivePage = event.currentTarget.id;
+      this.choiceActivePage.classList.remove("choice-fluid")
+
+      event.currentTarget.classList.add("choice-fluid")
+      this.choiceActivePage = event.currentTarget;
     }
 
     this.adsCol = new Array();
@@ -85,7 +92,8 @@ export class MyadsComponent implements OnInit {
             res[indexItem].timeEnd = new Date(res[indexItem].timeEnd)
             this.adsCol[colIndex].push( {
               data : res[indexItem],
-              url : this.emptyImgUrl
+             // url : this.emptyImgUrl
+             url : ""
             });
             indexItem++;
    

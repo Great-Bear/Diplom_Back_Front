@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AlertMessage } from 'src/app/Classes/alert-message';
+import { MetaController } from 'src/app/Classes/meta-controller';
 
 
 @Component({
@@ -60,6 +61,8 @@ export class ListAdsComponent implements OnInit {
   idCurrency = 0;
 
   arrfiltersValueContainer = new Array();
+
+  metaController = new MetaController();
 
   constructor(private http : HttpService,
               private globalHub : GlobalHubService,
@@ -189,6 +192,17 @@ export class ListAdsComponent implements OnInit {
 
           for(let ad of response.data){
             ad.isFavorit = false;
+
+            ad.currency =
+            this.metaController.GetCurrenciesByid( ad.currencyId)
+    
+            ad.qualityAd =
+            this.metaController.GetQualityAdsByid( ad.qualityAdId)
+    
+            ad.typeOwner =
+            this.metaController.GetTypeOwnersByid( ad.typeOwnerId)
+
+
             this.adsCollect.push(ad);
           }
 
@@ -196,7 +210,8 @@ export class ListAdsComponent implements OnInit {
 
           this.imgCollect = new Array(response.data.length);
           for(let i = 0; i < this.imgCollect.length; i++){
-            this.imgCollect[i] = this.emptyImgUrl;
+            //this.imgCollect[i] = this.emptyImgUrl;
+            this.imgCollect[i] = "";
           }       
         }
         this.isLoadItem = false;
@@ -377,6 +392,7 @@ export class ListAdsComponent implements OnInit {
   }
 
   choiceFilterValue(event : any, idFilter: number){
+   
    if(event.target.id == "useFilter"){
      let arr = event.currentTarget.getElementsByClassName("custom-checkbox");
     
@@ -399,9 +415,12 @@ export class ListAdsComponent implements OnInit {
          this.arrfiltersValueContainer[idFilter].maxValue = arrInptPrice[1].value;
         }
       }
-    this.loadNewAd();
-    
+    this.loadNewAd();  
    }
+  }
+
+  upDateFilterCheckBox(){
+    
   }
 
   userSliderFilter(state : boolean, indexFilter : number, event : any)
@@ -412,6 +431,23 @@ export class ListAdsComponent implements OnInit {
         arr[i].checked = false;
       }
     }
+
+    let contArr =  event.target.parentNode.parentNode.parentNode.parentNode
+
+    let arr = contArr.getElementsByClassName("custom-checkbox");
+  
+    this.arrfiltersValueContainer[indexFilter].values = new Array();
+    this.arrfiltersValueContainer[indexFilter].userSlider = this.filters[indexFilter].useSlider;
+    this.arrfiltersValueContainer[indexFilter].idFilter =  this.filters[indexFilter].idFilter;
+
+    if(this.filters[indexFilter].useSlider == false){   
+       for(let item of arr){
+         if(item.checked){
+           this.arrfiltersValueContainer[indexFilter].values.push(item.id.replace("filterValue",""))
+         }
+       }
+     }
+
     this.filters[indexFilter].useSlider = state;
   }
 
@@ -521,6 +557,8 @@ export class ListAdsComponent implements OnInit {
 
   choiceAllCat(){
     this.filters = new Array();
+    this.catidL3 = 0;
+    this.catIdL2 = 0;
     this.catId = 0;
     this.choiceCatValue = "Всі категорії";
     this.filters = new Array();

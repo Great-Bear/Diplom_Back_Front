@@ -210,17 +210,9 @@ namespace JBS_API.Controllers
                     }
                 }
            
-                if (res.Count() > 0)
-                {
-                    foreach (var item in res.ToArray())
-                    {
-                        _dbContext.Entry(item).Reference("TypeOwner").Load();
-                        _dbContext.Entry(item).Reference("QualityAd").Load();
-                        _dbContext.Entry(item).Reference("Currency").Load();
-                    }
-                }
                 countItems = res.Count();
                 List<Ad> listRes = res.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
+
 
                 decimal maxPrice = 0;
                 decimal minPirce = 0;

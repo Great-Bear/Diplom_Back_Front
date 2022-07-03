@@ -30,7 +30,8 @@ export class CellAdComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMainImg();
-    this.ad.mainImg = "../assets/imgs/emptyImg.png";
+  //  this.ad.mainImg = "../assets/imgs/emptyImg.png";
+  this.ad.mainImg = "";
   }
 
   loadMainImg(){

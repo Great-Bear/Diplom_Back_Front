@@ -59,7 +59,8 @@ namespace JBS_API.Controllers
         public FileResult GetImgOfAd(int idAd, int numeberImg)
         {
             try
-            {          
+            {
+
                 var imgsAd = _dbContext.Imgs.Where(i => i.AdId == idAd ).ToArray();
                 
                 for (int i = 0; i < imgsAd.Length; i++)

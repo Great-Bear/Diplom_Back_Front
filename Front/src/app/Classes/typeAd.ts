@@ -11,4 +11,6 @@ export class TypeAd {
         "Xiomi",
         "Nike",
     ]
+
+
 }

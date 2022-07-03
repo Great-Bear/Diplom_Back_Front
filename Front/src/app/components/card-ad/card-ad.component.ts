@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { Router } from '@angular/router';
+import { MetaController } from 'src/app/Classes/meta-controller';
 
 @Component({
   selector: 'app-card-ad',
@@ -19,11 +20,15 @@ export class CardAdComponent implements OnInit {
   firstImg : any;
   isOwner = false;
 
+  isNoImg = true;
+
   idChat = 0;
   idUser = 0;
   idAd = 0;
 
   extraAds = new Array(3);
+
+  private metaController =  new MetaController();
 
   currencies = [
     "грн",
@@ -71,6 +76,23 @@ export class CardAdComponent implements OnInit {
           this.data = response.data;
           this.data.isFavorit = false;
 
+          this.data.typeOwner = 
+            this.metaController.GetTypeOwnersByid(
+              this.data.typeOwnerId
+            );
+
+            this.data.currency = 
+            this.metaController.GetCurrenciesByid(
+              this.data.currencyId
+            );
+
+            this.data.qualityAd = 
+            this.metaController.GetQualityAdsByid(
+              this.data.qualityAdId
+            );
+
+
+
           let idUser = Number.parseInt( this.cookie.get("idUser"));
 
           this.LoadCategoreis();
@@ -89,20 +111,21 @@ export class CardAdComponent implements OnInit {
             this.isOwner = true;
           }
 
-          if(this.data.countImgs == 0){
+          if(response.countImgs == 0){
               this.firstImg = "../assets/imgs/emptyImg.png";
               this.imgs = new Array(1);
               this.imgs[0] = "../assets/imgs/emptyImg.png";
             return;
           }
-          this.imgs = new Array(this.data.countImgs)
+          this.imgs = new Array(response.countImgs)
+          console.log(this.imgs)
           
-          for(let i = 0; i < this.data.countImgs; i++){
+          for(let i = 0; i < response.countImgs; i++){
           this.http.GetImgOfAd(idAd, i).subscribe(
             imgBlob => {
               const urlToBlob = window.URL.createObjectURL(imgBlob)  
               this.imgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
-           
+            this.isNoImg = false;
             }
           )
         }
@@ -174,7 +197,7 @@ export class CardAdComponent implements OnInit {
               id : itemL2.idCat[index]
             }
 
-             if(catItem.id == this.data.idCategory){
+             if(catItem.id == this.data.categoryId){
               this.currentCategory =`${itemL3.layer2}/${itemL2.layer1}/${cat}`;
              }
              index++;
@@ -185,8 +208,6 @@ export class CardAdComponent implements OnInit {
 
     returnPage(){
       
-
- 
       let indexChildPar : number = this.route.url.indexOf("/card-ad/")
       let parentURL = this.route.url.substring(0,indexChildPar) ;
 

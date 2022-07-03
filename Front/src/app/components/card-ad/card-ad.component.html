@@ -24,6 +24,10 @@
                 <img [src]="img" alt="фото товара">
               </div>
             </ng-container>
+
+            <div class="rotateImg" *ngIf="isNoImg">
+              <img src="../assets/imgs/AnimRotate.png" alt="фото товара">
+            </div>
  
           </div>
           <ng-container *ngIf="data.countImgs > 1">
@@ -59,11 +63,11 @@
 
             <div>
               <div id="price">
-                {{data.price}} {{currencies[data.idCurrency]}}
+                {{data.price}} {{data.currency}}
               </div>
               <div id="blockMetaItems">
                 <span> {{data.typeOwner}} </span>
-                <span> {{data.quality}} </span>
+                <span> {{data.qualityAd}} </span>
                 <span *ngIf="data.isDelivery" >З доставкою</span>
               </div>
             </div>

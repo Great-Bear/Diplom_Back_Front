@@ -47,46 +47,95 @@ export class AppComponent {
               private globalHub : GlobalHubService,
               private http : HttpService) {
 
-                console.log(this.cookieService.getAll())
+this.globalHub.isAnonim.subscribe( 
+  state => {
+    this.isAnonimUser = state;
+    if(state == false){
+      this.UpdateInfoPanel();
+    }
+  })
 
-  this.globalHub.isAnonim.subscribe( 
+
+  this.globalHub.isModer.subscribe(
     state => {
-      this.isAnonimUser = state;
-      if(state == false){
-        this.UpdateInfoPanel();
-      }
-    }
-   )
-    this.idUser = Number.parseInt( this.cookieService.get("idUser") );
-    if( !isNaN(this.idUser) ){
+      this.isModer = state;
+    })
+
+    this.globalHub.isAdmin.subscribe(
+    state => {
+      this.isAdmin = state;
+    })
+
+    console.log(this.cookieService.getAll())
+
+if(this.cookieService.get("rememberMe") != "yes" ){
+    if(this.cookieService.get("idUser").length > 0 &&
+      Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
       this.globalHub.AnonimUser(false);
+      this.cookieService.set("activeSession","yes");
+
+      this.idUser = Number.parseInt( this.cookieService.get("idUser") );
     }
+    else{
+      this.cookieService.set("activeSession","no");
+      this.cookieService.set("idUser", "");
+      this.router.navigate(["/authorization"])
+    }
+  }
+  else{
+    if(this.cookieService.get("idUser").length > 0){
+      this.globalHub.AnonimUser(false);
+      this.cookieService.set("activeSession","yes");
+      this.idUser = Number.parseInt( this.cookieService.get("idUser") );
+    }
+    else
+    {
+      this.cookieService.set("idUser", "");
+      this.router.navigate(["/authorization"])
+    }
+  }
 
-
-   this.globalHub.isModer.subscribe(
-     state => {
-       this.isModer = state;
-     }
-   )
-
-     this.globalHub.isAdmin.subscribe(
-      state => {
-        this.isAdmin = state;
+  this.router.events.subscribe( event => {
+    if(event instanceof NavigationEnd){
+    
+       if(event.url != "/registration" 
+          && event.url != "/authorization" 
+          && !event.url.includes("confirm_Email")
+          && !event.url.includes("home")
+          && !event.url.includes("list_ads")
+          && !event.url.includes("card-ad")
+          ){
+          if( this.cookieService.get("idUser").length == 0){
+              this.router.navigate(['/registration'])
+          }
+          if(this.cookieService.get("rememberMe") != "yes" && 
+             this.cookieService.get("activeSession") != "yes" ){
+              this.cookieService.set("idUser","");
+              this.router.navigate(["/authorization"])
+          }   
       }
-     )
+      if(event.url.includes("list_ads") || event.url.includes( "home" )
+       || event.url == "/" || event.url.includes("card-ad")){
+        this.showSearchBlock = true;
+      }
+      else{
+        this.showSearchBlock = false;
+      }
+    }
+    })
 
      this.http.getCategoriesLayer()
-                 .subscribe(res => {
-                   this.globalHub.ChangeCatLayers(res);
-                 })
-    this.http.getBrands().subscribe( 
-      res => {
-        this.globalHub.ChangeBrends(res);
-      }
-    )
+        .subscribe(res => {
+          this.globalHub.ChangeCatLayers(res);
+        })
+    this.http.getBrands()
+      .subscribe( 
+        res => {
+          this.globalHub.ChangeBrends(res);
+        })
 
 
-   this.globalHub.AlertMessage.subscribe(item =>{
+   this.globalHub.AlertMessage.subscribe(item => {
      this.arrAlertMessage.push(item);
 
   timer(item.TimeShow)
@@ -106,44 +155,7 @@ export class AppComponent {
   this.collLocation = new CollectionLocation().getDefautCollection();
 
 
-  if(this.cookieService.get("idUser").length > 0 &&
-    Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
-    this.globalHub.AnonimUser(false);
-    this.cookieService.set("activeSession","yes");
-    this.cookieService.set("timeOutSession", "0");
-  }
-  else{
-    this.cookieService.set("activeSession","no");
-  }
 
-this.router.events.subscribe( event => {
-if(event instanceof NavigationEnd){
-
-   if(event.url != "/registration" 
-      && event.url != "/authorization" 
-      && !event.url.includes("confirm_Email")
-      && !event.url.includes("home")
-      && !event.url.includes("list_ads")
-      && !event.url.includes("card-ad")
-      ){
-      if( this.cookieService.get("idUser").length == 0){
-          this.router.navigate(['/registration'])
-      }
-      if(this.cookieService.get("rememberMe") != "yes" && 
-         this.cookieService.get("activeSession") != "yes" ){
-          this.cookieService.set("idUser","");
-          this.router.navigate(["/authorization"])
-      }   
-  }
-  if(event.url.includes("list_ads") || event.url.includes( "home" )
-   || event.url == "/" || event.url.includes("card-ad")){
-    this.showSearchBlock = true;
-  }
-  else{
-    this.showSearchBlock = false;
-  }
-}
-})
 }
 
   UpdateFavoriteAds(){
@@ -238,8 +250,6 @@ startSearch(){
     return;
   }
 
-  console.log(this.searchWord);
-
   if(!this.router.url.includes("list_ads")){
     this.router.navigate([`/list_ads/0/${this.searchWord}`]);
   }
@@ -253,7 +263,8 @@ ngOnInit(){
  
 
  window.onunload = (event) => {
-  this.cookieService.set("timeOutSession", (new Date().getTime() + 60000).toString() );
+  this.cookieService.set("timeOutSession", (new Date().getTime() + 10000).toString() );
+  console.log("I am write ", (new Date().getTime() + 10000).toString() )
  }
 
 

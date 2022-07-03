@@ -875,6 +875,41 @@ svg
 
 
 
+.rotateImg {
+  position: absolute;
+  left: 10px;
+  
+
+  animation: moving 1.5s infinite linear;
+  animation-name: slidein;
+
+  width: inherit;
+  height: inherit;
+}
+
+@keyframes slidein {
+  from {
+      transform: rotate(0deg);
+  }
+
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+.imgBlock
+{
+  position: relative;
+  min-width: 252px;
+  height: 231px ;
+}
+
+.imgBlockPlitca
+{
+  width: 243px;
+  height: 216px;
+}
+
 
 
 

@@ -18,7 +18,7 @@
   </div>
 
   <div class="alert alert-primary" *ngIf="isLoadItem" role="alert">
-    Завантаження товарів
+    Завантаження товарів <app-messages></app-messages>
   </div>
 
   <div *ngIf="arrAds.length == 0 && !isLoadItem" class="alert alert-success" >

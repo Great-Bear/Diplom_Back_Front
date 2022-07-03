@@ -45,8 +45,8 @@ namespace JBS_API.Controllers
             string Phone,
             bool IsDelivery,
             bool isNegotiatedPrice,
-            string Quality,
-            string TypeAd,
+            int Quality,
+            int TypeAd,
             int CurrencyId,
             string FiltersValue,
             IFormFile[] filecollect)  
@@ -80,19 +80,6 @@ namespace JBS_API.Controllers
                     throw new Exception("error server" + "StatusCheking is null");
                 }
 
-                
-                var QualityItem = _dbContext.QualityAds.FirstOrDefault(q => q.Name == Quality);
-
-                if (QualityItem == null)
-                {
-                    throw new Exception("error server Quality is null");
-                }
-
-                var TypeAdItem = _dbContext.TypeOwners.FirstOrDefault(q => q.Name == TypeAd);
-                if (TypeAdItem == null)
-                {
-                    throw new Exception("error server TypeAdItem is null");
-                }
 
                 Ad newAd = new Ad {
                     Title = Title,
@@ -103,8 +90,8 @@ namespace JBS_API.Controllers
                     Price = price,
                     PhoneNumber = Phone,
                     isDelivery = IsDelivery,
-                    QualityAdId = QualityItem.Id,
-                    TypeOwnerId = TypeAdItem.Id,
+                    QualityAdId = Quality,
+                    TypeOwnerId = TypeAd,
                     isNegotiatedPrice = isNegotiatedPrice,
                     StatusAd = statusCheking,
                     CurrencyId = CurrencyId,
@@ -193,8 +180,7 @@ namespace JBS_API.Controllers
 
             try
             {
-                var ads = _dbContext.Ads                                  
-                                    .Where(a => a.UserId == idUser);
+                var ads = _dbContext.Ads.Where(a => a.UserId == idUser);
 
                 var countPublish = ads.Where(a => a.StatusAdId == (int)stateAd.publish).Count();
                 var countNoPublish = ads.Where(a => a.StatusAdId == (int)stateAd.noPublish).Count();
@@ -283,7 +269,7 @@ namespace JBS_API.Controllers
                 var countImgs = _dbContext.Imgs.Count(i => i.AdId == idAd);
 
 
-                _dbContext.Entry(ad).Collection("Filter_Ads").Load();
+                await _dbContext.Entry(ad).Collection("Filter_Ads").LoadAsync();
                 int[] filters = new int[ad.Filter_Ads.Count()];
 
                 for (int i = 0; i < ad.Filter_Ads.Count(); i++)
@@ -301,29 +287,13 @@ namespace JBS_API.Controllers
                     return Json(resp);
                 }
 
-                await _dbContext.Entry(ad).Reference(ad => ad.QualityAd).LoadAsync();
-                await _dbContext.Entry(ad).Reference(ad => ad.TypeOwner).LoadAsync();
-
-                resp.Title = ad.Title;
-                resp.Describe = ad.Describe;
-                resp.Price = ad.Price.ToString();
-                resp.CountImgs = countImgs;
-                resp.idOwner = ad.UserId;
-                resp.idCategory = ad.CategoryId;
-                resp.idBrend = ad.BrendId;
-                resp.phoneNumber = ad.PhoneNumber;
-                resp.isNegotiatedPrice = ad.isNegotiatedPrice;
-                resp.isDelivery = ad.isDelivery;
-                resp.Filter_Ads = filters;
-                resp.idCurrency = ad.CurrencyId;
-                resp.Quality = ad.QualityAd.Name;
-                resp.typeOwner = ad.TypeOwner.Name;
-                resp.timeEnd = ad.TimeEnd;
 
                 return Json(new
                 {
                     isError = false,
-                    data = resp
+                    data = ad,
+                    filters = filters,
+                    countImgs = countImgs
                 }); ;
             }
             catch(Exception ex) 
@@ -433,6 +403,7 @@ namespace JBS_API.Controllers
             int countItems = 0;
             var statusCheking = _dbContext.StatusAds.FirstOrDefault(s => s.Name == "Опубликовано");
 
+
             IQueryable<Ad> res = null;
             try
             {
@@ -443,7 +414,7 @@ namespace JBS_API.Controllers
                 }
                 else if(idCategory != 0)
                 {
-                    res = _dbContext.Ads.Where(a => a.CategoryId == idCategory);
+                    res = _dbContext.Ads.Where(a => a.CategoryId == idCategory);                
                 }
                 else if(idBrend != 0)
                 {
@@ -454,14 +425,12 @@ namespace JBS_API.Controllers
                 {
                     res = _dbContext.Ads;
                 }
-                res = res.Where(a => a.StatusAdId == statusCheking.Id);
+
+                res = res
+                    .Where(a => a.StatusAdId == statusCheking.Id)
+                    .Skip(paginationStep * (pagePagination))
+                    .Take(paginationStep);
                 countItems = res.Count();
-                res = res.Skip(paginationStep * (pagePagination)).Take(paginationStep);
-
-                await res.Include(f => f.QualityAd).LoadAsync();
-                await res.Include(f => f.TypeOwner).LoadAsync();
-                await res.Include(f => f.Currency).LoadAsync();
-
 
             }
             catch (Exception ex)

@@ -5,20 +5,20 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         
-        <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,3)" id="0" >Опубліковані ({{arrCountsItem[0]}})</a>
+        <div class="container-fluid choice-fluid" (click)="loadAds($event,3)" id="0">
+          <a class="navbar-brand"  >Опубліковані ({{arrCountsItem[0]}})</a>
         </div>
 
-        <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,2)" id="1"  >Перевіряються ({{arrCountsItem[1]}}) </a>
+        <div class="container-fluid" (click)="loadAds($event,2)" id="1">
+          <a class="navbar-brand"   >Перевіряються ({{arrCountsItem[1]}}) </a>
         </div>
 
-        <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,4)" id="2">Відхилені ({{arrCountsItem[2]}}) </a>
+        <div class="container-fluid"  (click)="loadAds($event,4)" id="2">
+          <a class="navbar-brand">Відхилені ({{arrCountsItem[2]}}) </a>
         </div>
 
-        <div class="container-fluid">
-          <a class="navbar-brand" (click)="loadAds($event,1)" id="3">Неактивні ({{arrCountsItem[3]}}) </a>
+        <div class="container-fluid" (click)="loadAds($event,1)" id="3">
+          <a class="navbar-brand" >Неактивні ({{arrCountsItem[3]}}) </a>
         </div>
 
       </nav>
@@ -27,33 +27,22 @@
 
   
   <div class="alert alert-success" role="alert" *ngIf="noAds && !isLoadItem" >
-    <h4 *ngIf="nowActivePage == 0" class="alert-heading"> У вас ще немає опублікованих оголошень :(
-      <div id="animBlock">
-        <div >
-            <span class="mover" >(╮°-°)╮┳━━┳ </span>          
-            <span class="secondImg" >(╯°□°)╯ ┻━━┻</span>
-        </div>
-
-
-
-      </div>
-    </h4>
+    <h4 *ngIf="nowActivePage == 0" class="alert-heading"> У вас ще немає опублікованих оголошень :(</h4>
     <h4 *ngIf="nowActivePage == 1" class="alert-heading"> У вас немає оголошень на перевірку ¯\_(ツ)_/¯</h4>
     <h4 *ngIf="nowActivePage == 2" class="alert-heading"> У вас немає відхилених оголошень :)</h4>
     <h4 *ngIf="nowActivePage == 3" class="alert-heading"> У вас немає неактивних оголошень :)</h4>
-  
-  
-
-  
   </div>
 
   <div class="alert alert-primary" *ngIf="isLoadItem" role="alert">
-    Завантаження оголошень
+    Завантаження оголошень <app-messages></app-messages>
   </div>
 
   <div class="card-deck" *ngFor="let col of adsCol; let i = index;" >
     <div class="card" class="ad" *ngFor="let row of col;"   >
-      <img class="card-img-top" [src]="row.url" alt="">
+      <div class="imgBlock">
+          <img *ngIf="row.url.length != 0" class="card-img-top" [src]="row.url" alt="">
+          <img *ngIf="row.url.length == 0"  class="rotateImg" src="../assets/imgs/AnimRotate.png" alt="">
+      </div>
       <div class="card-body">
         <h5 class="card-title">{{row.data.title}}</h5>
         <p class="card-text"></p>

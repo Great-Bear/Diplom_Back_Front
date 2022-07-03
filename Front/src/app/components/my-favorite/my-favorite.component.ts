@@ -4,6 +4,7 @@ import { HttpService } from 'src/app/http.service';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { Router } from '@angular/router';
+import { MetaController } from 'src/app/Classes/meta-controller';
 
 @Component({
   selector: 'app-my-favorite',
@@ -16,6 +17,8 @@ export class MyFavoriteComponent implements OnInit {
   public noAds : boolean = false
   public isLoadItem = true;
   idUser : number = 0;
+
+  private metaController = new MetaController();
 
   constructor(
     private httpService : HttpService,
@@ -41,10 +44,21 @@ export class MyFavoriteComponent implements OnInit {
         return;
       }
 
-      this.arrAds = res.ads;     
+      let Ads = res.ads;     
       for(let i = 0; i < res.ads.length; i++){
-        this.arrAds[i].ad.isFavorit = true;
+        Ads[i].ad.isFavorit = true;
+
+        Ads[i].ad.currency =
+        this.metaController.GetCurrenciesByid( Ads[i].ad.currencyId)
+
+        Ads[i].ad.qualityAd =
+        this.metaController.GetQualityAdsByid( Ads[i].ad.qualityAdId)
+
+        Ads[i].ad.typeOwner =
+        this.metaController.GetTypeOwnersByid( Ads[i].ad.typeOwnerId)
       }
+
+      this.arrAds = Ads;     
 
       this.noAds = res.length == 0 ? true : false;
     }, err => {

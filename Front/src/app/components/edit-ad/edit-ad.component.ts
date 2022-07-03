@@ -80,26 +80,26 @@ export class EditAdComponent implements OnInit {
                 this.httpService.getOneAd(idAd).subscribe(
                   res => {
                     let response : any = res;
-                    console.log(res);
               
                     if(response.IsError == true){
                       this.globalHub.addAlertMessage(new AlertMessage());
                       return;
                     }
-
-                    this.Category = this.catList.find( c => c.id == response.data.idCategory ).name; 
+                    
+                    console.log(res);
 
                     this.requData = response.data;
-                    let filteList_Db : any = res;
+                    let filteList_Db : any = response.filters;
 
                     this.requData.FiltersValue = new Array();
-                    for(let itemFilter of filteList_Db.data.filter_Ads){
+                    for(let itemFilter of filteList_Db){
                       this.requData.FiltersValue.push(itemFilter);
                     }
 
 
-                    this.httpService.getFilters(Number.parseInt(this.requData.idCategory))
+                    this.httpService.getFilters(Number.parseInt(this.requData.categoryId))
                     .subscribe(res => {
+                      this.Category = this.catList.find( c => c.id == response.data.categoryId ).name; 
                       this.filterList = new Array();
                       if(res instanceof Array){
                         for(let filter of res){
@@ -312,7 +312,6 @@ export class EditAdComponent implements OnInit {
 
 
   EditAds(){    
-    console.log(this.requData)
     if(this.findErrorForm() == true){
 
       let aMessage = new AlertMessage();
@@ -344,7 +343,7 @@ export class EditAdComponent implements OnInit {
       reqData.Phone =  this.requData.phoneNumber;
       reqData.IsDelivery =  this.requData.isDelivery;
       reqData.isNegotiatedPrice =  this.requData.isNegotiatedPrice;
-      reqData.idCurrency = this.requData.idCurrency;
+      reqData.idCurrency = this.requData.currencyId;
 
       let filterStringValue = "";
       for(let i = 0; i < this.requData.FiltersValue.length; i++ ){

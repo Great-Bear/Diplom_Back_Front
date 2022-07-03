@@ -14,6 +14,8 @@ html
 .container-fluid
 {
     cursor: pointer;
+    padding: 0px 10px 0 10px;
+    margin-right: 10px;
 }
 
 .container-fluid a
@@ -25,6 +27,11 @@ html
 .container-fluid:hover
 {
    background-color: rgb(224, 213, 213);
+}
+
+.choice-fluid
+{
+    background-color: rgb(224, 213, 213);
 }
 
 .card
@@ -71,6 +78,34 @@ html
     height: 250px;
 }
 
+.rotateImg {
+    position: absolute;
+    left: 20px;
+    
+  
+    animation: moving 1.5s infinite linear;
+    animation-name: slidein;
+  
+    width: inherit;
+    height: inherit;
+  }
+  
+  @keyframes slidein {
+    from {
+        transform: rotate(0deg);
+    }
+  
+    to {
+        transform: rotate(360deg);
+    }
+  }
+  
+  .imgBlock
+  {
+    position: relative;
+    min-width: 295px;
+    height: 250px ;
+  }
 
 
 

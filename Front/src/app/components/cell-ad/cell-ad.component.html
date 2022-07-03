@@ -1,6 +1,9 @@
 <div class="cell-ads" (click)="watchAd(ad.id)" >
+    <div class="imgBlock">
         <img *ngIf="ad.isDelivery" class="deleveryImg" src="../assets/imgs/DeliveryIcon.svg" alt="deleteryImg">
-        <img [src]="ad.mainImg" alt="imgAd">
+        <img *ngIf="ad.mainImg.length != 0" [src]="ad.mainImg" class="imgAdCell" alt="imgAd">
+        <img  *ngIf="ad.mainImg.length == 0" class="rotateImg" src="../assets/imgs/AnimRotate.png" alt="">
+    </div>
         <div>
             <div class="infoAds">
                 <div class="titleAds">
@@ -10,7 +13,7 @@
                 </div>
                 <div class="buttomAds">
                     <div>
-                        <span>{{ad.price}} {{ad.currency.name}}</span>
+                        <span>{{ad.price}} {{ad.currency}}</span>
                     </div>
                     <div (click)="changeStateFavorite($event)">
                         <img *ngIf="ad.isFavorit" src="../assets/imgs/Hearth_red.svg" alt="heart">     
@@ -27,12 +30,12 @@
                 </div>
                 <div>
                     <span class="addedInfo">
-                        {{ad.typeOwner.name}}
+                        {{ad.typeOwner}}
                     </span>
                 </div>
                 <div>
                     <span class="addedInfo">
-                        {{ad.qualityAd.name}}
+                        {{ad.qualityAd}}
                     </span>
                 </div>
             </div>

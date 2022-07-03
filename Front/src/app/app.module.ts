@@ -27,6 +27,7 @@ import { ModersComponent } from './components/moders/moders.component';
 import { FiltersControllerComponent } from './components/filters-controller/filters-controller.component';
 import { AddModerComponent } from './components/add-moder/add-moder.component';
 import { CellAdComponent } from './components/cell-ad/cell-ad.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 const itemRoutesModer: Routes = [
   { path: 'add', component: AddModerComponent},
@@ -106,6 +107,7 @@ const appRoutes: Routes = [
     FiltersControllerComponent,
     AddModerComponent,
     CellAdComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

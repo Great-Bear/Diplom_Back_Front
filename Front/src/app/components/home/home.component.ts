@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { CookieService  } from 'ngx-cookie-service';  
+import { MetaController } from 'src/app/Classes/meta-controller';
 
 
 
@@ -35,6 +36,8 @@ export class HomeComponent implements OnInit {
   public acrivePartPage = 0;
 
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
+
+  private metaController = new MetaController();
 
   public activeCat = {
     object : null,
@@ -454,12 +457,22 @@ public ChangeCheckBoxBrend(event : any){
           this.countPage.push(i);
         }
 
-        this.Ads = response.data;
+        let Ads = response.data;
 
 
-        for(let i = 0; i < this.Ads.length; i++ ){
-          this.Ads[i].isFavorit = false;
+        for(let i = 0; i < Ads.length; i++ ){
+          Ads[i].isFavorit = false;
+          Ads[i].currency =
+             this.metaController.GetCurrenciesByid( Ads[i].currencyId)
+
+          Ads[i].qualityAd =
+          this.metaController.GetQualityAdsByid( Ads[i].qualityAdId)
+
+          Ads[i].typeOwner =
+          this.metaController.GetTypeOwnersByid( Ads[i].typeOwnerId)
+
         }
+        this.Ads = Ads;
 
         this.imgs = new Array(count);
         this.LoadMainImgs();

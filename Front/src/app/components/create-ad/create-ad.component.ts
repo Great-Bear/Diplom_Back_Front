@@ -6,6 +6,7 @@ import { RequCreateAd } from 'src/app/Classes/Request/requ-create-ad';
 import { Router } from '@angular/router';
 import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
+import { MetaController } from 'src/app/Classes/meta-controller';
 
 @Component({
   selector: 'app-create-ad',
@@ -27,6 +28,8 @@ export class CreateAdComponent implements OnInit {
   public catListL3 = new Array();
 
   public choiceCatList3 = new Array();
+
+  public metaController = new MetaController();
 
   valueL3  = "";
   valueL2  = "";
@@ -62,7 +65,6 @@ export class CreateAdComponent implements OnInit {
               private route : Router,
               private globalHub : GlobalHubService
               ) {
-
                 this.requData.Currency = "1";
 
                 this.requData.idUser = this.cookieService.get("idUser");

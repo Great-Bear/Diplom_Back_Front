@@ -17,6 +17,8 @@ namespace JBS_API.Controllers
     public class ToolsController : Controller
     {
         DbContext _dbContext;
+
+
         public ToolsController(DbContext db)
         {
             _dbContext = db;
@@ -28,13 +30,6 @@ namespace JBS_API.Controllers
         public JsonResult Categories()
         {
             var arrayCat = _dbContext.Categories.ToArray();
-
-            string[] namesCat = new string[arrayCat.Length];
-
-            for (int i = 0; i < arrayCat.Length; i++)
-            {
-                namesCat[i] = arrayCat[i].Name;
-            }
 
             return Json(arrayCat);
         }

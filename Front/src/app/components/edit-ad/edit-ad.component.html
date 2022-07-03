@@ -77,7 +77,7 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Валюта</label>
               </div>
-              <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.idCurrency"  >
+              <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="requData.currencyId"  >
                 <option *ngFor="let currency of currencies; let i = index" value="{{i+1}}" >{{currency}}</option>
               </select>
             </div>
