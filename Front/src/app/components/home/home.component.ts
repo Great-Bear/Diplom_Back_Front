@@ -7,6 +7,7 @@ import { AlertMessage } from 'src/app/Classes/alert-message';
 import { GlobalHubService } from 'src/app/global-hub.service';
 import { CookieService  } from 'ngx-cookie-service';  
 import { MetaController } from 'src/app/Classes/meta-controller';
+import { Observable, Subscription } from 'rxjs';
 
 
 
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
   public VipAds = Array();
   public VipImgs = Array();
 
-  public acrivePartPage = 0;
+  public activePartPage = 0;
 
   private emptyImgUrl  = "../assets/imgs/emptyImg.png";
 
@@ -77,6 +78,18 @@ export class HomeComponent implements OnInit {
     }
    }
 
+   private parseCatLayer(catLayer : any){ 
+    let catList = new Array();
+    for(let itemL3 of catLayer){
+        let catItem = {
+          name : itemL3.layer2,
+          id : itemL3.layer2Id
+        }
+        catList.push(catItem);
+    }
+    this.typeAd.Categories = catList;
+  }
+
    private LoadBrends(){
     if( !(this.globalHub.currentbrends.getValue() instanceof Array) ){
       this.globalHub.brends.subscribe(res => {
@@ -89,23 +102,6 @@ export class HomeComponent implements OnInit {
     }
    }
 
-   private parseCatLayer(carLayer : any){
-    
-    let catsList = new Array();
-
-
-    for(let itemL3 of carLayer){
-        let catItem = {
-          name : itemL3.layer2,
-          id : itemL3.layer2Id
-        }
-         catsList.push(catItem);
-    }
-    this.typeAd.Categories = catsList;
-    
-  }
-
-
    addFavoriteAd(event : any, idAd : number){
     event.stopPropagation();
    
@@ -115,8 +111,6 @@ export class HomeComponent implements OnInit {
     let item = this.Ads.find( ad => ad.id == idAd );
 
     let vipAd = this.VipAds.find( ad => ad.id == idAd );
-
-
 
 
         let idUser = Number.parseInt( this.cookie.get("idUser"));
@@ -179,7 +173,7 @@ export class HomeComponent implements OnInit {
     let numberPart = 0;
     for(let item of event.currentTarget.children){
       if(item == event.target){
-        this.acrivePartPage = numberPart;
+        this.activePartPage = numberPart;
       }
       numberPart++;
     }
@@ -366,8 +360,8 @@ public ChangeCheckBoxBrend(event : any){
 
   if(idBrend != null){
 
-    if(this.acrivePartPage != 0){
-      this.acrivePartPage = 0;
+    if(this.activePartPage != 0){
+      this.activePartPage = 0;
     }
 
     idBrend %= 100;
@@ -392,89 +386,75 @@ public ChangeCheckBoxBrend(event : any){
 }
 }
 
-  public LoadNewItem(){
-    this.isLoadItem = true;
-    this.Ads = new Array();
-    if(this.acrivePartPage == 0){
-      this.httpService.GetAdsPagination(
+ ALL_ADS = 0;
+ RECOM_ADS = 1;
+ loadingAds = new Subscription();
+ observable = new Observable<object>();
+
+
+ public LoadNewItem(){
+  this.isLoadItem = true;
+  this.Ads = new Array();
+  this.loadingAds.unsubscribe();
+  let aMessage = new AlertMessage();
+
+    if(this.activePartPage == this.ALL_ADS){
+      this.observable = this.httpService.GetAdsPagination(
         this.activePage,
         this.activeCat.id,
-        this.activeBrend.id ).subscribe(
-        res => {
-          this.parseAnswer(res);
-          this.isLoadItem = false;
-        },
-        err => {
-          let aMessage = new AlertMessage();
-          aMessage.Message ="Неможливо завантажити товари";
-          this.globalHub.addAlertMessage(aMessage);
-        } 
-      )
+        this.activeBrend.id )
     }
-    else if(this.acrivePartPage == 1){
-      this.httpService.getPopularAds(this.activePage)
-      .subscribe( res => {
-        this.parseAnswer(res);
-        this.isLoadItem = false;
-      }, err => {
-        let aMessage = new AlertMessage();
-        aMessage.Message ="Не вдалося завантажити популярні товари";
-        this.globalHub.addAlertMessage(aMessage);
-      });
+    else if(this.activePartPage == this.RECOM_ADS){
+      this.observable = this.httpService.getPopularAds(this.activePage)
     }
     else{
       let idUser = Number.parseInt( this.cookie.get("idUser") );
-      let aMessage = new AlertMessage();
-
-      if( isNaN(idUser) ){
-        
+      if(isNaN(idUser)){     
         aMessage.Title = "Попередження"
         aMessage.Message ="Для завантаження рекомендованих оголошень будь ласка авторизуйтеся";
         aMessage.TimeShow = 4000;
         this.isLoadItem = false;
-
         this.globalHub.addAlertMessage(aMessage);
         return;
       }
-
-      this.httpService.getRecommendedAds(this.activePage,idUser)
-      .subscribe( res => {
-        this.parseAnswer(res);
-        this.isLoadItem = false;
-      }, err => {
-        aMessage.Message ="Не вдалося завантажити рекомендовані товари";
-        this.globalHub.addAlertMessage(aMessage);
-      });
+      this.observable = this.httpService.getRecommendedAds(this.activePage,idUser)
     }
-  }
+
+   this.loadingAds = this.observable.subscribe( 
+      res => {
+        this.parseAnswer(res);
+      }, 
+      err => {
+        aMessage.Message ="Не вдалося завантажити товари";
+        this.globalHub.addAlertMessage(aMessage);
+      })
+}
 
   parseAnswer(res : object){
     let response : any = res;
-        let count = Number(response.countPages.toString());
-
+    this.isLoadItem = false;
+    if(response.isError){
+      this.globalHub.addAlertMessage(new AlertMessage());
+      return;
+    }
+        let count = response.countPages;
         this.countPage = new Array();
         for(let i = 1 ; i <= count; i++){
           this.countPage.push(i);
         }
-
         let Ads = response.data;
-
-
         for(let i = 0; i < Ads.length; i++ ){
           Ads[i].isFavorit = false;
           Ads[i].currency =
-             this.metaController.GetCurrenciesByid( Ads[i].currencyId)
+           this.metaController.GetCurrenciesByid(Ads[i].currencyId)
 
           Ads[i].qualityAd =
-          this.metaController.GetQualityAdsByid( Ads[i].qualityAdId)
-
+           this.metaController.GetQualityAdsByid(Ads[i].qualityAdId)
+           
           Ads[i].typeOwner =
-          this.metaController.GetTypeOwnersByid( Ads[i].typeOwnerId)
-
+           this.metaController.GetTypeOwnersByid(Ads[i].typeOwnerId)
         }
         this.Ads = Ads;
-
-        this.imgs = new Array(count);
         this.LoadMainImgs();
         this.UpdatePagination();   
         this.LoadFavorite();   

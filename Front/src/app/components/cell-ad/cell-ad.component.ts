@@ -30,8 +30,7 @@ export class CellAdComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMainImg();
-  //  this.ad.mainImg = "../assets/imgs/emptyImg.png";
-  this.ad.mainImg = "";
+    this.ad.mainImg = "";
   }
 
   loadMainImg(){
@@ -43,6 +42,7 @@ export class CellAdComponent implements OnInit {
   }
 
   changeStateFavorite(event : any){
+    event.stopPropagation();
 
     let aMessage = new AlertMessage();
 

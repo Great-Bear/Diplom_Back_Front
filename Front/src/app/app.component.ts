@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {  CookieService  } from 'ngx-cookie-service';  
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { GlobalHubService } from './global-hub.service';
 import { NavigationEnd } from '@angular/router';
 import { AlertMessage } from './Classes/alert-message';
@@ -66,8 +66,6 @@ this.globalHub.isAnonim.subscribe(
       this.isAdmin = state;
     })
 
-    console.log(this.cookieService.getAll())
-
 if(this.cookieService.get("rememberMe") != "yes" ){
     if(this.cookieService.get("idUser").length > 0 &&
       Number(this.cookieService.get("timeOutSession")) > new Date().getTime()  ){
@@ -79,7 +77,6 @@ if(this.cookieService.get("rememberMe") != "yes" ){
     else{
       this.cookieService.set("activeSession","no");
       this.cookieService.set("idUser", "");
-      this.router.navigate(["/authorization"])
     }
   }
   else{
@@ -90,14 +87,14 @@ if(this.cookieService.get("rememberMe") != "yes" ){
     }
     else
     {
-      this.cookieService.set("idUser", "");
+      this.cookieService.set("idUser","");
       this.router.navigate(["/authorization"])
     }
   }
 
   this.router.events.subscribe( event => {
-    if(event instanceof NavigationEnd){
-    
+
+    if(event instanceof NavigationStart){
        if(event.url != "/registration" 
           && event.url != "/authorization" 
           && !event.url.includes("confirm_Email")
@@ -114,14 +111,19 @@ if(this.cookieService.get("rememberMe") != "yes" ){
               this.router.navigate(["/authorization"])
           }   
       }
+    }
+
+    if(event instanceof NavigationEnd){
+
       if(event.url.includes("list_ads") || event.url.includes( "home" )
-       || event.url == "/" || event.url.includes("card-ad")){
+      || event.url == "/" || event.url.includes("card-ad")){
         this.showSearchBlock = true;
       }
       else{
         this.showSearchBlock = false;
       }
     }
+
     })
 
      this.http.getCategoriesLayer()
@@ -208,7 +210,7 @@ HiddenAlertMessage(event : any){
 }
 
 showCookie(){
-  console.log(this.cookieService.getAll())
+
 }
 
 inputSearchWord(){
@@ -264,7 +266,6 @@ ngOnInit(){
 
  window.onunload = (event) => {
   this.cookieService.set("timeOutSession", (new Date().getTime() + 10000).toString() );
-  console.log("I am write ", (new Date().getTime() + 10000).toString() )
  }
 
 

@@ -47,6 +47,8 @@ export class ListAdsComponent implements OnInit {
 
   arrOrderByValue = Array();
 
+  numbersExp : RegExp = new RegExp("[0-9_]");
+
   isPlitcaShow = false;
   isNoAds = false;
 
@@ -69,7 +71,7 @@ export class ListAdsComponent implements OnInit {
               private sanitizer: DomSanitizer,
               private activateRoute: ActivatedRoute,
               private route : Router,
-              private cookie : CookieService
+              private cookie : CookieService,
                ) 
   { 
 
@@ -146,14 +148,18 @@ export class ListAdsComponent implements OnInit {
     this.priceMin = 0;
   }
 
+
+
   loadNewAd(){
     this.isLoadItem = true;
 
-    let priceMax= -1;
+    let priceMax = -1;
 
     if(this.issortByPrice == true){
       priceMax = this.priceMax;
     }
+
+
     this.adsCollect = new Array();
     this.http.list_adsGetByPagin( this.activePage, this.stepPagin, this.catidL3, this.catIdL2, this.catId, this.QualityId,this.isDelivery,
       this.priceMin, priceMax,this.searchWord,this.idCurrency,this.arrOrderByValue, this.arrfiltersValueContainer )
@@ -161,64 +167,53 @@ export class ListAdsComponent implements OnInit {
       res => {
         this.searchWord = "";
         let response : any = res;
-
         if(response.isError == true){
-          alert(response.error);
           return;
         }
+
+        this.priceMin = response.priceMin;
+        this.priceMax = response.priceMax;
+
         if(this.isNewMinMaxPrice){
-          this.priceMin = response.priceMin;
-          this.priceMax = response.priceMax;
           this.isNewMinMaxPrice = false;
           this.sortByPrice(false);
         }
-        if(response.data instanceof Array){
-          this.adsCollect = new Array();
-         
-          if(response.data.length > 0){
-            this.isNoAds = false
-          }
-          else{
-            this.isNoAds = true;
-          }
+        if(response.data instanceof Array){      
 
-          let count = Number(response.countPages);
+          this.isNoAds = response.data.length > 0 ? false : true;
+          let countPage = Number(response.countPages);
 
           this.countPage = new Array();
-          for(let i = 1 ; i <= count; i++){
+          for(let i = 1 ; i <= countPage; i++){
             this.countPage.push(i);
           }
           this.UpdatePagination();
 
           for(let ad of response.data){
             ad.isFavorit = false;
-
-            ad.currency =
-            this.metaController.GetCurrenciesByid( ad.currencyId)
-    
-            ad.qualityAd =
-            this.metaController.GetQualityAdsByid( ad.qualityAdId)
-    
-            ad.typeOwner =
-            this.metaController.GetTypeOwnersByid( ad.typeOwnerId)
-
-
+            ad.currency = this.metaController.GetCurrenciesByid(ad.currencyId);
+            ad.qualityAd = this.metaController.GetQualityAdsByid(ad.qualityAdId);
+            ad.typeOwner = this.metaController.GetTypeOwnersByid(ad.typeOwnerId);
             this.adsCollect.push(ad);
           }
-
           this.LoadFavorite();
 
-          this.imgCollect = new Array(response.data.length);
+          this.imgCollect = new Array(response.data.length);        
           for(let i = 0; i < this.imgCollect.length; i++){
-            //this.imgCollect[i] = this.emptyImgUrl;
             this.imgCollect[i] = "";
-          }       
+          }    
+
+          this.isLoadItem = false;
+          this.LoadMainImgs();      
         }
-        this.isLoadItem = false;
-        this.LoadMainImgs();
+        else{
+          let aMessage = new AlertMessage();
+          this.globalHub.addAlertMessage( aMessage );
+        }
       },
       err => {
-        alert("error load ads");
+       let aMessage = new AlertMessage();
+       this.globalHub.addAlertMessage( aMessage );
       }
     )
   }
@@ -295,12 +290,17 @@ export class ListAdsComponent implements OnInit {
 
 
   changeFavoriteState(event : any,idAd : number){
-
+    event.stopPropagation();
     let idUser = Number.parseInt( this.cookie.get("idUser"));
-    console.log(idUser);
-    console.log(isNaN(idUser));
     if( isNaN(idUser) ){
-      this.route.navigate(["/registration"])
+     
+      let aMessage =  new AlertMessage();
+      aMessage.Title = "Попередження"
+      aMessage.Message ="Щоб додати оголошення в вибране будь ласка авторизуйтеся";
+      aMessage.TimeShow = 4000;
+
+      this.globalHub.addAlertMessage(aMessage);
+
       return;
     }
 
@@ -346,7 +346,7 @@ export class ListAdsComponent implements OnInit {
 
 
 
-  loadFiltes(idCat: number){
+  loadFilters(idCat: number){
 
     this.http.getFilters(idCat)
     .subscribe(
@@ -355,26 +355,25 @@ export class ListAdsComponent implements OnInit {
           this.filters = res;  
           this.arrfiltersValueContainer = new Array();
           let index = 0;
-          for(let itemFilter of this.filters){
-           
+          for(let itemFilter of this.filters){      
             let filterCont = new FilterValueContainer();
             this.arrfiltersValueContainer.push(filterCont);
             this.filters[index].useSlider = false;
             if(itemFilter.typeName == "combo"){
 
-              let minValue = itemFilter.value[0];  
+              let minValue = itemFilter.value[0];
               let maxValue = itemFilter.value[0];  
 
               for(let value of itemFilter.value){
                   if(minValue > value){
-                    this.filters[index].minValue = value;
-                    minValue = value;
+                    this.filters[index].minValue = value;           
+                    minValue = value;                   
                   }
                   if(maxValue < value){
-                    this.filters[index].maxValue = value;
+                    this.filters[index].maxValue = value;           
                     maxValue = value;
-                  }                
-              }             
+                  }               
+              }    
             }      
             index++;     
           }
@@ -403,25 +402,25 @@ export class ListAdsComponent implements OnInit {
      if(this.filters[idFilter].useSlider == false){   
         for(let item of arr){
           if(item.checked){
-            this.arrfiltersValueContainer[idFilter].values.push(item.id.replace("filterValue",""))
+            this.arrfiltersValueContainer[idFilter]
+            .values.push(item.id.replace("filterValue",""))
           }
         }
       }
       else{
-        let arrInptPrice = event.currentTarget.getElementsByClassName("inptPrice");
+        let arrInptValue = event.currentTarget.getElementsByClassName("inptPrice");
       
-        if(arrInptPrice != null && arrInptPrice.length > 0){
-         this.arrfiltersValueContainer[idFilter].minValue = arrInptPrice[0].value;
-         this.arrfiltersValueContainer[idFilter].maxValue = arrInptPrice[1].value;
+        if(arrInptValue != null && arrInptValue.length > 0){
+         this.arrfiltersValueContainer[idFilter].minValue = arrInptValue[0].value;
+         this.arrfiltersValueContainer[idFilter].maxValue = arrInptValue[1].value;
         }
       }
     this.loadNewAd();  
    }
   }
 
-  upDateFilterCheckBox(){
-    
-  }
+
+    upDateFilterCheckBox(){}
 
   userSliderFilter(state : boolean, indexFilter : number, event : any)
   {
@@ -453,19 +452,21 @@ export class ListAdsComponent implements OnInit {
 
   choiceCat(event : any){
 
-    let rep = event.target.innerText.replace("<b>",'');
-    rep = rep.replace("</b>","");
+    let innerValue = event.target.innerText
+    if(this.isDropListCat){
+     innerValue = innerValue.replace("<b>",'').replace("</b>","");
+    }
 
-    this.choiceCatValue = rep;
+    this.choiceCatValue = innerValue;
     this.catId = event.target.id
 
     this.filters = new Array();
     this.arrfiltersValueContainer = new Array();
 
     this.isDropListCat = false;
-
     this.isScrollListCat = true;
-    this.loadFiltes(event.currentTarget.id);
+    this.isNewMinMaxPrice = true;
+    this.loadFilters(event.currentTarget.id);
     this.loadNewAd();
   }
 
@@ -480,6 +481,7 @@ export class ListAdsComponent implements OnInit {
     this.isScrollListCat = true;
 
     this.filters = new Array();
+    this.isNewMinMaxPrice = true;
     this.arrfiltersValueContainer = new Array();
   }
 
@@ -495,6 +497,7 @@ export class ListAdsComponent implements OnInit {
     this.isScrollListCat = true;
 
     this.filters = new Array();
+    this.isNewMinMaxPrice = true;
     this.arrfiltersValueContainer = new Array();
   }
 
@@ -562,6 +565,7 @@ export class ListAdsComponent implements OnInit {
     this.catId = 0;
     this.choiceCatValue = "Всі категорії";
     this.filters = new Array();
+    this.isNewMinMaxPrice = true;
     this.arrfiltersValueContainer = new Array();
     this.loadNewAd();
   }
@@ -640,25 +644,19 @@ export class ListAdsComponent implements OnInit {
     if(event.target.tagName != "SPAN"){
       return;
     }
-
+    
     let arr = event.currentTarget.getElementsByTagName("span")
-      if(arr[0] == event.target){
-        return;
-      }
-
     for(let itemCurrecy of arr){
       if(itemCurrecy.classList.contains("isPickedItemCurrency")){
         itemCurrecy.classList.remove("isPickedItemCurrency");
       }
     }
-
     event.target.classList.add("isPickedItemCurrency");
 
     this.idCurrency = event.target.id;
     this.isNewMinMaxPrice = true;
     this.sortByPrice(false);
     this.loadNewAd();
-
   }
   issortByPrice = false;
   sortByPrice(value : boolean){
@@ -676,9 +674,6 @@ export class ListAdsComponent implements OnInit {
     }
 
       let arr = event.currentTarget.getElementsByTagName("span")
-      if(arr[0] == event.target){
-        return;
-      }
       this.activePage = 1;
 
       if(this.choiceOrderType == undefined){
@@ -735,18 +730,12 @@ export class ListAdsComponent implements OnInit {
     let arr = document.getElementsByClassName("containerImgs");
 
     for(let i = 0; i < arr.length; i++){
-      arr[i].id = arr[i].id == "choiceTypeAdsShow"
-      ?""
-      :"choiceTypeAdsShow"
+      arr[i].id = arr[i].id == "choiceTypeAdsShow" ? "" : "choiceTypeAdsShow"
     }
 
     this.isPlitcaShow = !this.isPlitcaShow;
-    if(this.isPlitcaShow == true){
-      this.stepPagin = 28;
-    }
-    else{
-      this.stepPagin = 10;
-    }
+    this.stepPagin = this.isPlitcaShow ? 28 : 10;
+
     this.activePage = 1;
     this.loadNewAd();
   }

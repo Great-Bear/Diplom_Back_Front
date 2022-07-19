@@ -24,8 +24,8 @@ export class AuthorizationComponent implements OnInit {
               }
 
   loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
-  lowCaseRgExp : RegExp = new RegExp("[a-z]")
-  upCaseRegExp : RegExp = new RegExp("[A-Z]")
+  lowCaseRgExp : RegExp = new RegExp("[a-zа-я]")
+  upCaseRegExp : RegExp = new RegExp("[A-ZА-Я]")
   specSymRegExp : RegExp = new RegExp("[^A-Za-z0-9_]");
 
 

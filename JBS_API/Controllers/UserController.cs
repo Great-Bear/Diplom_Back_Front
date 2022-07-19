@@ -37,12 +37,12 @@ namespace JBS_API.Controllers
             {
                 var emailMessage = new MimeMessage();
 
-                emailMessage.From.Add(new MailboxAddress("Администрация сайта", "bgroholsky@gmail.com"));
+                emailMessage.From.Add(new MailboxAddress("Адміністрація сайту", "bgroholsky@gmail.com"));
                 emailMessage.To.Add(new MailboxAddress("", email));
-                emailMessage.Subject = "Регистрация на JBS";
+                emailMessage.Subject = "Реєстрація на JBS";
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                 {
-                    Text = $"Ваша почта была указана при регистрации на сайте JBS для подтверждения перейдите на ссылке: <a>https://jbs.z22.web.core.windows.net/confirm_Email/{idUser}</a>"
+                    Text = $"Вашу пошту було вказано під час реєстрації на сайті JBS для підтвердження перейдіть на посилання: <a href=\"https://jbs.z22.web.core.windows.net/confirm_Email/{idUser}\">https://jbs.z22.web.core.windows.net/confirm_Email/{idUser}</a>"
                 };
              
                 using (var client = new SmtpClient())
@@ -86,7 +86,7 @@ namespace JBS_API.Controllers
                     return new JsonResult(new
                     {
                         isError = true,
-                        Message = "Пользователь не зарегестрирован"
+                        Message = "Користувач не зареєстрований"
                     });
                 }
             }
@@ -110,7 +110,7 @@ namespace JBS_API.Controllers
                 if (_dbContext.Users.FirstOrDefault
                     (u => u.Email == requ_Register.Login) != null)
                 {
-                    return new JsonResult(new Resp_Register { Error = "Такой логин уже занят" });
+                    return new JsonResult(new Resp_Register { Error = "такий логін вже зайнятий" });
                 }
 
 
@@ -126,7 +126,7 @@ namespace JBS_API.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new Resp_Register { Error = "Ошибка сервера" });
+                return new JsonResult(new Resp_Register { Error = "Помилка сервера" });
             }
 
 

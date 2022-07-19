@@ -17,11 +17,11 @@
             <ng-container *ngFor="let img of imgs; first as isFirst">
 
               <div class="carousel-item active" *ngIf="isFirst">
-                <img [src]="img" alt="фото товара">
+                <img [src]="img" alt="фото оголошення">
               </div>
 
               <div class="carousel-item " *ngIf="!isFirst">
-                <img [src]="img" alt="фото товара">
+                <img [src]="img" alt="фото оголошення">
               </div>
             </ng-container>
 
@@ -30,7 +30,7 @@
             </div>
  
           </div>
-          <ng-container *ngIf="data.countImgs > 1">
+          <ng-container *ngIf="imgs.length > 1">
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
               <span class="arrow arrow-left" aria-hidden="true"></span>
               <span class="sr-only">Предыдущий</span>

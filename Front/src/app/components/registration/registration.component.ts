@@ -25,8 +25,8 @@ export class RegistrationComponent implements OnInit {
 
   loginRegExp : RegExp = new RegExp("^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$");
   // RgExp for password
-  lowCaseRgExp : RegExp = new RegExp("[a-z]")
-  upCaseRegExp : RegExp = new RegExp("[A-Z]")
+  lowCaseRgExp : RegExp = new RegExp("[a-zа-я]")
+  upCaseRegExp : RegExp = new RegExp("[A-ZА-Я]")
   specSymRegExp : RegExp = new RegExp("[^A-Za-z0-9_]");
 
 
@@ -41,55 +41,45 @@ export class RegistrationComponent implements OnInit {
   passwd2ErrMsg : string = "";
 
   confirmPolicy : any = false;
+  errConfirmPolicy : boolean = false
 
   ngOnInit(): void {
   }
 
 
   sendData(){
-
    if(this.ValidetData() == false){
-      console.log("err Validate");
       return;
     } 
-    if(this.confirmPolicy == false){
-      return;
-     }
 
     const body = { login : this.login, password : this.passwd }
-    
-    let subRegUsr = this.httpSevice.registerUser( body )
+    let aMessage = new AlertMessage();
+    this.httpSevice.registerUser( body )
              .subscribe( resObject => { 
-              let resData;
-               if(resObject instanceof Object){
-                resData = new RegResp(resObject);
-               
-
+               if(resObject instanceof Object){      
+                let resData = new RegResp(resObject);              
                 if(resData.error == null){
-
-                  let aMessage = new AlertMessage();
-
-                  aMessage.Title = "Підтвердьте пошту";
-                  aMessage.Message = "На вашу вказану пошту надійшло посилання для підтвердження реєстрації";
+                  aMessage.Title = "Підтвердіть пошту";
+                  aMessage.Message = "На вашу вказану пошту" +
+                  "надійшло посилання для підтвердження реєстрації";
                   aMessage.TimeShow = 20000;
-
-                  this.globalHub.addAlertMessage(aMessage);
-                  return
                 }
-
+                else
+                {
+                  aMessage.Title = "Попередження";
+                  aMessage.Message = resData.error;
+                  aMessage.TimeShow = 5000;                
+                }
+                this.globalHub.addAlertMessage(aMessage);
                 return;
-               }
-                subRegUsr.unsubscribe();            
+               }         
             }, err => {
-              let aMessage = new AlertMessage();
               this.globalHub.addAlertMessage(aMessage);
             });           
   }
   ValidetData() : boolean
   {
-    this.loginErrMsg = !this.loginRegExp.test( this.login )
-       ? "Некорректный логин" 
-        : "";
+    this.loginErrMsg = !this.loginRegExp.test( this.login ) ? "Некоректний логін" : "";
 
     if( this.passwd.length < 8 ){
       this.passwdErrMsg = "Пароль має бути мінімум із 8 символів" ;
@@ -107,11 +97,13 @@ export class RegistrationComponent implements OnInit {
       this.passwdErrMsg = "";
     }
 
-    this.passwd2ErrMsg = this.passwd != this.passwd2 
-    ? "паролі повинні збігатися" 
-      : "";
+    this.errConfirmPolicy = this.confirmPolicy ? false : true;
 
-    return ( this.loginErrMsg + this.passwdErrMsg + this.passwd2ErrMsg ) != ""
-       ?  false : true; 
+    this.passwd2ErrMsg = this.passwd != this.passwd2 ? "паролі повинні збігатися" : "";
+
+    if(this.confirmPolicy == false){
+      return false ;
+     }
+    return ( this.loginErrMsg + this.passwdErrMsg + this.passwd2ErrMsg ) != "" ?  false : true; 
   }
 }

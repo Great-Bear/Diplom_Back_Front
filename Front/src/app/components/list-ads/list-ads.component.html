@@ -25,7 +25,7 @@
             <div (mouseover)="hoverInptCat()" >
             <div class="panel" id="CatPanel" >   
                 <div >  
-                <input id="choiceCat" contenteditable="true"   (input)="ChangeInptCat($event)" value="{{choiceCatValue}}"/>                
+                <input id="choiceCat" contenteditable="true" autocomplete="off"   (input)="ChangeInptCat($event)" value="{{choiceCatValue}}"/>                
                 <img id="cencelBtnCat" src="../assets/imgs/Cancle_Icon.png" [hidden]="isScrollListCat" alt="cencelBtnCat" (click)="CloseScrollDropCatBlock()">
 
                 <div id="MenuLayer3" *ngIf="isDropListCat && isScrollListCat" >
@@ -142,7 +142,7 @@
                 </div>
                 <div class="panel" >
                     <div id="inptPrice" (input)="sortByPrice(true)" >
-                        <input type="number" id="priceFrom" class="inptPrice" [(ngModel)]="priceMin" >
+                        <input type="number" id="priceFrom" class="inptPrice"  [(ngModel)]="priceMin" >
                         <img (click)="clearMinPrice()" id="cencelBtnPrice" src="../assets/imgs/LittleCancel.png" alt="resetFilter">
 
                         <input type="number" id="priceBefore" [(ngModel)]="priceMax" class="inptPrice">
@@ -225,7 +225,7 @@
 
             <div id="choiceFilterBlock">
                 <div (click)="pickedSort($event)" >
-                    <span>Сортування по:</span>
+                    Сортування по:
                     <span class="isPickedItem" >
                         <svg class=" arrowUp"  width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M3.91781 1C3.91781 0.585786 3.58203 0.25 3.16781 0.25C2.7536 0.25 2.41781 0.585786 2.41781 1V7.15118H0L3.17364 12.6481L6.34729 7.15118H3.91781V1Z" fill="white"/>
@@ -247,7 +247,7 @@
                 </div>
 
                 <div (click)="pickedCurrency($event)" id="blockCurrency" >
-                    <span>Валюта:</span>
+                   Валюта:
                     <span class="isPickedItemCurrency" id="0">всі</span>
                     <span id="1" >грн.</span>
                     <span id="2" >$</span>
@@ -262,7 +262,7 @@
                 Завантаження товарів <app-messages></app-messages>
               </div>
 
-              <div class="alert alert-success" role="alert" *ngIf="isNoAds" >
+              <div class="alert alert-success" role="alert" *ngIf="isNoAds && !isLoadItem" >
                 <h4 class="alert-heading">За вашим запитом нічого не знайдено ¯\_(ツ)_/¯</h4>
                 <p>Спробуйте змінити налаштування фільтрації</p>
                 <hr>
@@ -276,12 +276,12 @@
                             <div class="deliveryIcon">
                                 <img *ngIf="i.isDelivery"  src="../assets/imgs/DeliveryIcon.svg" alt="isDelivery">
                             </div>              
-                            <img *ngIf="imgCollect[idImg].length != 0" class="imgAds" [src]="imgCollect[idImg]"alt="imgAd">
                             <img *ngIf="imgCollect[idImg].length == 0"  class="rotateImg" src="../assets/imgs/AnimRotate.png" alt="">
+                            <img *ngIf="imgCollect[idImg].length != 0" class="imgAds" [src]="imgCollect[idImg]"alt="imgAd">                       
                         </div>
                         <div class="infoAds" >
                             <div>
-                                <div>{{i.title}}</div>
+                                <div>{{i.title | slice:0:45}}</div>
                                 <div class="infoAd">
                                     <div class="locationAd">
                                         Україна, Львів - Опубліковано до: {{i.timeEnd | date: 'dd.MM.yyyy:h:mm'}}
@@ -330,7 +330,7 @@
                         </div>
                             <div class="infoAdPlitca">
                             <div class="titlePlitca">
-                            {{i.title}}
+                            {{i.title | slice:0:25}}
                             </div>
                             <div class="priceFavPlitca">
                                 <div>{{i.price}}{{i.currency}}</div>
@@ -367,7 +367,7 @@
         </div>
 
 
-        <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="!isLoadItem && adsCollect.length != 0" >
+        <div id="paginationBlock" (click)="setActivaPagin($event)" *ngIf="!isLoadItem && adsCollect.length != 0 && linePagin.length > 1" >
             <ul class="pagination justify-content-center">
               <li class="page-item" [class.disabled]="isLeftDis" >
                 <a class="page-link"   id="0">Попередня</a>

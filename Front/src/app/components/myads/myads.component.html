@@ -3,7 +3,7 @@
   <h1>Мої оголошення</h1>
   <div class="navbar navbar-dark bg-dark">
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" [class.myAdsBlockNav]="isLoadItem">
         
         <div class="container-fluid choice-fluid" (click)="loadAds($event,3)" id="0">
           <a class="navbar-brand"  >Опубліковані ({{arrCountsItem[0]}})</a>
@@ -37,32 +37,31 @@
     Завантаження оголошень <app-messages></app-messages>
   </div>
 
-  <div class="card-deck" *ngFor="let col of adsCol; let i = index;" >
-    <div class="card" class="ad" *ngFor="let row of col;"   >
-      <div class="imgBlock">
+
+  <div class="card-deck" >
+      <div class="card" class="ad" *ngFor="let row of Ads; let i = index;">
+
+        <div class="imgBlock">
           <img *ngIf="row.url.length != 0" class="card-img-top" [src]="row.url" alt="">
           <img *ngIf="row.url.length == 0"  class="rotateImg" src="../assets/imgs/AnimRotate.png" alt="">
       </div>
+
       <div class="card-body">
-        <h5 class="card-title">{{row.data.title}}</h5>
+        <h5 class="card-title">{{row.title | slice:0:25}}</h5>
         <p class="card-text"></p>
-        <p class="card-text"><small class="text-muted">Опубліковано до: {{row.data.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
+        <p class="card-text"><small class="text-muted">Опубліковано до: {{row.timeEnd | date: 'dd.MM.yyyy:h:mm'}}</small></p>
        
         <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
-          <button *ngIf="nowActivePage == 0" type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Переглянути</button>
-          <button *ngIf="nowActivePage != 0" type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="PublishAd(row.data.id)">Опублікувати</button>
+          <button *ngIf="nowActivePage == 0 || nowActivePage == 1" type="button" class="btn btn-primary btn-sm" id="{{row.id}}" (click)="watchAd($event)">Переглянути</button>
+          <button *ngIf="nowActivePage > 1 " type="button" class="btn btn-primary btn-sm" id="{{row.id}}" (click)="PublishAd(row.id)">Опублікувати</button>
 
-          <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="editAd($event)" >Змінити</button>
+          <button type="button" class="btn btn-info btn-sm" id="{{row.id}}" (click)="editAd($event)" >Змінити</button>
 
-          <button *ngIf="nowActivePage == 3" type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="deleteAd($event)" >Видалити</button>
-          <button *ngIf="nowActivePage != 3" type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="deleteAd($event)" >Сховати</button>
+          <button *ngIf="nowActivePage == 3" type="button" class="btn btn-danger btn-sm" id="{{row.id}}" (click)="deleteAd($event)" >Видалити</button>
+          <button *ngIf="nowActivePage != 3" type="button" class="btn btn-danger btn-sm" id="{{row.id}}" (click)="deleteAd($event)" >Сховати</button>
         </div>
       </div>
-    </div>
+
+      </div>
   </div>
-
-
-  
-
-
 </div>

@@ -44,6 +44,7 @@ export class CardAdComponent implements OnInit {
     private globalHub : GlobalHubService,
     private route : Router) {  
       this.idUser = Number.parseInt( this.cookie.get("idUser"));
+      this.imgs = new Array();
   }
 
   ngOnInit(): void {
@@ -107,7 +108,7 @@ export class CardAdComponent implements OnInit {
             )
           }
 
-          if(idUser == this.data.idOwner){
+          if(idUser == this.data.userId){
             this.isOwner = true;
           }
 
@@ -115,24 +116,25 @@ export class CardAdComponent implements OnInit {
               this.firstImg = "../assets/imgs/emptyImg.png";
               this.imgs = new Array(1);
               this.imgs[0] = "../assets/imgs/emptyImg.png";
+              this.isNoImg = false;
             return;
           }
           this.imgs = new Array(response.countImgs)
-          console.log(this.imgs)
           
           for(let i = 0; i < response.countImgs; i++){
           this.http.GetImgOfAd(idAd, i).subscribe(
             imgBlob => {
               const urlToBlob = window.URL.createObjectURL(imgBlob)  
               this.imgs[i] = this.sanitizer.bypassSecurityTrustResourceUrl(urlToBlob);                
-            this.isNoImg = false;
+              this.isNoImg = false;
             }
           )
         }
         }
       )
     } catch (error) {
-      console.log("Ошибка загрузки товара")
+      this.globalHub.addAlertMessage(new AlertMessage());
+      
     }
    
   }
@@ -207,11 +209,8 @@ export class CardAdComponent implements OnInit {
     }
 
     returnPage(){
-      
-      let indexChildPar : number = this.route.url.indexOf("/card-ad/")
-      let parentURL = this.route.url.substring(0,indexChildPar) ;
-
-      this.route.navigate([parentURL]);
+      window.history.back();
+      return;    
     }
 
   openChat(){
@@ -221,7 +220,13 @@ export class CardAdComponent implements OnInit {
     }
 
     if( isNaN(this.idUser) ){
-      this.route.navigate(["/registration"])
+      let aMessage =  new AlertMessage();
+      aMessage.Title = "Попередження"
+      aMessage.Message ="Щоб написати продавцю будь ласка авторизуйтеся";
+      aMessage.TimeShow = 4000;
+
+      this.globalHub.addAlertMessage(aMessage);
+
       return;
     }
 

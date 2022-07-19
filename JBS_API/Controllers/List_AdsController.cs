@@ -94,18 +94,22 @@ namespace JBS_API.Controllers
                         if (itemFV.MaxValue != "" && itemFV.MinValue != "")
                         {
 
-                            float minF = float.Parse(itemFV.MinValue);
-                            float maxF = float.Parse(itemFV.MaxValue);
-
+                            float minF = float.Parse(itemFV.MinValue.Replace(',', '.'));
+                            float maxF = float.Parse(itemFV.MaxValue.Replace(',', '.'));
+                            
+                            string testVal = "";
                             foreach (var filterItem in FiltesValueById.ToList())
                             {
-                                float valF = float.Parse(filterItem.Name);
+                                float valF = float.Parse(filterItem.Name.Replace(',','.'));
+                                     testVal += valF + "|";
+
                                 if (valF >= minF && valF <= maxF)
                                 {
                                     filtersByRange.Add(filterItem);
+                                       
                                 }
                             }
-                        }
+                            }
                     }
                     else
                     {
@@ -122,9 +126,11 @@ namespace JBS_API.Controllers
                                 }
                             }
                         }
-                    }                      
-                    if (filtersByRange.Count() != 0)
-                    {
+                    }
+
+                        if (filtersByRange.Count() != 0)
+                        {
+                            
                         var filtValueID_AdID = _dbContext.Filter_Ad.ToList().Join(
                              filtersByRange,
                              fil_Ad => fil_Ad.FilterValueId,
@@ -136,9 +142,11 @@ namespace JBS_API.Controllers
                                  fil_ADId = fil_Ad.AdId
                              }
                              );
-                            
 
-                        var Filter_AdBySort = filtValueID_AdID.Join(
+                          
+
+
+                            var Filter_AdBySort = filtValueID_AdID.Join(
                             res,
                              FA_id => FA_id.fil_ADId,
                             ad => ad.Id,
@@ -147,6 +155,9 @@ namespace JBS_API.Controllers
                                 ad = ad
                             }
                             );
+
+
+
 
                       foreach (var item in Filter_AdBySort.ToList())
                       {
@@ -160,7 +171,7 @@ namespace JBS_API.Controllers
                     }
                 }
             }
-               
+
                 if (index != 0 )
                 {
                     res = finalListAd.AsQueryable();
@@ -209,9 +220,10 @@ namespace JBS_API.Controllers
                         }
                     }
                 }
-           
+
                 countItems = res.Count();
                 List<Ad> listRes = res.Skip(paginationStep * (pagePagination)).Take(paginationStep).ToList();
+               
 
 
                 decimal maxPrice = 0;

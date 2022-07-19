@@ -201,12 +201,16 @@ namespace JBS_API.Controllers
                 return Json( new
                 {
                     ads = filterAds,
-                    countsItem = countsItem
+                    countsItem = countsItem,
+                    isError = false,
                 });
             }
             catch (Exception ex)
             {
-                return Json( "Ошибка сервера" );
+                return Json( new {
+                    isError = true,
+                    message = "Ошибка сервера"
+                } );
             }
             
         }
@@ -426,12 +430,14 @@ namespace JBS_API.Controllers
                     res = _dbContext.Ads;
                 }
 
-                res = res
-                    .Where(a => a.StatusAdId == statusCheking.Id)
-                    .Skip(paginationStep * (pagePagination))
-                    .Take(paginationStep);
-                countItems = res.Count();
 
+
+                res = res.Where(a => a.StatusAdId == statusCheking.Id).OrderByDescending(r => r.TimeEnd);
+
+                 countItems = res.Count();
+
+                res = res.Skip(paginationStep * (pagePagination))
+                    .Take(paginationStep);
             }
             catch (Exception ex)
             {
@@ -439,7 +445,7 @@ namespace JBS_API.Controllers
             }
 
             return Json( new { 
-                data = res.OrderByDescending( r => r.TimeEnd ), 
+                data = res, 
                 countPages = Math.Ceiling((float)countItems / paginationStep) ,
                 isError = false,
             });

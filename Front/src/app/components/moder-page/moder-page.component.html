@@ -1,6 +1,6 @@
 
 <div id="containerAds">
-    <h1>Мої оголошення</h1>
+    <h1>Оголошення на перевірку</h1>
     <div class="navbar navbar-dark bg-dark">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,9 +27,10 @@
          
           <div class="btn-group btn-group-toggle" class="btsGroup" data-toggle="buttons">
             <button type="button" class="btn btn-primary btn-sm" id="{{row.data.id}}" (click)="watchAd($event)">Переглянути</button>
-            <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="confirmAd($event)" >Схвалити</button>
-            <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="cencelAd($event)">Відхилити</button>
+            <button type="button" class="btn btn-info btn-sm" id="{{row.data.id}}" (click)="actionAd($event,CONFIRM_AD)" >Схвалити</button>
+            <button type="button" class="btn btn-danger btn-sm" id="{{row.data.id}}" (click)="actionAd($event,CANCEL_AD)">Відхилити</button>
           </div>
+          
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ export class ConfirmEmailComponent implements OnInit {
     private cookieService : CookieService,
     private router : Router
     ) { 
+
       let idUser = this.activatedRoute.snapshot.params['idUser'];
 
       let body = {
@@ -29,27 +30,23 @@ export class ConfirmEmailComponent implements OnInit {
       this.http.confirmEmail(body).subscribe( 
         res => {
           let response : any = res;
-
-          if(response.isError){
-            let aMessage = new AlertMessage();
-            aMessage.Message = response.message;
-
-            this.globalHub.addAlertMessage(aMessage);
-            return;
-          }
-
-          this.router.navigate(['/authorization']);
-
           let aMessage = new AlertMessage();
-          aMessage.Title = "Успішно";
-          aMessage.Message = "Вашу пошту було успішно підтверджено"
-          this.globalHub.addAlertMessage(aMessage);
 
+          if(response.isError){     
+            aMessage.Message = response.message;
+          }
+          else
+          {
+            this.router.navigate(['/authorization']);
+            aMessage.Title = "Успішно";
+            aMessage.Message = "Вашу пошту було успішно підтверджено"
+          }
+          this.globalHub.addAlertMessage(aMessage);
         },
         err => {
           this.globalHub.addAlertMessage(new AlertMessage());
         }
-       )
+      )
     }
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@
                         <div><a routerLink="/home" >JBS</a></div>
                     </div>   
                    <div *ngIf="isAnonimUser">
-                    <div class="pointerCursor" routerLink="/registation">Реєстрація</div>   
+                    <div class="pointerCursor" routerLink="/registration">Реєстрація</div>   
                     <div class="pointerCursor" routerLink="/authorization">Вхід</div>   
                    </div>
                     <div id="links" *ngIf="!isAnonimUser" >   
@@ -61,7 +61,7 @@
                         <div id="dropSearchWord" *ngIf="sameWords.length > 0" >
                             <ul>
                                 <li (click)="choiceSameWord(item.title)" class="itemDropSearchWord" *ngFor="let item of sameWords" >
-                                    <span class="wordItem" >{{item.title}}</span>    
+                                    <span class="wordItem" >{{item.title | slice:0:30}}</span>    
                                     <span class="catItem" >{{item.categoryName}}</span>
                                 </li>
                             </ul>

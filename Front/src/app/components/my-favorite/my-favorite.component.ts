@@ -43,7 +43,6 @@ export class MyFavoriteComponent implements OnInit {
         this.globalHub.addAlertMessage(new AlertMessage());
         return;
       }
-
       let Ads = res.ads;     
       for(let i = 0; i < res.ads.length; i++){
         Ads[i].ad.isFavorit = true;
@@ -57,9 +56,7 @@ export class MyFavoriteComponent implements OnInit {
         Ads[i].ad.typeOwner =
         this.metaController.GetTypeOwnersByid( Ads[i].ad.typeOwnerId)
       }
-
       this.arrAds = Ads;     
-
       this.noAds = res.length == 0 ? true : false;
     }, err => {
       this.globalHub.addAlertMessage(new AlertMessage());
@@ -81,6 +78,9 @@ export class MyFavoriteComponent implements OnInit {
     let isConfirm = confirm("Дійсно видалити всі товари з вибраних?");
     if(isConfirm){
       for(let item of this.arrAds){
+        if(!item.ad.isFavorit){
+          continue;
+        }
         item.ad.isFavorit = false;
         this.httpService.updateFavorite(this.idUser, item.ad.id, false)
         .subscribe( res => {

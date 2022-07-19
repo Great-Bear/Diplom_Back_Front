@@ -85,8 +85,6 @@ export class EditAdComponent implements OnInit {
                       this.globalHub.addAlertMessage(new AlertMessage());
                       return;
                     }
-                    
-                    console.log(res);
 
                     this.requData = response.data;
                     let filteList_Db : any = response.filters;
@@ -108,7 +106,8 @@ export class EditAdComponent implements OnInit {
                       }               
                     })
 
-                    this.countImgs = this.requData.countImgs;
+                    this.countImgs = response.countImgs;
+
 
                     this.requData.price = Number.parseFloat(this.requData.price);
 
@@ -353,12 +352,12 @@ export class EditAdComponent implements OnInit {
           }
       }
       this.httpService.editAds(form,filterStringValue, reqData).subscribe(res => {
-        console.log(res);
        if(res == true){
         this.route.navigate([`/card-ad/${reqData.idAd}`]);
        }
       }, err => {
-        console.log(err);
+       this.globalHub.addAlertMessage(new AlertMessage());
+       this.route.navigate([`/my-ads/`]);
       }); 
 
   }

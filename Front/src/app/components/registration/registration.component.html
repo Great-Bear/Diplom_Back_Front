@@ -46,7 +46,7 @@
 
             <div id="confirmPolicyBlock">  
                 <div >
-                    <input  class="form-check-input " name="confirmPolicy" type="checkbox" [(ngModel)]="confirmPolicy" id="flexCheckDefault">
+                    <input  class="form-check-input" [class.errorConfirmPolicy]="errConfirmPolicy" name="confirmPolicy" type="checkbox" [(ngModel)]="confirmPolicy" >
                 </div>
                 <div>
                     <span  id="policyText">Я погоджуюсь із правилами використання сервісу,

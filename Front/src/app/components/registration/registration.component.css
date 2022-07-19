@@ -170,6 +170,11 @@
     line-height: 0px;
     color: rgba(37, 57, 71, 0.6);
 }
+.errorConfirmPolicy
+{
+    box-shadow: 0px 0px 5px 2px red ;
+}
+
 .blockField
 {
     height: 60px;   
@@ -252,7 +257,6 @@
     padding: 5px 10px 5px 10px;
     margin-left: 25%;
     margin-top: 20px;
-
 }
 input
 {

@@ -3,6 +3,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpService } from 'src/app/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { GlobalHubService } from 'src/app/global-hub.service';
+import { AlertMessage } from 'src/app/Classes/alert-message';
 
 
 
@@ -27,7 +29,8 @@ export class ModerPageComponent implements OnInit {
     private httpService : HttpService,
     private cookie : CookieService,
     private sanitizer: DomSanitizer,
-    private route : Router
+    private route : Router,
+    private globalHub : GlobalHubService
   ) {
   }
 
@@ -79,7 +82,7 @@ export class ModerPageComponent implements OnInit {
         }
       }
       else{
-        console.log("Ошибка сервера");
+       this.globalHub.addAlertMessage(new AlertMessage());
       }
     })
   }
@@ -88,37 +91,29 @@ export class ModerPageComponent implements OnInit {
     this.route.navigate([`/card-ad/${event.target.getAttribute("id")}`]);
   }
 
-  confirmAd(event : any){
-    let idAd = event.target.getAttribute("id") ;
-      this.httpService.changeStateAd(idAd, 3)
-      .subscribe(res => {
-        let answer : any = res;
-        if(answer.isError == false){
-          this.cleareList(idAd);
-        }
-        else
-        {
-          alert("error");
-        }
-      }
-    )
-  }
+  CONFIRM_AD = 3;
+  CANCEL_AD = 4;
 
-  cencelAd(event : any){
-      let idAd = event.target.getAttribute("id") ;
-      this.httpService.changeStateAd(idAd, 4)
-      .subscribe(res => {
-        let answer : any = res;
-        if(answer.isError == false){
-          this.cleareList(idAd);
-        }
-        else
-        {
-          alert("error");
-        }
+
+
+  actionAd(event : any, idStateAd : number){
+    let idAd = event.target.getAttribute("id") ;
+    this.httpService.changeStateAd(idAd, idStateAd)
+    .subscribe(res => {
+      let answer : any = res;
+      if(answer.isError == false){
+        this.cleareList(idAd);
       }
-    )
-}
+      else{
+       this.globalHub.addAlertMessage(new AlertMessage());
+      }
+    },
+    err => {
+      this.globalHub.addAlertMessage(new AlertMessage());
+    }
+  )}
+
+
 
   cleareList(idAd : number){
     let idAd_db = idAd;

@@ -40,7 +40,6 @@ export class ModersComponent implements OnInit {
           this.globalHub.addAlertMessage(aMessage);
         }
         else{
-          console.log(response.data)
           this.modersCollect = response.data;
         }
     }, err => {

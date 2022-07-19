@@ -108,6 +108,11 @@ html
   }
 
 
+.myAdsBlockNav div
+{
+    cursor: not-allowed;
+}
+
 
   
 

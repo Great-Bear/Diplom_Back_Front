@@ -1,5 +1,5 @@
 export class MetaController {
-    currencies = [
+    Currencies = [
         "грн.",
         "$",
         "€"
@@ -14,7 +14,7 @@ export class MetaController {
     ]
 
     public GetCurrenciesByid(idCurrecy : number) : string {
-        return this.currencies[idCurrecy - 1];
+        return this.Currencies[idCurrecy - 1];
     }
     public GetTypeOwnersByid(idTypeOwner : number) : string {
         return this.TypeOwners[idTypeOwner - 1];
